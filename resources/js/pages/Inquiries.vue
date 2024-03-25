@@ -1,0 +1,3 @@
+<template>
+    inquiry all
+</template>
