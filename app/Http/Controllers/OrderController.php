@@ -17,7 +17,7 @@ class OrderController extends Controller
         // Retrieve orders owned by the authenticated user
         $orders = Order::where('user_id', $user->id)
             ->latest()
-            ->paginate(1);
+            ->paginate(5);
         // Return a collection of Order resources
         return OrderResource::collection($orders);
     }

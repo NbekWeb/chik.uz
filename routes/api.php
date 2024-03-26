@@ -6,6 +6,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\GetUserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RelatedPostController;
@@ -53,7 +54,9 @@ Route::middleware('auth:sanctum')->get('/orders', [OrderController::class, 'inde
 Route::middleware('auth:sanctum')->get('/order/{id}', [OrderController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
 Route::middleware('auth:sanctum')->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
-
+// Inquiries
+Route::middleware('auth:sanctum')->get('/inquiries', [InquiryController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/inquiry/{id}', [InquiryController::class, 'show']);
 // chat
 Route::middleware('auth:sanctum')->post('/order/{id}/messages', [ChatController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/order/{id}/messages', [ChatController::class, 'getMessages']);

@@ -16,16 +16,10 @@
                     <p>Price: {{ order.price }}</p>
                     <p>Created At: {{ order.created_at }}</p>
                     <button @click="cancelPurchase(order.id)">Cancel Purchase</button>
+                    <br>
+                    <router-link :to="'/order/' + order.id">open order</router-link>
+
                 </div>
-            </div>
-
-
-            <div v-for="order in orders" :key="order.id">
-                <!-- Link to specific order ID page -->
-                <router-link :to="'/order/' + order.id">{{ order.id }}</router-link>
-                <!-- Display other order details -->
-                <span>{{ order.status }}</span>
-                <!-- Add more order details here as needed -->
             </div>
         </div>
     </div>

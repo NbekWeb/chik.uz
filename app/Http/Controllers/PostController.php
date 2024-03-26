@@ -71,10 +71,6 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        // if (auth()->user()->id !== $post->user->id) {
-        //     return abort(403);
-        // }
-
         return new PostResource($post->load('images'));
     }
 

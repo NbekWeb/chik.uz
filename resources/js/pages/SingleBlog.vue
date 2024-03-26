@@ -46,7 +46,6 @@
 
 <script>
 import axios from "axios";
-import Pusher from "pusher-js";
 
 export default {
     props: ["slug"],
@@ -130,7 +129,6 @@ export default {
     },
     mounted() {
         this.fetchData();
-        this.initializePusher();
         this.buyPost();
         this.cancelPurchase();
         this.fetchPostData();
