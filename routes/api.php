@@ -65,7 +65,7 @@ Route::middleware('auth:sanctum')->get('/order/{id}/messages', [ChatController::
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
 Route::post('register', [RegisteredUserController::class, 'store']);
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 // categories
 Route::get('categories', [CategoryController::class, 'index']);

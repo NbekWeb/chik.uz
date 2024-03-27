@@ -19,27 +19,27 @@ class ChatService
 
         $userId = Auth::id();
 
-        if ($userId !== $order->user_id) {
-            return response()->json(['error' => 'You are not authorized to create messages for this order.'], 403);
+        if ($userId == $order->user_id || $userId == $order->post->user_id) {
+
+            $chat = $order->chats()->create([
+                'text' => $text,
+                'user_id' => $userId,
+            ]);
+
+            broadcast(new NewChat($chat))->toOthers();
+
+            return new ChatResource($chat);
         }
-
-        $chat = $order->chats()->create([
-            'text' => $text,
-            'user_id' => $userId,
-        ]);
-
-        broadcast(new NewChat($chat))->toOthers();
-
-        return new ChatResource($chat);
+        return response()->json(['error' => 'You are not authorized to create messages for this order.'], 403);
     }
 
 
     public function getMessages($user, Order $id)
     {
-        if ($user->id !== $id->user_id) {
-            return response()->json(['chat' => 'Post not found!'], 404);
+        $userId = Auth::id();
+        if ($user->id == $id->user_id || $userId == $id->post->user_id) {
+            return ChatResource::collection($id->chats);
         }
-
-        return ChatResource::collection($id->chats);
+        return response()->json(['chat' => 'Post not found!'], 404);
     }
 }
