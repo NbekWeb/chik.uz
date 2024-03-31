@@ -119,7 +119,7 @@ export default {
         logout() {
             axios
                 .post("/api/logout")
-                .then((response) => {
+                .then(() => {
                     this.$router.push({ name: "Home" });
                     localStorage.removeItem("authenticated");
                     this.$emit("updateSidebar");

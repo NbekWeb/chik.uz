@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->delete('posts/{post:slug}', [PostController::
 
 
 // orders
-Route::middleware('auth:sanctum')->get('/orders', [OrderController::class, 'index']);
+Route::middleware(['auth:sanctum'])->get('/orders', [OrderController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/order/{id}', [OrderController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
 Route::middleware('auth:sanctum')->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);

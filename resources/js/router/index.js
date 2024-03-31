@@ -13,6 +13,7 @@ import Login from "../pages/Login.vue";
 import Unauthorized from "../pages/Unauthorized.vue";
 import Register from "../pages/Register.vue";
 import Dashboard from "../pages/Dashboard.vue";
+import Admin from "../pages/Admin.vue";
 import VerifyEmail from "../pages/VerifyEmail.vue";
 import Sigtn from "../pages/Sigtn.vue";
 import Design from "../pages/Design.vue";
@@ -144,6 +145,11 @@ const routes = [
         name: "Dashboard",
         component: Dashboard,
         meta: { requiresAuth: true, requiresVerify: true }
+    },
+    {
+        path: "/admin",
+        name: "Admin",
+        component: Admin,
     },
     {
         path: "/verify-email",
@@ -417,7 +423,6 @@ axios
 router.beforeEach((to, from, next) => {
     const authenticated = localStorage.getItem("authenticated");
     const userRole = localStorage.getItem("userRole");
-    // console.log(userRole);
     if (to.meta.requiresGuest && authenticated) {
         next({ name: "Dashboard" });
     } else if (to.meta.requiresAuth && !authenticated) {
