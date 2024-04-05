@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,13 +15,20 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+
 */
 // here started all admin Routes
-
-Route::prefix('admin')->group(function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [UserController::class, 'index'])->name('profile');
+    Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');
+    Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');
+    Route::get('/billing', [PaymentController::class, 'index'])->name('billing');
 });
-
+Route::group(['prefix' => 'admin', 'middleware' => 'isSuperUser'], function () {
+    Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
+    Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
+});
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');

@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row">
-                        <div class="col-xl-6 mb-xl-0 mb-4">
+                        {{-- <div class="col-xl-6 mb-xl-0 mb-4">
                             <div class="card bg-transparent shadow-xl">
                                 <div class="overflow-hidden position-relative border-radius-xl">
                                     <img src="{{ asset('assets') }}/img/illustrations/pattern-tree.svg"
@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-xl-6">
                             <div class="row">
                                 <div class="col-md-6 col-6">
@@ -52,8 +52,8 @@
                                             </div>
                                         </div>
                                         <div class="card-body pt-0 p-3 text-center">
-                                            <h6 class="text-center mb-0">Salary</h6>
-                                            <span class="text-xs">Belong Interactive</span>
+                                            <h6 class="text-center mb-0">Income</h6>
+                                            <span class="text-xs">Freelance account budget</span>
                                             <hr class="horizontal dark my-3">
                                             <h5 class="mb-0">+$2000</h5>
                                         </div>
@@ -68,8 +68,8 @@
                                             </div>
                                         </div>
                                         <div class="card-body pt-0 p-3 text-center">
-                                            <h6 class="text-center mb-0">Paypal</h6>
-                                            <span class="text-xs">Freelance Payment</span>
+                                            <h6 class="text-center mb-0">Expenditure</h6>
+                                            <span class="text-xs">Client account budget</span>
                                             <hr class="horizontal dark my-3">
                                             <h5 class="mb-0">$455.00</h5>
                                         </div>
@@ -82,12 +82,12 @@
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h6 class="mb-0">Payment Method</h6>
+                                            <h6 class="mb-0">Latest Payment Card</h6>
                                         </div>
                                         <div class="col-6 text-end">
                                             <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
-                                                Card</a>
+                                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Make New
+                                                Payment</a>
                                         </div>
                                     </div>
                                 </div>

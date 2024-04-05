@@ -29,7 +29,8 @@ export default {
             axios
                 .post("/api/login", this.fields)
                 .then(() => {
-                    this.$router.push({ name: "Dashboard" });
+                    // this.$router.push({ name: "Dashboard" });
+                    window.location.href = 'admin/dashboard'
                     localStorage.setItem("authenticated", "true");
                     this.$emit("updateSidebar");
                 })

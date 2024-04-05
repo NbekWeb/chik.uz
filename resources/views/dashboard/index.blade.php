@@ -6,45 +6,91 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                @if (auth()->user()->role_id == 2)
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div
+                                    class="icon icon-lg icon-shape bg-gradient-success shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">price_check</i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                                    <h4 class="mb-0">{{ $todaysCache }}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                {{-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
+                                lask week</p> --}}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if (auth()->user()->role_id == 2)
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div
+                                    class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">archive</i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Today's inqueries</p>
+                                    <h4 class="mb-0">{{ $inqueriesToday }}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                {{-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
+                                lask month</p> --}}
+                            </div>
+                        </div>
+                    </div>
+                @elseif (auth()->user()->role_id == 3)
+                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                        <div class="card">
+                            <div class="card-header p-3 pt-2">
+                                <div
+                                    class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                    <i class="material-icons opacity-10">person</i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Today's Orders</p>
+                                    <h4 class="mb-0">{{ $ordersToday }}</h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer p-3">
+                                {{-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
+                                lask month</p> --}}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+
+                <div class="col-xl-3 col-sm-6">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
-                                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">weekend</i>
+                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">payments</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                                <h4 class="mb-0">$53k</h4>
+                                <p class="text-sm mb-0 text-capitalize">In budget</p>
+                                <h4 class="mb-0">{{ auth()->user()->cash }}</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
-                                lask week</p>
+                            {{-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than
+                                yesterday</p> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">person</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                                <h4 class="mb-0">2,300</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
-                                lask month</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                {{-- <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div
@@ -62,28 +108,9 @@
                                 yesterday</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">weekend</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Sales</p>
-                                <h4 class="mb-0">$103,430</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than
-                                yesterday</p>
-                        </div>
-                    </div>
-                </div>
+                </div> --}}
             </div>
-            <div class="row mt-4">
+            {{-- <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2 ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
@@ -146,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="row mb-4">
+            <div class="row mb-4">
                 <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
                     <div class="card">
                         <div class="card-header pb-0">

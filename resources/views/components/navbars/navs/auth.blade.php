@@ -39,8 +39,8 @@
                     </a>
                 </li>
                 <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                    <a href="{{ route('user-profile') }}" class="nav-link text-body p-0">
+                        <i class="fa fa-cog cursor-pointer"></i>
                     </a>
                 </li>
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
