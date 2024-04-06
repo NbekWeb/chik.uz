@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewMessage;
-use App\Http\Resources\MessageResource;
-use App\Models\Chat;
 use App\Models\Order;
-use App\Models\Post;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {

@@ -1,13 +1,8 @@
 <template>
-
     <div class="container">
         <div>
-
-
-
             <div class="page__header">
                 <h2 class="diz">Single Order</h2>
-
             </div>
             <div>
                 <h1>Order Details</h1>
@@ -23,9 +18,6 @@
 
         </div>
     </div>
-
-
-
     <!-- Display chat chats -->
     <section style="background-color: #eee">
         <div class="container py-5">
@@ -46,12 +38,12 @@
                                 <div>
                                     <p class="small mb-0">
                                         {{
-                    chat.user_id ===
-                        currentUser.id
-                        ? `(${currentUser.name})`
-                        : chat.user
-                            ? `(${chat.user.name})`
-                            : "Unknown"
+                                            chat.user_id ===
+                                                currentUser.id
+                                                ? `(${currentUser.name})`
+                                                : chat.user
+                                                    ? `(${chat.user.name})`
+                                                    : "Unknown"
                                         }}
                                         {{ chat.text }}
                                     </p>
@@ -60,7 +52,7 @@
                             <!-- End Chat chats -->
 
                             <!-- Chat input form -->
-                            <div class="form-outline">
+                            <div v-if="order && order.status === 202" class="form-outline">
                                 <form @submit.prevent="submit">
                                     <input v-model="text" type="text" id="textAreaExample" />
                                     <button type="submit" class="btn btn-primary">
@@ -152,7 +144,9 @@ export default {
             }
         },
         initializePusher() {
-            window.Echo.private("chat").listen("NewChat", (e) => {
+            const orderId = this.id;
+            const channelName = `chat.${orderId}`;
+            window.Echo.private(channelName).listen("NewChat", (e) => {
                 console.log(e.chat);
                 this.chats.push(e.chat);
             });

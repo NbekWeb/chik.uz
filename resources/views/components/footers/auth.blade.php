@@ -6,9 +6,8 @@
                     ©
                     <script>
                         document.write(new Date().getFullYear())
-                    </script>,
-                    developed by <i class="fa fa-laptop"></i>
-                    <a href="https://www.kudratov.uz" class="font-weight-bold" target="_blank">Kudratov.uz</a>
+                    </script>
+                    <a href="#" class="font-weight-bold" target="_blank">Chik Freelance</a> Uzbekistan
                 </div>
             </div>
         </div>

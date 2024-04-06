@@ -42,12 +42,12 @@
                                 <div>
                                     <p class="small mb-0">
                                         {{
-                    chat.user_id ===
-                        currentUser.id
-                        ? `(${currentUser.name})`
-                        : chat.user
-                            ? `(${chat.user.name})`
-                            : "Unknown"
+                                            chat.user_id ===
+                                                currentUser.id
+                                                ? `(${currentUser.name})`
+                                                : chat.user
+                                                    ? `(${chat.user.name})`
+                                                    : "Unknown"
                                         }}
                                         {{ chat.text }}
                                     </p>
@@ -56,7 +56,7 @@
                             <!-- End Chat chats -->
 
                             <!-- Chat input form -->
-                            <div class="form-outline">
+                            <div v-if="inquiry && inquiry.status === 202" class="form-outline">
                                 <form @submit.prevent="submit">
                                     <input v-model="text" type="text" id="textAreaExample" />
                                     <button type="submit" class="btn btn-primary">
@@ -142,11 +142,15 @@ export default {
                 });
         },
         initializePusher() {
-            window.Echo.private("chat").listen("NewChat", (e) => {
+            const inquiryId = this.$route.params.id;
+            const channelName = `chat.${inquiryId}`;
+
+            window.Echo.private(channelName).listen("NewChat", (e) => {
                 console.log(e.chat);
                 this.chats.push(e.chat);
             });
         },
+
     },
     mounted() {
         // Retrieve the inquiry ID from the route parameters
