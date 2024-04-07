@@ -58,8 +58,9 @@
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div>
-                                                            <img src="{{ asset('assets') }}/img/team-2.jpg"
-                                                                class="avatar avatar-sm me-3 border-radius-lg"
+                                                            <img src="{{ $user->image ? Storage::url($user->image) : asset('assets/img/avatar.png') }}"
+                                                                class="border-radius-lg shadow-sm" alt="profile_image"
+                                                                style="width:55px; height:55px; object-fit: cover; "
                                                                 alt="user1">
                                                         </div>
 

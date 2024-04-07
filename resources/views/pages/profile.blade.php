@@ -13,8 +13,9 @@
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/bruce-mars.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                            <img src="{{ auth()->user()->image ? Storage::url(auth()->user()->image) : asset('assets/img/avatar.png') }}"
+                                alt="profile_image" class="rounded-circle shadow-sm" alt="profile_image"
+                                style="width:75px; height:75px; object-fit: cover; cursor:pointer;">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
