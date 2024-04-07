@@ -16,11 +16,17 @@ class IsSuperUser
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+   public function handle($request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->role_id !== 1) {
-            throw new Exception("Access denied", 403);
+        $user = Auth::user();
+
+        // Check if the user exists and has role ID equal to 1
+        if ($user && $user->role_id == 1) {
+            // User is a superuser, allow the request to continue
+            return $next($request);
         }
-        return $next($request);
+
+        // User is not a superuser, deny access
+        abort(403, 'Access denied');
     }
 }
