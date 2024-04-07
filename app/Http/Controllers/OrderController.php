@@ -131,29 +131,29 @@ class OrderController extends Controller
         ]);
     }
     private function isOrderStatusAllowedForNewOrder($postId)
-    {
-        $currentUserId = auth()->id();
+{
+    $currentUserId = auth()->id();
 
-        // Check if the post has been ordered
-        if ($this->isPostOrdered($postId)) {
+    // Check if the post has been ordered
+    if ($this->isPostOrdered($postId)) {
 
-            // Retrieve the last order for the post
-            $lastOrderStatus = Order::where('post_id', $postId)
-                ->where('user_id', $currentUserId)
-                ->orderBy('created_at', 'desc')
-                ->value('status');
+        // Retrieve the last order for the post
+        $lastOrderStatus = Order::where('post_id', $postId)
+            ->where('user_id', $currentUserId)
+            ->orderBy('created_at', 'desc')
+            ->value('status');
 
-            // Check if the last order status is 203 or 204
-            if ($lastOrderStatus == 203 || $lastOrderStatus == 204) {
-                return true; // Allowed to create a new order
-            } else {
-                return false; // Not allowed to create a new order
-            }
+        // Check if the last order status is 203 or 204
+        if ($lastOrderStatus == 203 || $lastOrderStatus == 204) {
+            return true; // Allowed to create a new order
         } else {
-            // If the post has not been ordered, return true since there are no restrictions
-            return true;
+            return false; // Not allowed to create a new order
         }
+    } else {
+        // If the post has not been ordered, return true since there are no restrictions
+        return true;
     }
+}
 
 
     private function isPostOrdered($postId)

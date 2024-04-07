@@ -23,7 +23,7 @@
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                {{ auth()->user()->occupation }} / {{ strtoupper(auth()->user()->role->name) }}
+                                {{ auth()->user()->occupation }}
                             </p>
                         </div>
                     </div>

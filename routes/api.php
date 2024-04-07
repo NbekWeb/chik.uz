@@ -44,22 +44,22 @@ Route::middleware(['auth:sanctum', 'isSuperUser'])->delete('categories/{category
 Route::middleware(['auth:sanctum', 'isSuperUser'])->get('/users', [GetUserController::class, 'index']);
 Route::middleware(['auth:sanctum', 'isSuperUser'])->get('/user/{id}', [GetUserController::class, 'show']);
 // posts
-Route::middleware('auth:sanctum')->post('posts', [PostController::class, 'store']);
-Route::middleware('auth:sanctum')->put('posts/{post:slug}', [PostController::class, 'update']);
-Route::middleware('auth:sanctum')->delete('posts/{post:slug}', [PostController::class, 'destroy']);
+Route::middleware(['auth:sanctum', 'isActive'])->post('posts', [PostController::class, 'store']);
+Route::middleware(['auth:sanctum', 'isActive'])->put('posts/{post:slug}', [PostController::class, 'update']);
+Route::middleware(['auth:sanctum', 'isActive'])->delete('posts/{post:slug}', [PostController::class, 'destroy']);
 
 
 // orders
 Route::middleware(['auth:sanctum'])->get('/orders', [OrderController::class, 'index']);
-Route::middleware('auth:sanctum')->get('/order/{id}', [OrderController::class, 'show']);
-Route::middleware('auth:sanctum')->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
-Route::middleware('auth:sanctum')->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
+Route::middleware(['auth:sanctum'])->get('/order/{id}', [OrderController::class, 'show']);
+Route::middleware(['auth:sanctum', 'isActive'])->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
+Route::middleware(['auth:sanctum', 'isActive'])->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
 // Inquiries
-Route::middleware('auth:sanctum')->get('/inquiries', [InquiryController::class, 'index']);
-Route::middleware('auth:sanctum')->get('/inquiry/{id}', [InquiryController::class, 'show']);
+Route::middleware(['auth:sanctum'])->get('/inquiries', [InquiryController::class, 'index']);
+Route::middleware(['auth:sanctum'])->get('/inquiry/{id}', [InquiryController::class, 'show']);
 // chat
-Route::middleware('auth:sanctum')->post('/order/{id}/messages', [ChatController::class, 'store']);
-Route::middleware('auth:sanctum')->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
+Route::middleware(['auth:sanctum', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
+Route::middleware(['auth:sanctum'])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
 
 
 

@@ -88,6 +88,11 @@
                                                         class="text-secondary text-xs font-weight-bold">{{ date('d-m-Y', strtotime($user->created_at)) }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
+                                                    <a class="button btn btn-success btn-link update-status-btn"
+                                                        href="{{ route('user.id', ['id' => $user->id]) }}">
+                                                        <i class="material-icons">visibility</i>
+                                                        <div class="ripple-container"></div>
+                                                    </a>
                                                     @if ($user->status == 1)
                                                         <button type="button"
                                                             class="btn btn-success btn-link update-status-btn"

@@ -17,24 +17,25 @@ class UserSeeder extends Seeder
         $superadmin = User::create([
             'name' => 'SuperAdmin',
             'role_id' => 1,
+            'cash' => '999000',
             'email' => 'admin@mail.ru',
-            // 'phone' => '+998979260757',
+            'phone' => '+998979260757',
             'password' => Hash::make('password'),
         ]);
         $freelancer = User::create([
             'name' => 'Freelancer',
             'role_id' => 2,
+            'cash' => '1000000',
             'email' => 'freelancer@mail.ru',
-            // 'phone' => '+998979260745',
+            'phone' => '+998979260745',
             'password' => Hash::make('password'),
         ]);
-
-
         $client = User::create([
             'name' => 'Client',
             'role_id' => 3,
-            'email' => 'client@mail.ru',
             'cash' => '999999',
+            'email' => 'client@mail.ru',
+            'phone' => '+998979260745',
             'password' => Hash::make('password'),
         ]);
 

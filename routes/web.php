@@ -19,18 +19,28 @@ use Illuminate\Support\Facades\Route;
 
 */
 // here started all admin Routes
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    // Routes needing 'auth'' middleware
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');
-    Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');
+    // Routes needing 'auth'|| 'isActive' middleware
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/billing', [PaymentController::class, 'index'])->name('billing');
+    Route::middleware('isActive')->group(function () {
+        Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');
+    });
 });
+
+
+
+// super user routes
 Route::group(['prefix' => 'admin', 'middleware' => 'isSuperUser'], function () {
     Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
     Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
-    Route::get('/tables',[TablesController::class, 'index'] )->name('tables');
+    Route::get('/tables', [TablesController::class, 'index'])->name('tables');
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('user.id');
 });
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');

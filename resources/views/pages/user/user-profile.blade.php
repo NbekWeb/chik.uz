@@ -11,61 +11,80 @@
                 <span class="mask  bg-gradient-primary  opacity-6"></span>
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
-                <div class="row gx-4 mb-2">
-                    <div class="col-auto">
-                        <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/avatar.png" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
-                        </div>
-                    </div>
-                    <div class="col-auto my-auto">
-                        <div class="h-100">
-                            <h5 class="mb-1">
-                                {{ auth()->user()->name }}
-                            </h5>
-                            <p class="mb-0 font-weight-normal text-sm">
-                                {{ auth()->user()->occupation }}
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card card-plain h-100">
-                    <div class="card-header pb-0 p-3">
-                        <div class="row">
-                            <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Profile Information</h6>
+                <form method='POST' action='{{ route('user-profile.update') }}' enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="row gx-4 mb-2">
+                        <div class="col-auto">
+                            <div class="avatar avatar-xl position-relative mt-2 mx-3">
+                                <!-- Avatar Image -->
+                                <div class="d-flex justify-content-center">
+                                    <img id="selectedAvatar"
+                                        src="{{ auth()->user()->image ? Storage::url(auth()->user()->image) : asset('assets/img/avatar.png') }}"
+                                        class="rounded-circle shadow-sm" alt="profile_image" onclick="openFileInput()"
+                                        style="width:75px; height:75px; object-fit: cover; cursor:pointer;" />
+                                    <!-- Edit Icon -->
+                                    <div class="position-absolute bottom-0 end-0">
+                                        <i class="fas fa-pencil-alt fa-sm text-dark"
+                                            style="margin-right:-10px; cursor: pointer;" onclick="openFileInput()"></i>
+                                    </div>
+                                </div>
+                                <!-- Input file field -->
+                                <input name="image" type="file" class="form-control d-none" id="customFile2"
+                                    onchange="displaySelectedImage(event, 'selectedAvatar')" />
+                                @error('image')
+                                    <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
                             </div>
                         </div>
+
+                        <div class="col-auto my-auto">
+                            <div class="h-100">
+                                <h5 class="mb-1">
+                                    {{ auth()->user()->name }}
+                                </h5>
+                                <p class="mb-0 font-weight-normal text-sm">
+                                    {{ auth()->user()->occupation }}
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="card-body p-3">
-                        @if (session('success'))
+                    <div class="card card-plain h-100">
+                        <div class="card-header pb-0 p-3">
                             <div class="row">
-                                <div class="alert alert-success alert-dismissible text-white" role="alert">
-                                    <span class="text-sm">{{ session('success') }}</span>
-                                    <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                        data-bs-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h6 class="mb-3">Profile Information</h6>
                                 </div>
                             </div>
-                        @endif
-
-                        @if (session('error'))
-                            <div class="row">
-                                <div class="alert alert-danger alert-dismissible text-white" role="alert">
-                                    <span class="text-sm">{{ session('error') }}</span>
-                                    <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                        data-bs-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                        </div>
+                        <div class="card-body p-3">
+                            @if (session('success'))
+                                <div class="row">
+                                    <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ session('success') }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                            data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
 
-                        <form method='POST' action='{{ route('user-profile.update') }}'>
-                            @csrf
-                            @method('PUT') <div class="row">
+                            @if (session('error'))
+                                <div class="row">
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ session('error') }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                            data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
+
+
+                            <div class="row">
 
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Email address</label>
@@ -130,10 +149,10 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn bg-gradient-dark">Submit</button>
-                        </form>
 
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
 
         </div>
@@ -142,3 +161,23 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script>
+    function displaySelectedImage(event, elementId) {
+        const selectedImage = document.getElementById(elementId);
+        const fileInput = event.target;
+
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                selectedImage.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
+    function openFileInput() {
+        document.getElementById('customFile2').click();
+    }
+</script>

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -18,6 +19,7 @@ class UserController extends Controller
     {
         return view('pages.user.user-profile');
     }
+
     public function update(Request $request)
     {
         // Validate the request data
@@ -31,20 +33,40 @@ class UserController extends Controller
                 'required',
                 Rule::in([2, 3]), // Accept only values 2 or 3 for role_id
             ],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
         ]);
 
-        // Retrieve the authenticated user's ID
-        $id = auth()->user()->id;
-
-        // Find the user by ID and update the data
-        $user = User::find($id);
-        if ($user) {
-            $user->update($validatedData);
-            // Return success message
-            return back()->with('success', 'Profile updated successfully!');
+        $user = auth()->user();
+        $oldImagePath = $user->image;
+        $user->fill($validatedData);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('public/images/avatars');
+            $user->image = $imagePath;
+            $user->save();
+            if ($oldImagePath) {
+                Storage::delete($oldImagePath);
+            }
         } else {
-            // Return error message if user not found
-            return back()->with('error', 'User not found!');
+            $user->save();
+        }
+
+        // Return success message
+        return back()->with('success', 'Profile updated successfully!');
+    }
+
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        $superUser = auth()->user()->role_id;
+        $orders = Order::with('post.images')
+            ->where('user_id', $id)
+            ->latest()
+            ->paginate(10);
+        if ($superUser == 1) {
+            return view('pages.superUser.profile', ['user' => $user, 'orders' => $orders]);
+        } else {
+            return view('errors.404');
         }
     }
 }

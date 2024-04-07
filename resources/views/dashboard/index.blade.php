@@ -53,7 +53,7 @@
                         <div class="card">
                             <div class="card-header p-3 pt-2">
                                 <div
-                                    class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                    class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
                                     <i class="material-icons opacity-10">person</i>
                                 </div>
                                 <div class="text-end pt-1">
@@ -114,7 +114,7 @@
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2 ">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
                                 <div class="chart">
                                     <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
                                 </div>
@@ -582,7 +582,7 @@
                                 </div>
                                 <div class="timeline-block mb-3">
                                     <span class="timeline-step">
-                                        <i class="material-icons text-primary text-gradient">key</i>
+                                        <i class="material-icons text-success text-gradient">key</i>
                                     </span>
                                     <div class="timeline-content">
                                         <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for
