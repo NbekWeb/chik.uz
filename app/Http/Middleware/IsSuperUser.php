@@ -20,13 +20,9 @@ class IsSuperUser
     {
         $user = Auth::user();
 
-        // Check if the user exists and has role ID equal to 1
         if ($user && $user->role_id == 1) {
-            // User is a superuser, allow the request to continue
             return $next($request);
         }
-
-        // User is not a superuser, deny access
         abort(403, 'Access denied');
     }
 }

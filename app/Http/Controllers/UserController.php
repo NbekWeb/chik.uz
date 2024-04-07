@@ -22,6 +22,8 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+
+        $user = auth()->user();
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -29,14 +31,13 @@ class UserController extends Controller
             'occupation' => 'nullable|string|max:255',
             'info' => 'nullable|string|max:500',
             'phone' => 'nullable|string|max:20',
-            'role_id' => [
-                'required',
-                Rule::in([2, 3]), // Accept only values 2 or 3 for role_id
-            ],
+            'role_id' => Rule::requiredIf(function () use ($user) {
+                return $user->role_id != 1;
+            }),
+            Rule::in([2, 3]),
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
         ]);
 
-        $user = auth()->user();
         $oldImagePath = $user->image;
         $user->fill($validatedData);
         if ($request->hasFile('image')) {

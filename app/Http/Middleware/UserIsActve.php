@@ -18,9 +18,11 @@ class UserIsActve
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->status !== 1) {
-            throw new Exception("Access denied", 403);
+        $user = Auth::user();
+
+        if ($user && $user->status == 1) {
+            return $next($request);
         }
-        return $next($request);
+        abort(403, 'Access denied');
     }
 }

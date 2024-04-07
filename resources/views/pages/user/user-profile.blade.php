@@ -121,7 +121,7 @@
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
-                                @if (auth()->user()->id !== 1)
+                                @if (auth()->user()->role_id !== 1)
                                     <div class="mb-3 col-md-12">
                                         <label class="form-label">Freelancer or Client</label>
                                         <select name="role_id" class="form-select border border-2 p-2">
