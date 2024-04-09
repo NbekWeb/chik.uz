@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->foreignId('role_id')->default('3')->constrained()->cascadeOnDelete();
+            $table->foreignId('role_id')->default(3)->constrained()->cascadeOnDelete();
             $table->string('email')->unique();
             $table->string('occupation')->nullable();
             $table->decimal('cash', 10, 2)->default(000.00);

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PostShowController;
 use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,11 +35,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 
 // super user routes
-Route::group(['prefix' => 'admin', 'middleware' => 'isSuperUser'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth']], function () {
     Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
     Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
     Route::get('/tables', [TablesController::class, 'index'])->name('tables');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.id');
+    Route::get('/post/{id}', [PostShowController::class, 'show'])->name('post.id');
 });
 
 Route::get('/{any}', function () {
