@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardControllers\OrdersController;
+use App\Http\Controllers\AdminDashboardControllers\PostsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostShowController;
-use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,9 +39,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth']], function () {
     Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
     Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
-    Route::get('/tables', [TablesController::class, 'index'])->name('tables');
+    Route::get('/posts', [PostsController::class, 'index'])->name('posts');
+    Route::get('/post/{id}', [PostsController::class, 'show'])->name('post.id');
+    Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.id');
-    Route::get('/post/{id}', [PostShowController::class, 'show'])->name('post.id');
 });
 
 Route::get('/{any}', function () {
