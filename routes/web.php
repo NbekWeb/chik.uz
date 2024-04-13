@@ -6,8 +6,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PostShowController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\VerificationNoticeController;
+use App\Http\Controllers\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,13 +22,23 @@ use Illuminate\Support\Facades\Route;
 |
 
 */
+
+Route::get('/password-reset', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password-reset', [PasswordResetController::class, 'reset'])->name('password.reset');
+
+
+Route::get('/email/verify/notice', [VerificationNoticeController::class, 'showNotice'])
+    ->middleware(['auth'])
+    ->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware('auth')->name('verification.verify');
+
 // here started all admin Routes
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     // Routes needing 'auth'' middleware
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');
     // Routes needing 'auth'|| 'isActive' middleware
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/billing', [PaymentController::class, 'index'])->name('billing');
     Route::middleware('isActive')->group(function () {
         Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');
@@ -36,7 +48,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
 
 // super user routes
-Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth', 'verified']], function () {
     Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
     Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
     Route::get('/posts', [PostsController::class, 'index'])->name('posts');

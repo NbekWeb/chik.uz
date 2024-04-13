@@ -9,8 +9,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RelatedPostController;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -36,35 +36,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->post('logout', [AuthenticatedSessionController::class, 'destroy']);
 // categories only related to superuser
-Route::middleware(['auth:sanctum', 'isSuperUser'])->post('categories/create', [CategoryController::class, 'store']);
-Route::middleware(['auth:sanctum', 'isSuperUser'])->get('categories/{category}', [CategoryController::class, 'show']);
-Route::middleware(['auth:sanctum', 'isSuperUser'])->put('categories/{category}', [CategoryController::class, 'update']);
-Route::middleware(['auth:sanctum', 'isSuperUser'])->delete('categories/{category}', [CategoryController::class, 'destroy']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->post('categories/create', [CategoryController::class, 'store']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->get('categories/{category}', [CategoryController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->put('categories/{category}', [CategoryController::class, 'update']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->delete('categories/{category}', [CategoryController::class, 'destroy']);
 // user list and others related to superuser
-Route::middleware(['auth:sanctum', 'isSuperUser'])->get('/users', [GetUserController::class, 'index']);
-Route::middleware(['auth:sanctum', 'isSuperUser'])->get('/user/{id}', [GetUserController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->get('/users', [GetUserController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->get('/user/{id}', [GetUserController::class, 'show']);
 // posts
-Route::middleware(['auth:sanctum', 'isActive'])->post('posts', [PostController::class, 'store']);
-Route::middleware(['auth:sanctum', 'isActive'])->put('posts/{post:slug}', [PostController::class, 'update']);
-Route::middleware(['auth:sanctum', 'isActive'])->delete('posts/{post:slug}', [PostController::class, 'destroy']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('posts', [PostController::class, 'store']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->put('posts/{post:slug}', [PostController::class, 'update']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->delete('posts/{post:slug}', [PostController::class, 'destroy']);
 
 
 // orders
-Route::middleware(['auth:sanctum'])->get('/orders', [OrderController::class, 'index']);
-Route::middleware(['auth:sanctum'])->get('/order/{id}', [OrderController::class, 'show']);
-Route::middleware(['auth:sanctum', 'isActive'])->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
-Route::middleware(['auth:sanctum', 'isActive'])->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
+Route::middleware(['auth:sanctum', 'verified',])->get('/orders', [OrderController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}', [OrderController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
 // Inquiries
-Route::middleware(['auth:sanctum'])->get('/inquiries', [InquiryController::class, 'index']);
-Route::middleware(['auth:sanctum'])->get('/inquiry/{id}', [InquiryController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified',])->get('/inquiries', [InquiryController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryController::class, 'show']);
 // chat
-Route::middleware(['auth:sanctum', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
-Route::middleware(['auth:sanctum'])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
+Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
 
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
-Route::post('register', [RegisteredUserController::class, 'store']);
+Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 // categories

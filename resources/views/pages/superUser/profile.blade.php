@@ -48,7 +48,11 @@
                                     <hr class="horizontal gray-light my-4">
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
-                                                class="text-dark">Full Name:</strong> &nbsp; {{ $user->name }}
+                                                class="text-dark">Balance:</strong> &nbsp;
+                                            {{ $user->cash . ' ' . 'sum' }}
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Full
+                                                Name:</strong> &nbsp; {{ $user->name }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                 class="text-dark">Mobile:</strong> &nbsp; {{ $user->phone }}
@@ -60,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-xl-4">
+                        {{-- <div class="col-12 col-xl-4">
                             <div class="card card-plain h-100">
                                 <div class="card-header pb-0 p-3">
                                     <h6 class="mb-0">Conversations</h6>
@@ -123,7 +127,7 @@
                                     Coming Soon
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -169,8 +173,7 @@
                                                                 @endphp
                                                                 @if ($firstImage)
                                                                     <img src="{{ asset('public/storage') . '/' . $firstImage->path }}"
-                                                                        alt="{{ $firstImage->title }}"
-                                                                        width="60px">
+                                                                        alt="{{ $firstImage->title }}" width="60px">
                                                                 @endif
                                                             </div>
                                                             <div class="my-auto">

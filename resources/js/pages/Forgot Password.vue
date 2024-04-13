@@ -1,18 +1,13 @@
 <template>
     <div id="backend-view">
         <form @submit.prevent="submit">
-            <h3>Login Here</h3>
+            <h3>Input Email</h3>
             <label for="email">Email</label>
             <input type="text" id="email" v-model="fields.email" />
             <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" v-model="fields.password" />
-            <span v-if="errors.password" class="error">{{ errors.password[0] }}</span>
-
-            <button type="submit">Log In</button>
+            <button type="submit">Send Password reset link email</button>
             <span>Don't have an account? <a href="register">Sign up</a></span>
-            <span v-if="errors.email">Forgot password? <a href="forgot-password">Restore</a></span>
         </form>
     </div>
 </template>
@@ -27,18 +22,21 @@ export default {
     },
     methods: {
         submit() {
+            if (!this.fields.email) {
+                this.errors.email = ["Email is required"];
+                return; // Stop further execution
+            }
             axios
-                .post("/api/login", this.fields)
+                .post("/forgot-password", this.fields)
                 .then(() => {
-                    // this.$router.push({ name: "Dashboard" });
-                    window.location.href = 'admin/dashboard'
-                    localStorage.setItem("authenticated", "true");
-                    this.$emit("updateSidebar");
+                    this.$router.push({ name: "Login" });
+                    // this.$emit("updateSidebar");
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;
                 });
         },
+
     },
 };
 </script>

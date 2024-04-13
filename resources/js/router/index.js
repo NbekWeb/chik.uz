@@ -13,7 +13,6 @@ import Login from "../pages/Login.vue";
 import Unauthorized from "../pages/Unauthorized.vue";
 import Register from "../pages/Register.vue";
 import Dashboard from "../pages/Dashboard.vue";
-import VerifyEmail from "../pages/VerifyEmail.vue";
 import Sigtn from "../pages/Sigtn.vue";
 import Design from "../pages/Design.vue";
 import Seo from "../pages/Seo.vue";
@@ -64,6 +63,7 @@ import EditPosts from "../pages/posts/EditPosts.vue";
 import Header from "../components/Header.vue";
 
 import Footer from "../components/Footer.vue";
+import ForgotPassword from "../pages/Forgot Password.vue";
 
 const routes = [
     {
@@ -129,6 +129,12 @@ const routes = [
         meta: { requiresGuest: true }
     },
     {
+        path: "/forgot-password",
+        name: "Forgot Password",
+        component: ForgotPassword,
+        meta: { requiresGuest: true }
+    },
+    {
         path: "/Unauthorized",
         name: "Unauthorized",
         component: Unauthorized,
@@ -144,11 +150,6 @@ const routes = [
         name: "Dashboard",
         component: Dashboard,
         meta: { requiresAuth: true, requiresVerify: true }
-    },
-    {
-        path: "/verify-email",
-        name: "VerifyEmail",
-        component: VerifyEmail,
     },
     {
         path: "/categories/create",
@@ -417,8 +418,9 @@ axios
 router.beforeEach((to, from, next) => {
     const authenticated = localStorage.getItem("authenticated");
     const userRole = localStorage.getItem("userRole");
+    const baseUrl = window.location.origin
     if (to.meta.requiresGuest && authenticated) {
-        next({ name: "Dashboard" });
+        window.location.href = `${baseUrl}/admin/dashboard`;
     } else if (to.meta.requiresAuth && !authenticated) {
         next({ name: "Login" });
     } else if (to.meta.requiresSuperUser && userRole !== '1') {

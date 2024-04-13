@@ -133,6 +133,10 @@
                                     <hr class="horizontal gray-light my-4">
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
+                                                class="text-dark">Balance:</strong> &nbsp;
+                                            {{ auth()->user()->cash . ' ' . 'sum' }}
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 ps-0 text-sm"><strong
                                                 class="text-dark">Full Name:</strong> &nbsp; {{ auth()->user()->name }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong
@@ -145,7 +149,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-xl-4">
+                        {{-- <div class="col-12 col-xl-4">
                             <div class="card card-plain h-100">
                                 <div class="card-header pb-0 p-3">
                                     <h6 class="mb-0">Conversations</h6>
@@ -219,7 +223,7 @@
                                     Coming Soon
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
