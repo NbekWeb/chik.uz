@@ -56,7 +56,8 @@
                             <!-- End Chat chats -->
 
                             <!-- Chat input form -->
-                            <div v-if="inquiry && inquiry.status === 202" class="form-outline">
+                            <div v-if="inquiry && inquiry.id && inquiry.status !== 203 && inquiry.status !== 204"
+                                class="form-outline">
                                 <form @submit.prevent="submit">
                                     <input v-model="text" type="text" id="textAreaExample" />
                                     <button type="submit" class="btn btn-primary">
@@ -67,6 +68,18 @@
                             <!-- End Chat input form -->
                         </div>
                     </div>
+                    <button class="buyBtn" @click="updateOrderStatus(inquiry.id, 202)"
+                        :disabled="buying || inquiry.status !== 201">
+                        {{ inquiry.status === 202 ? 'Заказ принят' : 'Принять заказ' }}
+                    </button>
+                    <button class="buyBtn" @click="updateOrderStatus(inquiry.id, 206)"
+                        :disabled="buying || inquiry.status !== 201">
+                        {{ inquiry.status === 206 ? 'Заказ отклонен' : 'Отказать заказ' }}
+                    </button>
+                    <button class="buyBtn" @click="updateOrderStatus(inquiry.id, 205)"
+                        :disabled="buying || (inquiry.status !== 202 && inquiry.status == 205)">
+                        {{ inquiry.status === 205 ? 'поданный' : 'представлять на рассмотрение' }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -83,13 +96,13 @@ export default {
     emits: ["updateSidebar"],
     data() {
         return {
-            order: {},
+            buying: false,
             chats: [],
             text: "",
             loading: false,
             error: null,
             currentUser: null,
-            inquiry: null,
+            inquiry: {},
         };
     },
     methods: {
@@ -131,15 +144,26 @@ export default {
                 this.error = "Error fetching data";
             }
         },
-        fetchInquiry(inquiryId) {
-            axios
-                .get(`/api/inquiry/${inquiryId}`)
-                .then((response) => {
-                    this.inquiry = response.data.data;
-                })
-                .catch((error) => {
-                    console.error("Error fetching inquiry:", error);
-                });
+        async fetchInquiry() {
+            try {
+                const response = await axios.get("/api/inquiry/" + this.id);
+                this.inquiry = response.data.data;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+        async updateOrderStatus(orderId, status) {
+            try {
+                this.buying = true;
+                // Make the PUT request to update the order status
+                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+                window.location.reload();
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.buying = false;
+            }
         },
         initializePusher() {
             const inquiryId = this.$route.params.id;
@@ -156,8 +180,7 @@ export default {
         // Retrieve the inquiry ID from the route parameters
         this.fetchData();
         this.initializePusher();
-        const inquiryId = this.$route.params.id;
-        this.fetchInquiry(inquiryId);
+        this.fetchInquiry();
     },
 };
 </script>

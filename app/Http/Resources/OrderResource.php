@@ -20,6 +20,7 @@ class OrderResource extends JsonResource
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
             'post_title' => $this->post->title,
+            'body' => $this->post->body,
             'post_id' => $this->post_id,
             'status' => $this->status,
             'price' => $this->post->price,

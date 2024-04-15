@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\AttachmentEvent;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Services\AttachmentService;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {

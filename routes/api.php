@@ -8,6 +8,7 @@ use App\Http\Controllers\GetUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UpdateOrderStatusController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RelatedPostController;
@@ -15,7 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +53,8 @@ Route::middleware(['auth:sanctum', 'verified', 'isActive'])->delete('posts/{post
 Route::middleware(['auth:sanctum', 'verified',])->get('/orders', [OrderController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}', [OrderController::class, 'show']);
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
-Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->put('/update-order-status/{orderId}', [UpdateOrderStatusController::class, 'statusUpdate']);
+// Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/cancel-order/{orderId}', [UpdateOrderStatusController::class, 'cancelOrder']);
 // Inquiries
 Route::middleware(['auth:sanctum', 'verified',])->get('/inquiries', [InquiryController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryController::class, 'show']);

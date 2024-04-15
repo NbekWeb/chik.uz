@@ -15,7 +15,7 @@
                 <div class="about-text" v-if="!shouldHideAboutText">
                     <p class="price">Цена: {{ post.price }} :Uzs</p>
                     <button class="buyBtn" @click="buyPost(post.id, post.price)" :disabled="buying || postIsPurchased">
-                        Купить
+                        Переговоры
                     </button>
                 </div>
                 <div class="about-text">
@@ -28,9 +28,9 @@
                 <p>Related</p>
                 <div class="recommended-cards">
                     <router-link v-for="relatedPost in relatedPosts" :key="relatedPost.id" :to="{
-                    name: 'SingleBlog',
-                    params: { slug: relatedPost.slug },
-                }">
+                        name: 'SingleBlog',
+                        params: { slug: relatedPost.slug },
+                    }">
                         <div class="recommended-card">
                             <img :src="`/${relatedPost.imagePath}`" alt="" loading="lazy" />
                             <h4>{{ relatedPost.title }}</h4>
@@ -81,37 +81,38 @@ export default {
                 this.error = "Error fetching data";
             }
         },
-        async buyPost(postId, postPrice) {
+        async buyPost(postId) {
             try {
                 this.buying = true;
                 // Make the API request to purchase the post
-                await axios.post(`/api/buy-order/${postId}`);
-
-                // Update the total price in your frontend if needed
-                this.totalPrice += postPrice;
-                this.postIsPurchased = true;
+                const response = await axios.post(`/api/buy-order/${postId}`);
+                // Extract the order ID from the response
+                const orderId = response.data.order_id;
+                // Redirect to the order page
+                this.$router.push(`/order/${orderId}`);
+                // Update the post status in your frontend if needed
             } catch (error) {
                 console.error('Purchase failed:', error);
             } finally {
                 this.buying = false; // Reset buying to false whether the purchase succeeds or fails
             }
         },
-        async cancelPurchase(postId, postPrice) {
-            try {
-                this.buying = true;
-                // Make the API request to cancel the purchase
-                await axios.post(`/api/cancel-order/${postId}`);
+        // async cancelPurchase(postId, postPrice) {
+        //     try {
+        //         this.buying = true;
+        //         // Make the API request to cancel the purchase
+        //         await axios.post(`/api/cancel-order/${postId}`);
 
-                // Update the total price in your frontend if needed
-                this.totalPrice -= postPrice;
-                this.postIsPurchased = false;
-            } catch (error) {
-                console.error('Cancellation failed:', error);
-            }
-            finally {
-                this.buying = false; // Reset buying to false whether the cancellation succeeds or fails
-            }
-        },
+        //         // Update the total price in your frontend if needed
+        //         // this.totalPrice -= postPrice;
+        //         this.postIsPurchased = false;
+        //     } catch (error) {
+        //         console.error('Cancellation failed:', error);
+        //     }
+        //     finally {
+        //         this.buying = false; // Reset buying to false whether the cancellation succeeds or fails
+        //     }
+        // },
         async fetchPostData() {
             try {
                 const response = await axios.get("/api/posts/" + this.slug);
@@ -129,8 +130,8 @@ export default {
     },
     mounted() {
         this.fetchData();
-        this.buyPost();
-        this.cancelPurchase();
+        // this.buyPost();
+        // this.cancelPurchase();
         this.fetchPostData();
     },
 };
@@ -140,7 +141,7 @@ export default {
 .buyBtn {
     background-color: orange;
     border-color: white;
-    width: 86px;
+    width: 120px;
     border-radius: 40px;
     margin-left: 20px;
     margin-right: 20px;

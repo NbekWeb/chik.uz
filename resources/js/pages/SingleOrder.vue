@@ -8,7 +8,12 @@
                 <h1>Order Details</h1>
                 <div v-if="order">
                     <p>Order ID: {{ order.id }}</p>
+                    <p>Post title: {{ order.post_title }}</p>
                     <p>Status: {{ order.status }}</p>
+                    <p>Time: {{ order.created_at }}</p>
+                    <p>Price: {{ order.price }}</p>
+                    <p>Description: {{ order.body }}</p>
+
                     <!-- Display other order details -->
                 </div>
                 <div v-else>
@@ -52,7 +57,8 @@
                             <!-- End Chat chats -->
 
                             <!-- Chat input form -->
-                            <div v-if="order && order.status === 202" class="form-outline">
+                            <div v-if="order && order.id && order.status !== 203 && order.status !== 204"
+                                class="form-outline">
                                 <form @submit.prevent="submit">
                                     <input v-model="text" type="text" id="textAreaExample" />
                                     <button type="submit" class="btn btn-primary">
@@ -63,6 +69,16 @@
                             <!-- End Chat input form -->
                         </div>
                     </div>
+                    <button class="buyBtn" @click="buyOrder(order.id, 201)" :disabled="buying || order.status !== 200">
+                        Покупать
+                    </button>
+                    <button class="buyBtn" @click="buyOrder(order.id, 206)" :disabled="buying || order.status !== 201">
+                        {{ order.status === 206 ? 'Заказ отклонен' : 'Отказать заказ' }}
+                    </button>
+                    <button class="buyBtn" @click="buyOrder(order.id, 204)" :disabled="buying || order.status == 204">
+                        Подтвердите заказ
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -108,6 +124,18 @@ export default {
                 this.error = "Error submitting message";
             } finally {
                 this.loading = false;
+            }
+        },
+        async buyOrder(orderId, status) {
+            try {
+                this.buying = true;
+                // Make the PUT request to update the order status
+                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+                window.location.reload();
+            } catch (error) {
+                console.error('Purchase failed:', error);
+            } finally {
+                this.buying = false;
             }
         },
         async fetchData() {

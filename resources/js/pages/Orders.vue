@@ -15,7 +15,9 @@
                     <p>Status: {{ order.status }}</p>
                     <p>Price: {{ order.price }}</p>
                     <p>Created At: {{ order.created_at }}</p>
-                    <button @click="cancelPurchase(order.id)">Cancel Purchase</button>
+                    <button @click="cancelPurchase(order.id, 206)" :disabled="buying || order.status !== 201">
+                        {{ order.status === 206 ? 'Заказ отклонен' : 'Отказать заказ' }}
+                    </button>
                     <br>
                     <router-link :to="'/order/' + order.id">open order</router-link>
 
@@ -46,19 +48,17 @@ export default {
                     console.error("Error fetching orders:", error);
                 });
         },
-        cancelPurchase(orderId) {
-            // Implement cancellation logic as needed
-            // Example:
-            axios
-                .post(`/api/cancel-order/${orderId}`)
-                .then(() => {
-                    this.fetchOrders(); // Refresh orders after cancellation
-                    // Update the total price if needed
-                    // this.totalPrice -= postPrice;
-                })
-                .catch((error) => {
-                    console.error("Cancellation failed:", error);
-                });
+        async cancelPurchase(orderId, status) {
+            try {
+                this.buying = true;
+                // Make the PUT request to update the order status
+                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+                window.location.reload();
+            } catch (error) {
+                console.error('Purchase failed:', error);
+            } finally {
+                this.buying = false;
+            }
         },
     },
     mounted() {

@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 8, 2);
-            $table->string('status_code');
             $table->string('transaction_type');
+            $table->string('description');
             $table->timestamps();
         });
     }

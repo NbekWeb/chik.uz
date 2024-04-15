@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatService
 {
+    const ORDER_STATUS_ChATTING = 200;
     const ORDER_STATUS_PENDING = 201;
     const ORDER_STATUS_ACCEPTED = 202;
     const ORDER_STATUS_REJECTED = 203;
@@ -21,10 +22,9 @@ class ChatService
         if (!$order) {
             return response()->json(['message' => 'Order not found!'], 404);
         }
-        if ($order->status != self::ORDER_STATUS_ACCEPTED) {
+        if ($order->status === self::ORDER_STATUS_COMPLETED || $order->status === self::ORDER_STATUS_REJECTED) {
             return response()->json(['error' => 'Cannot add message to this order. Order status is not suitable.'], 403);
         }
-
         $userId = Auth::id();
 
         if ($userId == $order->user_id || $userId == $order->post->user_id) {

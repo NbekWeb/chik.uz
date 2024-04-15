@@ -26,4 +26,8 @@ class Order extends Model
     {
         return $this->hasMany(Chat::class);
     }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

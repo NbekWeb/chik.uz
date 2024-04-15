@@ -7,7 +7,7 @@
                     <script>
                         document.write(new Date().getFullYear())
                     </script>
-                    <a href="#" class="font-weight-bold" target="_blank">Chik Freelance</a> Uzbekistan
+                    <a href="{{ URL::to('/') }}" class="font-weight-bold" target="_blank">Chik Freelance</a> Uzbekistan
                 </div>
             </div>
         </div>

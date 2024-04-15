@@ -36,6 +36,9 @@
                         <router-link :to="{ name: 'CreateCategories' }">Давайте создадим категорию</router-link>
                     </li>
                     <span> <a href="orders">My Orders</a></span>
+                    <li>
+                        <span> <a href="inquiries">Inquiries</a></span>
+                    </li>
 
                     <!--<li>
           <h3 class="project"> Просмотр список категории:</h3>
@@ -58,9 +61,9 @@
 
                     <h4 style="font-weight: bolder">
                         <router-link :to="{
-                    name: 'SingleBlog',
-                    params: { slug: post.slug },
-                }">{{ post.title }}</router-link>
+                            name: 'SingleBlog',
+                            params: { slug: post.slug },
+                        }">{{ post.title }}</router-link>
                     </h4>
                 </div>
             </div>
