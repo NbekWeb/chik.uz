@@ -3,49 +3,44 @@
         <img src="../images/homw2.jpg" alt="" class="topbackgroung">
     </section>
     <div id="backend-view">
-        <!--<h1 class="heading">Dashboard</h1>-->
         <div class="dashinfo">
             <div class="userDashboard">
-                <img :src="avatar ? '/storage/' + avatar : '/storage/uploads/files/avatar.png'" alt=""
-                    class="userphoto">
+                <img :src="avatar ? '/storage/' + avatar : '/assets/img/avatar.png'" alt="" class="userphoto">
 
                 <div class="userinfor">
                     <span class="userName"> {{ name }}!</span>
                     <br>
                     <br>
-                    <h3 class="balance"></h3> <span class="userBalance">Баланс: {{ cash }}:Uzs!</span>
+                    <h3 class="balance"></h3> <span class="userBalance">Баланс: {{ cash }} Uzs!</span>
                     <br>
                     <br>
                     <span class="userEmail">Email Адрес: {{ email }}</span>
                 </div>
-
             </div>
 
             <div class="links">
-                <ul>
+                <ul class="route_links">
                     <li>
-                        <h3 class="project"></h3>
                         <router-link :to="{ name: 'CreatePosts' }">Создать Chick</router-link>
                     </li>
                     <li>
-                        <h3 class="project"></h3>
-                        <router-link :to="{ name: 'DashboardPostsList' }">Настройка</router-link>
+                        <router-link :to="{ name: 'DashboardPostsList' }">Список Chick</router-link>
+                    </li>
+                    <li>
+                        <span> <a href="orders">Заказы</a></span>
+                    </li>
+                    <li>
+                        <span> <a href="inquiries">Запросы на заказ</a></span>
                     </li>
                     <li v-if="role_id == 1">
-                        <!--<h3 class="project"> Давайте создадим категории:</h3>-->
-                        <router-link :to="{ name: 'CreateCategories' }">Давайте создадим категорию</router-link>
+                        <router-link :to="{ name: 'CategoriesList' }">Список категории</router-link>
                     </li>
-                    <span> <a href="orders">My Orders</a></span>
+                    <li v-if="role_id == 1">
+                        <router-link :to="{ name: 'CreateCategories' }">Создать категорию</router-link>
+                    </li>
                     <li>
-                        <span> <a href="inquiries">Inquiries</a></span>
+                        <a href="/admin/dashboard">Больше настроек</a>
                     </li>
-
-                    <!--<li>
-          <h3 class="project"> Просмотр список категории:</h3>
-          <router-link :to="{ name: 'CategoriesList' }"
-            >Список категории</router-link
-          >
-        </li>-->
                 </ul>
             </div>
         </div>
@@ -94,7 +89,7 @@ export default {
                 this.name = response.data.name;
                 this.email = response.data.email;
                 this.cash = response.data.cash;
-                this.avatar = response.data.avatar;
+                this.avatar = response.data.image;
                 this.role_id = response.data.role_id;
             })
 
@@ -302,6 +297,7 @@ export default {
         display: inline-block;
         margin: 10px 0;
         color: rgb(172, 11, 164);
+        text-decoration: none;
 
     }
 

@@ -1,17 +1,17 @@
 <template>
     <main class="create-post">
         <div class="container">
-            <h1>Edit Post!</h1>
+            <h1>Изменить Chik!</h1>
             <!-- success message -->
             <div class="success-msg" v-if="success">
                 <i class="fa fa-check"></i>
-                Post created successfully
+                Chik изменён успешно !
             </div>
             <!-- Contact Form -->
             <div class="contact-form">
-                <form @submit.prevent="submit">
+                <form class="titlinput" @submit.prevent="submit">
                     <!-- Title -->
-                    <label for="title"><span>Title</span></label>
+                    <label for="title"><span>Заголовок</span></label>
                     <input type="text" id="title" v-model="fields.title" />
                     <span v-if="errors.title" class="error">{{
                         errors.title[0]
@@ -19,14 +19,8 @@
                     <br />
 
                     <!-- Image -->
-                    <label for="image"><span>Image</span></label>
-                    <input
-                        type="file"
-                        id="image"
-                        @change="grabFile"
-                        accept="image/*"
-                        multiple
-                    />
+                    <label for="image"><span>Фото</span></label>
+                    <input type="file" id="image" @change="grabFile" accept="image/*" multiple />
                     <span v-if="errors.file" class="error">{{
                         errors.file[0]
                     }}</span>
@@ -38,16 +32,10 @@
                     <br />
 
                     <!-- Drop down -->
-                    <label for="categories"
-                        ><span>Choose a category:</span></label
-                    >
+                    <label for="categories"><span>Выберите категорию:</span></label>
                     <select v-model="fields.category_id" id="categories">
-                        <option disabled value="">Select option</option>
-                        <option
-                            :value="category.id"
-                            v-for="category in categories"
-                            :key="category.id"
-                        >
+                        <option disabled value="">Категории</option>
+                        <option :value="category.id" v-for="category in categories" :key="category.id">
                             {{ category.name }}
                         </option>
                     </select>
@@ -57,19 +45,19 @@
                     <br />
 
                     <!-- Price -->
-                    <label for="price"><span>Price</span></label>
+                    <label for="price"><span>Цена</span></label>
                     <input type="text" id="price" v-model="fields.price" />
                     <span v-if="errors.price" class="error">{{ errors.price[0] }}</span>
                     <br />
 
                     <!-- Body-->
-                    <label for="body"><span>Body</span></label>
+                    <label for="body"><span>Описание</span></label>
                     <textarea id="body" v-model="fields.body"></textarea>
                     <span v-if="errors.body" class="error">{{
                         errors.body[0]
                     }}</span>
                     <!-- Button -->
-                    <input class="add-post-btn" type="submit" value="Submit" />
+                    <input class="add-post-btn" type="submit" value="Изменить" />
                 </form>
             </div>
         </div>
@@ -99,7 +87,7 @@ export default {
             this.urls = [];
 
             if (files.length < 3 || files.length > 3) {
-                alert("3 ta rasm bo'lsin.");
+                alert("Допускается минимум 3 фото.");
                 e.target.value = "";
                 return;
             }
@@ -177,6 +165,7 @@ export default {
     background-color: #fff;
     padding: 0 3vw;
 }
+
 .container input,
 textarea,
 select {
@@ -189,13 +178,14 @@ select {
     margin-bottom: 20px;
     font-size: 16px;
 }
+
 h1 {
     text-align: center;
     padding: 60px 0 50px 0;
 }
 
 .add-post-btn {
-    background-color: black;
+    background-color: #e4606d;
     color: white;
     border: none;
     cursor: pointer;
@@ -209,5 +199,15 @@ h1 {
 .preview img {
     max-width: 100%;
     max-height: 120px;
+}
+
+.titlinput {
+    width: 400px;
+}
+
+@media (max-width: 380px) {
+    .titlinput {
+        width: 250px;
+    }
 }
 </style>

@@ -1,32 +1,27 @@
 <template>
     <main class="create-post">
         <div class="container">
-            <h1>Create Posts!</h1>
+            <h1>Создать Chik!</h1>
             <!-- success message -->
             <div class="success-msg" v-if="success">
                 <i class="fa fa-check"></i>
-                Post created successfully
+                Chik создано успешно !
             </div>
             <!-- Contact Form -->
             <div class="contact-form">
-                <form @submit.prevent="submit">
+                <form class="titlinput" @submit.prevent="submit">
                     <!-- Title -->
-                    <label for="title"><span>Title</span></label>
+                    <label for="title"><span>Заголовок</span></label>
                     <input type="text" id="title" v-model="fields.title" />
                     <span v-if="errors.title" class="error">{{
                         errors.title[0]
                     }}</span>
                     <br />
 
+
                     <!-- Image -->
-                    <label for="image"><span>Image</span></label>
-                    <input
-                        type="file"
-                        id="image"
-                        @change="grabFile"
-                        accept="image/*"
-                        multiple
-                    />
+                    <label for="image"><span>Фото</span></label>
+                    <input type="file" id="image" @change="grabFile" accept="image/*" multiple />
                     <span v-if="errors.file" class="error">{{
                         errors.file[0]
                     }}</span>
@@ -38,16 +33,10 @@
                     <br />
 
                     <!-- Drop down -->
-                    <label for="categories"
-                        ><span>Choose a category:</span></label
-                    >
+                    <label for="categories"><span>Выберите категорию:</span></label>
                     <select v-model="fields.category_id" id="categories">
-                        <option disabled value="">Select option</option>
-                        <option
-                            :value="category.id"
-                            v-for="category in categories"
-                            :key="category.id"
-                        >
+                        <option disabled value="">Категории</option>
+                        <option :value="category.id" v-for="category in categories" :key="category.id">
                             {{ category.name }}
                         </option>
                     </select>
@@ -57,19 +46,19 @@
                     <br />
 
                     <!--Price-->
-                    <label for="price"><span>Price</span></label>
+                    <label for="price"><span>Цена</span></label>
                     <input type="text" id="price" v-model="fields.price" />
                     <span v-if="errors.price" class="error">{{ errors.price[0] }}</span>
                     <br />
 
                     <!-- Body-->
-                    <label for="body"><span>Body</span></label>
+                    <label for="body"><span>Описание</span></label>
                     <textarea id="body" v-model="fields.body"></textarea>
                     <span v-if="errors.body" class="error">{{
                         errors.body[0]
                     }}</span>
                     <!-- Button -->
-                    <input class="add-post-btn" type="submit" value="Submit" />
+                    <input class="add-post-btn" type="submit" value="Создать" />
                 </form>
             </div>
         </div>
@@ -98,18 +87,32 @@ export default {
             this.urls = [];
 
             if (files.length < 3 || files.length > 3) {
-                alert("3 ta rasm bo'lsin.");
+                alert("Допускается минимум 3 фото.");
                 e.target.value = "";
                 return;
             }
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                this.images.push(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const url = e.target.result;
-                    this.urls.push(url);
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        const ctx = canvas.getContext("2d");
+                        canvas.width = 690;
+                        canvas.height = 348;
+                        ctx.drawImage(img, 0, 0, 690, 348);
+                        canvas.toBlob((blob) => {
+                            const resizedFile = new File([blob], file.name, {
+                                type: "image/jpeg",
+                                lastModified: Date.now(),
+                            });
+                            this.images.push(resizedFile);
+                            this.urls.push(URL.createObjectURL(resizedFile));
+                        }, "image/jpeg", 1);
+                    };
                 };
                 reader.readAsDataURL(file);
             }
@@ -120,8 +123,8 @@ export default {
 
             formData.append("category_id", this.fields.category_id);
             formData.append("body", this.fields.body);
-            formData.append("title", this.fields.title);
             formData.append("price", this.fields.price);
+            formData.append("title", this.fields.title);
 
             this.images.forEach((image, index) => {
                 formData.append(`images[${index}]`, image);
@@ -166,6 +169,7 @@ export default {
     background-color: #fff;
     padding: 0 3vw;
 }
+
 .container input,
 textarea,
 select {
@@ -178,13 +182,14 @@ select {
     margin-bottom: 20px;
     font-size: 16px;
 }
+
 h1 {
     text-align: center;
     padding: 60px 0 50px 0;
 }
 
 .add-post-btn {
-    background-color: black;
+    background-color: #e4606d;
     color: white;
     border: none;
     cursor: pointer;
@@ -198,5 +203,15 @@ h1 {
 .preview img {
     max-width: 100%;
     max-height: 120px;
+}
+
+.titlinput {
+    width: 400px;
+}
+
+@media (max-width: 380px) {
+    .titlinput {
+        width: 250px;
+    }
 }
 </style>

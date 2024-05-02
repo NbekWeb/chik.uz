@@ -82,7 +82,7 @@
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span
-                                                        class="text-secondary text-xs font-weight-bold">{{ $user->cash . ' sum' }}</span>
+                                                        class="text-secondary text-xs font-weight-bold">{{ number_format($user->cash, 2) . ' sum' }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span

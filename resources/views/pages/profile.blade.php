@@ -134,7 +134,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
                                                 class="text-dark">Balance:</strong> &nbsp;
-                                            {{ auth()->user()->cash . ' ' . 'sum' }}
+                                            {{ number_format(auth()->user()->cash, 2) . ' ' . 'sum' }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 ps-0 text-sm"><strong
                                                 class="text-dark">Full Name:</strong> &nbsp; {{ auth()->user()->name }}

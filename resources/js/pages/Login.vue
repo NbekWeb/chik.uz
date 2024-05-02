@@ -11,13 +11,10 @@
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
-
-
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                                         <span class="h1 fw-bold mb-0">Chik</span>
                                     </div>
-
                                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Войти</h5>
                                     <form @submit.prevent="submit">
 
@@ -72,6 +69,7 @@ export default {
                     this.$router.push({ name: "Dashboard" });
                     localStorage.setItem("authenticated", "true");
                     this.$emit("updateSidebar");
+                    // window.location.href = "/admin/dashboard";
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;

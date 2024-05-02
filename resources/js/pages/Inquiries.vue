@@ -3,7 +3,7 @@
         <br>
         <div class="inquiry" title="Здесь вы найдете запросы на ваши Chik">
             <div v-if="inquiries.length === 0">
-                <p>Запросов не найдено</p>
+                <h1 class="h3 mb-3 text-center fw-bold text-danger">Запросов не найдено</h1>
             </div>
             <div v-else>
                 <h1 class="h3 mb-3">Запросы на заказ</h1>

@@ -49,7 +49,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
                                                 class="text-dark">Balance:</strong> &nbsp;
-                                            {{ $user->cash . ' ' . 'sum' }}
+                                            {{ number_format($user->cash, 2) . ' ' . 'sum' }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Full
                                                 Name:</strong> &nbsp; {{ $user->name }}
@@ -322,7 +322,8 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <p class="text-sm font-weight-bold mb-0">{{ $post->price }}
+                                                        <p class="text-sm font-weight-bold mb-0">
+                                                            {{ number_format($post->price, 2) }}
                                                         </p>
                                                     </td>
                                                     <td>
@@ -422,26 +423,38 @@
                                                     </td>
                                                     <td>
                                                         <p class="text-sm font-weight-bold mb-0">
-                                                            {{ $inquery->post->price }}</p>
+                                                            {{ number_format($inquery->post->price, 2) }}</p>
                                                     </td>
                                                     <td>
 
                                                         <span class="text-xs font-weight-bold">
                                                             @switch($inquery->status)
+                                                                @case(200)
+                                                                    Chatting
+                                                                @break
+
                                                                 @case(201)
                                                                     Pending
                                                                 @break
 
                                                                 @case(202)
-                                                                    Accepted
+                                                                    Accepted by freelancer
                                                                 @break
 
                                                                 @case(203)
-                                                                    Rejected
+                                                                    Orbitraj
                                                                 @break
 
                                                                 @case(204)
                                                                     Completed
+                                                                @break
+
+                                                                @case(205)
+                                                                    Pending for completion
+                                                                @break
+
+                                                                @case(206)
+                                                                    Cancelled
                                                                 @break
 
                                                                 @default
@@ -452,18 +465,33 @@
                                                     <td class="align-middle text-center">
                                                         <div class="d-flex align-items-center justify-content-center">
                                                             @php
-                                                                $progress = 0;
+                                                                $progress = 1;
                                                                 $statusColor = 'bg-gradient-danger'; // Default color for pending status
-                                                                switch ($inquery->status) {
+                                                                switch ($order->status) {
+                                                                    case 201: // Pending status
+                                                                        $progress = 2;
+                                                                        $statusColor = 'bg-gradient-warning';
+                                                                        break;
                                                                     case 202: // Accepted status
                                                                         $progress = 20;
                                                                         $statusColor = 'bg-gradient-warning';
+                                                                        break;
+                                                                    case 203: // Orbitraj status
+                                                                        $progress = 50;
+                                                                        $statusColor = 'bg-gradient-danger';
                                                                         break;
                                                                     case 204: // Completed status
                                                                         $progress = 100;
                                                                         $statusColor = 'bg-gradient-success';
                                                                         break;
-                                                                    // For Rejected status (203) and other statuses, defaults will be used
+                                                                    case 205: // request status
+                                                                        $progress = 80;
+                                                                        $statusColor = 'bg-gradient-info';
+                                                                        break;
+                                                                    case 206: // rejected status
+                                                                        $progress = 100;
+                                                                        $statusColor = 'bg-gradient-danger';
+                                                                        break;
                                                                 }
                                                             @endphp
                                                             <span

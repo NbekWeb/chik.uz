@@ -3,7 +3,7 @@
         <br>
         <div class="order">
             <div v-if="orders.length === 0">
-                <p>No orders found.</p>
+                <h1 class="h3 mb-3 text-center text-danger fw-bold">Заказов не найдено.</h1>
             </div>
             <div v-else>
                 <h1 class="h3 mb-3">Заказы</h1>

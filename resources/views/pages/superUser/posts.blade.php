@@ -66,7 +66,8 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <p class="text-sm font-weight-bold mb-0">{{ $post->price }}
+                                                        <p class="text-sm font-weight-bold mb-0">
+                                                            {{ number_format($post->price, 2) }}
                                                         </p>
                                                     </td>
                                                     <td>

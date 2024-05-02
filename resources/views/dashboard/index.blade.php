@@ -80,7 +80,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">In budget</p>
-                                <h4 class="mb-0">{{ auth()->user()->cash }}</h4>
+                                <h4 class="mb-0">{{ number_format(auth()->user()->cash, 2) }}</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
