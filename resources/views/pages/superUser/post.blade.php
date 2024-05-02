@@ -62,11 +62,11 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     @foreach ($post->images as $image)
-                                                        <img src="{{ asset('public/storage') . '/' . $image->path }}"
+                                                        <img src="{{ asset('storage') . '/' . $image->path }}"
                                                             data-bs-toggle="modal" data-bs-target="#imageModal"
-                                                            data-image-url="{{ asset('public/storage') . '/' . $image->path }}"
+                                                            data-image-url="{{ asset('storage') . '/' . $image->path }}"
                                                             class="img-thumbnail"
-                                                            alt="{{ asset('public/storage') . '/' . $image->title }}"
+                                                            alt="{{ asset('storage') . '/' . $image->title }}"
                                                             width="60px" style="cursor: :pointer">
                                                     @endforeach
                                                 </div>

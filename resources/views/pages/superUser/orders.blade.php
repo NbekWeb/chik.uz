@@ -46,7 +46,7 @@
                                                                 $orderImage = $order->post->images->first();
                                                             @endphp
                                                             @if ($orderImage)
-                                                                <img src="{{ asset('public/storage') . '/' . $orderImage->path }}"
+                                                                <img src="{{ asset('storage') . '/' . $orderImage->path }}"
                                                                     alt="{{ $orderImage->title }}" width="60px">
                                                             @endif
                                                         </div>

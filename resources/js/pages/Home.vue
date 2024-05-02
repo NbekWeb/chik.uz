@@ -7,15 +7,22 @@
 
     <section class="tops">
         <img class="tops-image" src="../images/larg.jpg" alt="">
+        <h3 class="htitle">Фриланс-услуги в один клик: просто,быстро,эффективно</h3>
         <div class="searchbar__home">
-            <form action="">
-                <input type="text" placeholder="    Создать сайт" name="search" v-model="title" />
-                <button class="btn btn-outline-secondary" type="submit">Найти</button>
+            <div class="container">
 
-                <!--<button type="submit">
+
+
+                <form class="search_form" action="">
+                    <input type="text" placeholder="    Создать сайт" name="search" v-model="title" />
+                    <button class="btn btn-outline-secondary" type="submit">Найти</button>
+
+                    <!--<button type="submit">
           <i class="fa fa-search"></i>
         </button>-->
-            </form>
+                </form>
+            </div>
+
         </div>
     </section>
 
@@ -108,7 +115,8 @@
                 <div class="start_txt">
                     <h2 class="start__banner"> Закажите услуги фрилансеров прямо сейчас</h2>
                     <div class="start__text">Быстро, просто и безопасно!</div>
-                    <button class="start__btn">Начать</button>
+                    <button class="start__btn"><router-link :to="{ name: 'CreatePosts' }" class="start__btn"> Начать
+                        </router-link></button>
                 </div>
 
             </div>
@@ -199,13 +207,15 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
+
     },
+
 };
 </script>
 <style>
 .btn {
     margin-top: -1.5px;
-    background-color: #04b70a;
+    background-color: #8c093d;
 }
 
 @media screen and (max-width: 768px) {
@@ -219,10 +229,10 @@ export default {
     }
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 768px) {
     .tops {
         /*background-image: url("images/diverse.jpg");*/
-        height: 23vh;
+        height: 200px;
         width: 100vw;
         background-size: cover;
         background-position: center;
@@ -233,6 +243,7 @@ export default {
     }
 
     .tops-image {
+        height: 200px;
         visibility: hidden;
     }
 
@@ -253,7 +264,7 @@ export default {
 
 .tops {
     /*background-image: url("images/diverse.jpg");*/
-    height: 100vh;
+    height: 686px;
     width: 100vw;
     background-size: cover;
     background-position: center;
@@ -351,6 +362,20 @@ export default {
     line-height: 24px;
 }
 
+.htitle {
+    position: absolute;
+    color: black;
+    display: block;
+    left: 120px;
+    justify-content: left;
+    justify-items: left;
+    font-weight: 500;
+    /*align-items: enter;*/
+    padding-bottom: 200px;
+    font-size: 18px;
+    /* padding-top: 64px;*/
+}
+
 .start_txt {
     display: grid;
     justify-content: center;
@@ -373,8 +398,8 @@ export default {
 
     min-height: 48px;
     padding: 12px 15px;
-    background-color: #04b70a;
-    border-color: #04b70a;
+    background-color: #8c093d;
+    border-color: #8c093d;
     color: #fff;
     border-radius: 6px;
     border: 1px solid transparent;
@@ -382,7 +407,7 @@ export default {
 }
 
 .start__panel {
-    margin-top: 10px;
+    margin-top: 120px;
     margin-bottom: 50px;
 }
 
@@ -398,6 +423,155 @@ export default {
 }
 
 @media (max-width: 768px) {
+    .tops {
+        /*background-image: url("images/diverse.jpg");*/
+        height: 200px;
+        width: 100vw;
+    }
+
+    .rubrics_item {
+        width: 50%;
+    }
+
+    .start__panel {
+        margin-top: 120px;
+        margin-bottom: 10px;
+    }
+
+    .rubrics {
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 64px;
+        display: block;
+        /*width: 100%;*/
+        height: 660px;
+    }
+
+    .start_inner {
+        width: 100%;
+        height: 412px;
+        background-image: url(../images/faq4.jpg);
+        padding-bottom: 30px;
+        padding-top: 32px;
+        position: relative;
+    }
+
+    .start__banner {
+
+        color: #111;
+        font-size: 23px;
+        font-weight: 600;
+        line-height: 32px;
+        margin-top: -2px;
+        padding: 0 0 2px;
+    }
+
+    .start__text {
+        color: #333;
+        justify-content: center;
+        font-weight: 600;
+
+        margin-top: 16px;
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .start_txt {
+        display: grid;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        padding-bottom: 30px;
+        padding-top: 64px;
+        height: 312px;
+        position: relative;
+    }
+
+    .start__btn {
+        margin-top: 64px;
+        width: 333px;
+
+        font-family: Open Sans, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+
+        min-height: 48px;
+        padding: 12px 15px;
+        background-color: #8c093d;
+        border-color: #8c093d;
+        color: #fff;
+        border-radius: 6px;
+        border: 1px solid transparent;
+
+    }
+
+    .htitle {
+        position: absolute;
+        color: black;
+        display: block;
+        left: 120px;
+        justify-content: left;
+        justify-items: left;
+        font-weight: 500;
+        /*align-items: enter;*/
+        padding-bottom: 150px;
+        font-size: 18px;
+        /* padding-top: 64px;*/
+    }
+}
+
+@media (max-width: 480px) {
+    .htitle {
+        position: absolute;
+        color: black;
+        display: block;
+        left: 60px;
+        justify-content: left;
+        justify-items: left;
+        font-weight: 500;
+        /*align-items: enter;*/
+        padding-bottom: 150px;
+        font-size: 12px;
+        /* padding-top: 64px;*/
+    }
+
+    .start__banner {
+
+        color: #111;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 32px;
+        margin-top: -2px;
+        padding: 0 0 2px;
+    }
+
+    .rubrics {
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 64px;
+        display: block;
+        /*width: 100%;*/
+        height: 460px;
+    }
+
+    .rubrics h1 {
+        font-size: 18px;
+    }
+
+    .start__panel {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .tops {
+        /*background-image: url("images/diverse.jpg");*/
+        height: 200px;
+        width: 100vw;
+    }
+
     .rubrics_item {
         width: 50%;
     }
@@ -413,7 +587,89 @@ export default {
         margin-top: 64px;
         display: block;
         /*width: 100%;*/
-        height: 660px;
+        height: 400px;
+    }
+
+    .rubrics h1 {
+        font-size: 16px;
+    }
+
+    .start_inner {
+        width: 100%;
+        height: 412px;
+        background-image: url(../images/faq4.jpg);
+        padding-bottom: 30px;
+        padding-top: 32px;
+        position: relative;
+    }
+
+    .start__banner {
+
+        color: #111;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 32px;
+        margin-top: -2px;
+        padding: 0 0 2px;
+    }
+
+    .start__text {
+        color: #333;
+        justify-content: center;
+        font-weight: 600;
+
+        margin-top: 16px;
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .start_txt {
+        display: grid;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        padding-bottom: 30px;
+        padding-top: 64px;
+        height: 312px;
+        position: relative;
+    }
+
+    .start__btn {
+        margin-top: 64px;
+        width: 333px;
+
+        font-family: Open Sans, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+
+        min-height: 48px;
+        padding: 12px 15px;
+        background-color: #8c093d;
+        border-color: #8c093d;
+        color: #fff;
+        border-radius: 6px;
+        border: 1px solid transparent;
+
+    }
+
+    .start__panel {
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+
+    .htitle {
+        position: absolute;
+        color: black;
+        display: block;
+        left: 50px;
+        justify-content: left;
+        justify-items: left;
+        font-weight: 600;
+        /*align-items: enter;*/
+        padding-bottom: 150px;
+        font-size: 9px;
+        /* padding-top: 64px;*/
     }
 }
 </style>

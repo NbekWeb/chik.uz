@@ -1,26 +1,67 @@
 <template>
-    <div id="backend-view">
-        <form @submit.prevent="submit">
-            <h3>Sign Up Here</h3>
-            <label for="name">Name</label>
-            <input type="text" id="name" v-model="fields.name" />
-            <span v-if="errors.name" class="error">{{ errors.name[0] }}</span>
 
-            <label for="email">Email</label>
-            <input type="text" id="email" v-model="fields.email" />
-            <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
+    <!-- Section: Design Block -->
+    <section class="h-100 bg-dark">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card card-registration my-4">
+                        <div class="row g-0">
+                            <div class="col-xl-6 d-none d-xl-block">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                                    alt="Sample photo" class="img-fluid"
+                                    style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-5 text-lowcase">Регистрация</h3>
+                                    <form @submit.prevent="submit">
 
-            <label for="password">Password</label>
-            <input type="password" id="password" v-model="fields.password" />
-            <span v-if="errors.password" class="error">{{ errors.password[0] }}</span>
+                                        <div class="form-outline mb-4">
+                                            <input type="name" id="name" v-model="fields.name"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="name">Имя</label>
+                                            <span v-if="errors.name" class="error">{{ errors.name[0] }}</span>
+                                        </div>
 
-            <label for="password_confirmation">Confirm password</label>
-            <input type="password" id="password_confirmation" v-model="fields.password_confirmation" />
+                                        <div class="form-outline mb-4">
+                                            <input type="email" id="email" v-model="fields.email"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="email">Email адрес</label>
+                                            <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
+                                        </div>
 
-            <button type="submit">Sign Up</button>
-            <span>Have an account?<a href="Login"> Log in</a></span>
-        </form>
-    </div>
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="password" v-model="fields.password"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="password">Пароль</label>
+                                            <span v-if="errors.password" class="error">{{ errors.password[0] }}</span>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="password_confirmation"
+                                                v-model="fields.password_confirmation"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="password_confirmation">Подтвердите
+                                                Пароль</label>
+                                            <span v-if="errors.password_confirmation" class="error">{{
+                                                errors.password_confirmation[0] }}</span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end pt-3">
+
+                                            <button type="submit"
+                                                class="btn btn-warning btn-lg ms-2">Регистрация</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -47,68 +88,43 @@ export default {
 </script>
 
 <style scoped>
-#backend-view {
-    height: 100vh;
-    background-color: #f3f4f6;
-    display: grid;
-    align-items: center;
+.background-radial-gradient {
+    background-color: hsl(218, 41%, 15%);
+    background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
 }
 
-form {
-    width: 400px;
-    background-color: #ffffff;
-    margin: 0 auto;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    padding: 50px 35px;
+#radius-shape-1 {
+    height: 220px;
+    width: 220px;
+    top: -60px;
+    left: -130px;
+    background: radial-gradient(#44006b, #ad1fff);
+    overflow: hidden;
 }
 
-form * {
-    letter-spacing: 0.5px;
-    outline: none;
+#radius-shape-2 {
+    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+    bottom: -60px;
+    right: -110px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(#44006b, #ad1fff);
+    overflow: hidden;
 }
 
-label {
-    display: block;
-    margin-top: 20px;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-input {
-    display: block;
-    height: 50px;
-    width: 100%;
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 16px;
-    font-weight: 300;
-}
-
-button {
-    margin-top: 50px;
-    width: 100%;
-    background-color: rgba(0, 46, 173, 0.7);
-    color: #ffffff;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-form span {
-    display: block;
-    margin-top: 20px;
-}
-
-a {
-    color: rgba(0, 46, 173, 0.8);
-}
-
-.loader {
-    text-align: center;
-    margin-bottom: 15px;
+.bg-glass {
+    background-color: hsla(0, 0%, 100%, 0.9) !important;
+    backdrop-filter: saturate(200%) blur(25px);
 }
 </style>

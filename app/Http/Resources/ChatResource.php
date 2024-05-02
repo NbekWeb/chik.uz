@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChatResource extends JsonResource
@@ -18,7 +19,10 @@ class ChatResource extends JsonResource
             'id' => $this->id,
             'text' => $this->text,
             'order' => new OrderResource($this->order),
-            'user' => $this->user
+            'user' => $this->user,
+            'user_id' => $this->user_id,
+            'userImage' => $this->user->image ? url('storage/' . $this->user->image) : null,
+            'time' => $this->created_at->diffForHumans(),
         ];
     }
 }

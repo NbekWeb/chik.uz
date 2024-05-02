@@ -28,6 +28,7 @@ class UpdateOrderStatusController extends Controller
         $orderUserId = $order->user_id;
         $seller = $order->post->user;
         $postPrice = $order->post->price;
+        // sending request to oreder by client
         if ($request->status == 201) {
             if ($user->id === $orderUserId and $order->status === 200) {
                 if ($user->cash >= $postPrice) {
@@ -56,7 +57,9 @@ class UpdateOrderStatusController extends Controller
             } else {
                 return response()->json(['error' => 'Unauthorized or unsuitable order status'], 403);
             }
-        } elseif ($request->status == 202) {
+        }
+        // order stating acceptance from freelancer
+        elseif ($request->status == 202) {
             if ($seller->id == $user->id && $order->status == 201) {
                 $order->status = 202;
                 $order->save();
@@ -64,7 +67,9 @@ class UpdateOrderStatusController extends Controller
             } else {
                 return response()->json(['error' => 'Failed'], 500);
             }
-        } elseif ($request->status == 204) {
+        }
+        // order completeion approvemnt from client
+        elseif ($request->status == 204) {
             if ($user->id == $order->user_id and $order->status == 205) {
                 DB::beginTransaction();
                 try {
@@ -92,7 +97,9 @@ class UpdateOrderStatusController extends Controller
                     return response()->json(['error' => 'Failed'], 500);
                 }
             }
-        } elseif ($request->status == 205) {
+        }
+        // request to custemer in order to recieve order(after customer recieve will order complete(204) )
+        elseif ($request->status == 205) {
             if ($seller->id == $user->id && $order->status == 202) {
                 $order->status = 205;
                 $order->save();
@@ -127,13 +134,9 @@ class UpdateOrderStatusController extends Controller
         }
     }
 
-    public function forceMajor(Request $request, $orderId)
+    public function forceMajeure(Request $request, $orderId)
     {
         $order = Order::findOrFail($orderId);
-
-        // Perform any checks to ensure that this action is allowed, e.g., check user permissions
-
-        // Change the order status to 203 (or any other status indicating a major failure)
         $order->status = 203;
         $order->save();
 

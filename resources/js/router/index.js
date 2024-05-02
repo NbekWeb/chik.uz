@@ -5,12 +5,7 @@ import Home from "../pages/Home.vue";
 import Blog from "../pages/Blog.vue";
 import Contact from "../pages/Contact.vue";
 import SingleBlog from "../pages/SingleBlog.vue";
-import Orders from "../pages/Orders.vue";
-import Inquiries from "../pages/Inquiries.vue";
-import Inquiry from "../pages/Inquiry.vue";
-import SingleOrder from "../pages/SingleOrder.vue";
 import Login from "../pages/Login.vue";
-import Unauthorized from "../pages/Unauthorized.vue";
 import Register from "../pages/Register.vue";
 import Dashboard from "../pages/Dashboard.vue";
 import Sigtn from "../pages/Sigtn.vue";
@@ -61,9 +56,15 @@ import CreatePosts from "../pages/posts/CreatePosts.vue";
 import DashboardPostsList from "../pages/posts/DashboardPostsList.vue";
 import EditPosts from "../pages/posts/EditPosts.vue";
 import Header from "../components/Header.vue";
+import Inquiries from "../pages/Inquiries.vue";
+import Inquiry from "../pages/Inquiry.vue";
+import Orders from "../pages/Orders.vue";
+import SingleOrder from "../pages/SingleOrder.vue";
+import Privacy from "../pages/Privacy.vue";
+import Deal from "../pages/Deal.vue";
+
 
 import Footer from "../components/Footer.vue";
-import ForgotPassword from "../pages/Forgot Password.vue";
 
 const routes = [
     {
@@ -92,52 +93,11 @@ const routes = [
         component: SingleBlog,
         props: true,
     },
-
-    {
-        path: "/orders/",
-        name: "Orders",
-        component: Orders,
-        props: true,
-        // make middleware for owner of order
-    },
-    {
-        path: "/order/:id",
-        name: "SingleOrder",
-        component: SingleOrder,
-        props: true,
-        meta: { requiresAuth: true },
-        // make middleware for owner of order
-    },
-    {
-        path: "/inquiries",
-        name: "Inquiries",
-        component: Inquiries,
-        props: true,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: "/inquiry/:id",
-        name: "Inquiry",
-        component: Inquiry,
-        props: true,
-        meta: { requiresAuth: true }
-    },
     {
         path: "/login",
         name: "Login",
         component: Login,
         meta: { requiresGuest: true }
-    },
-    {
-        path: "/forgot-password",
-        name: "Forgot Password",
-        component: ForgotPassword,
-        meta: { requiresGuest: true }
-    },
-    {
-        path: "/Unauthorized",
-        name: "Unauthorized",
-        component: Unauthorized,
     },
     {
         path: "/register",
@@ -149,13 +109,13 @@ const routes = [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
-        meta: { requiresAuth: true, requiresVerify: true }
+        meta: { requiresAuth: true }
     },
     {
         path: "/categories/create",
         name: "CreateCategories",
         component: CreateCategories,
-        meta: { requiresAuth: true, requiresSuperUser: true },
+        meta: { requiresAuth: true },
     },
 
     {
@@ -328,6 +288,7 @@ const routes = [
         path: "/logo",
         name: "Logo",
         component: Logo,
+        props: true,
     },
     {
         path: "/layout",
@@ -399,38 +360,64 @@ const routes = [
         name: "Application",
         component: Application,
     },
+    {
+        path: "/orders/",
+        name: "Orders",
+        component: Orders,
+        props: true,
+
+    },
+    {
+        path: "/order/:id",
+        name: "SingleOrder",
+        component: SingleOrder,
+        props: true,
+        meta: { requiresAuth: true },
+        // make middleware for owner of order
+    },
+    {
+        path: "/inquiries",
+        name: "Inquiries",
+        component: Inquiries,
+        props: true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: "/inquiry/:id",
+        name: "Inquiry",
+        component: Inquiry,
+        props: true,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: "/privacy",
+        name: "Privacy",
+        component: Privacy,
+    },
+    {
+        path: "/deal",
+        name: "Deal",
+        component: Deal,
+    },
 ];
+
 const router = createRouter({
     history: createWebHistory(),
     routes,
 });
 
-
-axios
-    .get("/api/user")
-    .then((response) => {
-        const role_id = response.data.role_id;
-        localStorage.setItem("userRole", role_id);
-    })
-
-
-
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
     const authenticated = localStorage.getItem("authenticated");
-    const userRole = localStorage.getItem("userRole");
-    const baseUrl = window.location.origin
+
     if (to.meta.requiresGuest && authenticated) {
-        window.location.href = `${baseUrl}/admin/dashboard`;
+        return {
+            name: "Dashboard",
+        };
     } else if (to.meta.requiresAuth && !authenticated) {
-        next({ name: "Login" });
-    } else if (to.meta.requiresSuperUser && userRole !== '1') {
-        next({ name: "Unauthorized" });
-    } else if (to.meta.requiresFreelancer && userRole !== '2') {
-        next({ name: "Unauthorized" });
-    } else if (to.meta.requiresClient && userRole !== '3') {
-        next({ name: "Unauthorized" });
-    } else {
-        next();
+        return {
+            name: "Login",
+        };
     }
 });
+
 export default router;

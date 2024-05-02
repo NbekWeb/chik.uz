@@ -1,29 +1,38 @@
 <template>
     <div class="container">
-        <div>
-            <div class="page__header">
-                <h2 class="diz">Owners all orders</h2>
-            </div>
+        <br>
+        <div class="order">
             <div v-if="orders.length === 0">
                 <p>No orders found.</p>
             </div>
             <div v-else>
-                <div v-for="order in orders" :key="order.id" class="order-item">
-                    <p>Order ID: {{ order.id }}</p>
-                    <p>User ID: {{ order.user_id }}</p>
-                    <p>Post ID: {{ order.post_id }}</p>
-                    <p>Status: {{ order.status }}</p>
-                    <p>Price: {{ order.price }}</p>
-                    <p>Created At: {{ order.created_at }}</p>
-                    <button @click="cancelPurchase(order.id, 206)" :disabled="buying || order.status !== 201">
-                        {{ order.status === 206 ? 'Заказ отклонен' : 'Отказать заказ' }}
-                    </button>
-                    <br>
-                    <router-link :to="'/order/' + order.id">open order</router-link>
-
+                <h1 class="h3 mb-3">Заказы</h1>
+                <div v-for="order in orders" :key="order.id">
+                    <ul class="list-group py-2 pt-3">
+                        <li class="list-group-item">Заказ ID: {{ order.id }}</li>
+                        <li class="list-group-item">Владелец Чика: {{ order.post_user_name }}</li>
+                        <li class="list-group-item">Chik: {{ order.post_title }}</li>
+                        <li class="list-group-item">Статус:
+                            <span v-if="order.status !== null">
+                                <template v-if="order.status === 200">Под общением</template>
+                                <template v-else-if="order.status === 201">В ожидании...</template>
+                                <template v-else-if="order.status === 202">Принят</template>
+                                <template v-else-if="order.status === 203">Экстренный оператор</template>
+                                <template v-else-if="order.status === 204">Завершен</template>
+                                <template v-else-if="order.status === 205">Представлено на рассмотрение</template>
+                                <template v-else-if="order.status === 206">Заказ отклонен</template>
+                                <template v-else>Неизвестный</template>
+                            </span>
+                        </li>
+                        <li class="list-group-item">Цена: {{ order.price }}</li>
+                        <li class="list-group-item">Сделано: {{ order.created_at }}</li>
+                    </ul>
+                    <router-link :to="'/order/' + order.id" type="button" class="btn btn-primary btn-sm">Открыть
+                        Заказ</router-link>
                 </div>
             </div>
         </div>
+        <br>
     </div>
 </template>
 
@@ -73,5 +82,10 @@ export default {
     margin-bottom: 20px;
     border: 1px solid #ccc;
     padding: 10px;
+}
+
+.btn {
+    background-color: #e4606d;
+    border-color: #e4606d;
 }
 </style>

@@ -12,7 +12,7 @@ class RelatedPostController extends Controller
     {
         $category = $post->category;
 
-        $relatedPosts = $category->posts()->where('id', '!=', $post->id)->latest()->take(3)->get();
+        $relatedPosts = $category->posts()->where('id', '!=', $post->id)->latest()->take(5)->get();
         return PostResource::collection($relatedPosts);
     }
 }

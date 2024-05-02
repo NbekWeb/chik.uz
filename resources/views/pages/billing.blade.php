@@ -77,6 +77,43 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
+                        <hr>
+                        <hr>
+                        <br>
+                        <br>
+
+
+                        <form method="post" action="/your-after-payment-url">
+                            <script src="https://my.click.uz/pay/checkout.js"
+                                      class="uzcard_payment_button"
+                                      data-service-id="33547"
+                                      data-merchant-id="25578"
+                                      data-transaction-param="user1"
+                                      data-merchant-user-id="40773"
+                                      data-amount="1000"
+                                      {{-- data-card-type="MERCHANT_CARD_TYPE" --}}
+                                      data-label="Pay" <!-- Payment button title -->
+                            ></script>
+                        </form>
+
+
+                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                            <input type="hidden" name="amount" value="1000" />
+                            <input type="hidden" name="merchant_id" value="25578" />
+                            <input type="hidden" name="merchant_user_id" value="40773" />
+                            <input type="hidden" name="service_id" value="33547" />
+                            <input type="hidden" name="transaction_param" value="{user_id=>1}" />
+                            <input type="hidden" name="return_url" value="/admin/dashboard" />
+                            <button type="submit" class=" btn btn-success"><i></i>Pay with CLICK</button>
+                        </form>
+                        <br>
+                        <br>
+                        <hr>
+                        <hr>
                         <div class="col-md-12 mb-lg-0 mb-4">
                             <div class="card mt-4">
                                 <div class="card-header pb-0 p-3">

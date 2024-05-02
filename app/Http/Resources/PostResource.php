@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'user_id' => $this->user_id,
             'user' => $this->user->name,
+            'userImage' => $this->user->image ? url('storage/' . $this->user->image) : null,
             'body' => $this->body,
             'price' => $this->price,
             'imagePath' => $imagePath,

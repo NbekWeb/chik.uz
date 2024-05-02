@@ -54,6 +54,7 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/orders', [OrderControlle
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}', [OrderController::class, 'show']);
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/buy-order/{postId}', [OrderController::class, 'buyOrder']);
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->put('/update-order-status/{orderId}', [UpdateOrderStatusController::class, 'statusUpdate']);
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->put('/force-majeure/{orderId}', [UpdateOrderStatusController::class, 'forceMajeure']);
 // Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/cancel-order/{orderId}', [UpdateOrderStatusController::class, 'cancelOrder']);
 // Inquiries
 Route::middleware(['auth:sanctum', 'verified',])->get('/inquiries', [InquiryController::class, 'index']);

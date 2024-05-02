@@ -19,6 +19,8 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
+            'post_user_name' => $this->post->user->name,
+            'post_user_image' => $this->post->user->image ? url('storage/' . $this->post->user->image) : null,
             'post_title' => $this->post->title,
             'body' => $this->post->body,
             'post_id' => $this->post_id,

@@ -51,7 +51,7 @@
                                                                     $firstPostImage = $post->images->first();
                                                                 @endphp
                                                                 @if ($firstPostImage)
-                                                                    <img src="{{ asset('public/storage') . '/' . $firstPostImage->path }}"
+                                                                    <img src="{{ asset('storage') . '/' . $firstPostImage->path }}"
                                                                         alt="{{ $firstPostImage->title }}"
                                                                         width="60px">
                                                                 @endif

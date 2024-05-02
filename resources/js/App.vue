@@ -7,7 +7,7 @@
               ><img src="./images/l2.png" ></router-link
             ></a>-->
                 <a class="navbar-brand logo2" href="#"><router-link :to="{ name: 'Home' }"><img
-                            src="./images/l2.png" /></router-link></a>
+                            src="./images/l2.png"></router-link></a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
                     <span class="visually-hidden">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -24,46 +24,27 @@
                                         Дизайн
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Intejerextejer' }">Интерьер и
-                                                    экстерьер</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Outdooradvertising' }">Наружная
-                                                    реклама</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link
-                                                    :to="{ name: 'Printing' }">Полиграфия</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Editing' }">Обработка и
-                                                    редактирование</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Mobiledesign' }">Веб и мобильный
-                                                    дизайн</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Industrialdesign' }">Промышленный
-                                                    дизайн</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Art' }">Арт и
-                                                    иллюстрации</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Logo' }">Логотип и
-                                                    брендинг</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Presentations' }">Презентации и
-                                                    инфографика</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Marketplace' }">Маркетплейсы и
-                                                    соцсети</router-link></a>
-                                        </li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Intejerextejer' }">Интерьер и
+                                                    экстерьер</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Outdooradvertising' }">Наружная
+                                                    реклама</router-link></a></li>
+                                        <li><a class="cat"><router-link
+                                                    :to="{ name: 'Printing' }">Полиграфия</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Editing' }">Обработка и
+                                                    редактирование</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Mobiledesign' }">Веб и мобильный
+                                                    дизайн</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Industrialdesign' }">Промышленный
+                                                    дизайн</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Art' }">Арт и
+                                                    иллюстрации</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Logo' }">Логотип и
+                                                    брендинг</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Presentations' }">Презентации и
+                                                    инфографика</router-link></a></li>
+                                        <li class="li_under"><a class="cat"><router-link
+                                                    :to="{ name: 'Marketplace' }">Маркетплейсы и
+                                                    соцсети</router-link></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -72,41 +53,24 @@
                                         Разработка и IT
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="cat"><router-link
-                                                    :to="{ name: 'Layout' }">Верстка</router-link></a>
+                                        <li><a class="cat"><router-link
+                                                    :to="{ name: 'Layout' }">Верстка</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Scripts' }">Скрипты и
+                                                    боты</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Usability' }">Юзабилити, тесты и
+                                                    помощь</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Sitesetup' }">Доработка и
+                                                    настройка сайта</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Desktop' }">Десктоп
+                                                    программирование</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Application' }">Мобильные
+                                                    приложения</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Sitemaking' }">Создание
+                                                    сайтов</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Games' }">Игры</router-link></a>
                                         </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Scripts' }">Скрипты и
-                                                    боты</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Usability' }">Юзабилити, тесты и
-                                                    помощь</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Sitesetup' }">Доработка и
-                                                    настройка сайта</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Desktop' }">Десктоп
-                                                    программирование</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Application' }">Мобильные
-                                                    приложения</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Sitemaking' }">Создание
-                                                    сайтов</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Games' }">Игры</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Server' }">Сервера и
-                                                    хостинг</router-link></a>
-                                        </li>
+                                        <li class="li_under"><a class="cat"><router-link
+                                                    :to="{ name: 'Server' }">Сервера и хостинг</router-link></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -115,26 +79,16 @@
                                         Тексты и Переводы
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Makingtexts' }">Набор
-                                                    текста</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Cv' }">Резюме и
-                                                    вакансии</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Sitecontent' }">Тексты и
-                                                    наполнение сайта</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Businesstexts' }">Продающие и
-                                                    бизнес тексты</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link
-                                                    :to="{ name: 'Translates' }">Переводы</router-link></a>
-                                        </li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Makingtexts' }">Набор
+                                                    текста</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Cv' }">Резюме и
+                                                    вакансии</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Sitecontent' }">Тексты и
+                                                    наполнение сайта</router-link></a></li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Businesstexts' }">Продающие и
+                                                    бизнес тексты</router-link></a></li>
+                                        <li class="li_under"><a class="cat"><router-link
+                                                    :to="{ name: 'Translates' }">Переводы</router-link></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -143,18 +97,13 @@
                                         SEO и трафик
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Statics' }">Статистика и
-                                                    аналитика</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link
-                                                    :to="{ name: 'Trafics' }">Трафик</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat"><router-link :to="{ name: 'Websitepromotion' }">Продвижение
-                                                    сайта в топ</router-link></a>
-                                        </li>
+                                        <li><a class="cat"><router-link :to="{ name: 'Statics' }">Статистика и
+                                                    аналитика</router-link></a></li>
+                                        <li><a class="cat"><router-link
+                                                    :to="{ name: 'Trafics' }">Трафик</router-link></a></li>
+                                        <li class="li_under"><a class="cat"><router-link
+                                                    :to="{ name: 'Websitepromotion' }">Продвижение сайта в
+                                                    топ</router-link></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -163,76 +112,57 @@
                                         Соцсети и реклама
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Reklame' }">Контекстная
-                                                    реклама</router-link></a>
-                                        </li>
-                                        <hr />
-                                        <li>
-                                            <a class="cat" href="#"><router-link
-                                                    :to="{ name: 'Marketplace' }">Маркетплейсы</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Databasez' }">Базы
-                                                    данных</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Pr' }">Реклама и
-                                                    PR</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Emailinks' }">Email
-                                                    рассылки</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link
-                                                    :to="{ name: 'Smm' }">SMM</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Study' }">Обучение и
-                                                    консалтинг</router-link></a>
-                                        </li>
-                                        <li>
-                                            <a class="cat" href="#"><router-link :to="{ name: 'Siteselling' }">Продажа
-                                                    сайтов</router-link></a>
-                                        </li>
+                                        <li><a class="cat" href="#"><router-link :to="{ name: 'Reklame' }">Контекстная
+                                                    реклама</router-link></a></li>
+
+                                        <li><a class="cat" href="#"><router-link
+                                                    :to="{ name: 'Marketplace' }">Маркетплейсы</router-link></a></li>
+                                        <li><a class="cat" href="#"><router-link :to="{ name: 'Databasez' }">Базы
+                                                    данных</router-link></a></li>
+                                        <li><a class="cat" href="#"><router-link :to="{ name: 'Pr' }">Реклама и
+                                                    PR</router-link></a></li>
+                                        <li><a class="cat" href="#"><router-link :to="{ name: 'Emailinks' }">Email
+                                                    рассылки</router-link></a></li>
+                                        <li><a class="cat" href="#"><router-link
+                                                    :to="{ name: 'Smm' }">SMM</router-link></a></li>
+                                        <li><a class="cat" href="#"><router-link :to="{ name: 'Study' }">Обучение и
+                                                    консалтинг</router-link></a></li>
+                                        <li class="li_under"><a class="cat" href="#"><router-link
+                                                    :to="{ name: 'Siteselling' }">Продажа сайтов</router-link></a></li>
                                     </ul>
                                 </li>
+
                             </ul>
                         </div>
                         <div class="col-12 ps-0 order-md-first">
                             <ul class="navbar-nav d-flex justify-content-end">
                                 <li class="nav-item ms-md move-left">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Что ищем, напишите"
-                                            aria-describedby="basic-addon2" />
+                                        <input type="text" class="form-control searchimput"
+                                            placeholder="     Что ищем, напишите" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button">
-                                                Найти
-                                            </button>
+                                            <button class="btn btn-outline-secondary" type="button">Найти</button>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="nav-item ms-md move-right" v-if="!loggedIn">
                                     <a class="nav-link signin">
-                                        <i class="fa-solid"></i>
-                                        <router-link :to="{ name: 'Login' }">Вход</router-link>
+                                        <i class="fa-solid"></i> <router-link :to="{ name: 'Login' }">Вход</router-link>
                                     </a>
                                     <a class="nav-link sign" href="#">
-                                        <i class="fa-sharp fa-solid fa-arrow-right-to-bracket"></i>
-                                        <router-link class="sign" :to="{ name: 'Register' }">Регистрация</router-link>
+                                        <i class="fa-sharp fa-solid fa-arrow-right-to-bracket"></i> <router-link
+                                            class="sign" :to="{ name: 'Register' }">Регистрация</router-link>
                                     </a>
                                 </li>
-                                <li class="nav-item ms-md move-right" v-if="loggedIn">
+                                <li class="nav-item ms-md move-right" v-if="loggedIn" :key="loggedIn">
                                     <a class="nav-link signin">
-                                        <i class="fa-solid"></i>
-                                        <router-link :to="{ name: 'DashboardPostsList' }">Проекты</router-link>
+                                        <i class="fa-solid"></i> <router-link
+                                            :to="{ name: 'DashboardPostsList' }">Проекты</router-link>
                                     </a>
                                 </li>
                                 <li class="nav-item ms-md move-right" v-if="loggedIn">
                                     <a class="nav-link signin prof">
-                                        <i class="fa-solid"></i>
-                                        <router-link :to="{ name: 'Dashboard' }">
+                                        <i class="fa-solid"></i> <router-link :to="{ name: 'Dashboard' }">
                                             <div class="btn-group">
                                                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                                     data-bs-toggle="dropdown" data-bs-auto-close="true"
@@ -240,13 +170,10 @@
                                                     Профил
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="#"><router-link
-                                                                :to="{ name: 'Dashboard' }">
-                                                                Профил
-                                                            </router-link></a>
+                                                    <li><a class="dropdown-item" href="#"><router-link
+                                                                :to="{ name: 'Dashboard' }"> Профил </router-link></a>
                                                     </li>
-                                                    <li><a class="dropdown-item" @click="logout">Log out</a></li>
+                                                    <li><a class="dropdown-item" @click="logout">Выйти</a></li>
                                                 </ul>
                                             </div>
                                         </router-link>
@@ -259,77 +186,61 @@
             </div>
         </nav>
 
+
         <main class="container-fluid p-0">
             <!-- render components depending on the page visited -->
 
             <router-view @update-sidebar="updateSidebar" @show-edit-success="showEditSuccess" :editSuccess="editSuccess"
                 :key="$route.path"></router-view>
         </main>
-
         <hr />
         <!-- Main footer -->
         <div class="footer">
+
             <div class="heading">
                 <h2>Chik<sup>™</sup></h2>
             </div>
             <div class="content">
                 <div class="details">
+
                     <!--<p>
             Lorem ipsum dolor sit amet consectetur <br />
             adipisicing elit. Cupiditate, qui!
           </p>-->
                     <h4 class="mail">Email</h4>
-                    <p><a href="#">infochik@gmail.com</a></p>
+                    <p><a href="#">info@chik.uz</a></p>
                 </div>
                 <div class="services">
-                    <p>
-                        <a href=""><router-link :to="{ name: 'Design' }">Дизайн</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Development' }">Разработка и IT</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Texts' }">Тексты и Переводы</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Seo' }">SEO и трафик</router-link></a>
-                    </p>
+
+                    <p><a href=""><router-link :to="{ name: 'Design' }">Дизайн</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Development' }">Разработка и IT</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Texts' }">Тексты и Переводы</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Seo' }">SEO и трафик</router-link></a></p>
                 </div>
                 <div class="services">
-                    <p>
-                        <a><router-link :to="{ name: 'Social' }">Соцсети и реклама</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Games' }">Фрилансеру</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Printing' }">Покупателям</router-link></a>
-                    </p>
-                    <p>
-                        <a><router-link :to="{ name: 'Statics' }">Статистика и аналитика</router-link></a>
-                    </p>
+
+                    <p><a><router-link :to="{ name: 'Social' }">Соцсети и реклама</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Home' }">Фрилансеру</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Home' }">Покупателям</router-link></a></p>
+                    <p><a><router-link :to="{ name: 'Statics' }">Статистика и аналитика</router-link></a></p>
                 </div>
                 <div class="footerlinks">
-                    <p>
-                        <a><router-link :to="{ name: 'Home' }">Политика конфиденциальности PRIVACY</router-link></a>
+
+                    <p><a><router-link :to="{ name: 'Privacy' }">Политика конфиденциальности PRIVACY</router-link></a>
                     </p>
-                    <p>
-                        <a href="#"><router-link :to="{ name: 'Dashboard' }">About Chik</router-link></a>
-                    </p>
-                    <p>
-                        <a href="#"><router-link :to="{ name: 'Dashboard' }">Пользовательское
-                                соглашение</router-link></a>
-                    </p>
-                    <p>
-                        <a href="#"><router-link :to="{ name: 'Contact' }">Способы оплаты</router-link></a>
-                    </p>
+                    <p><a href="#"><router-link :to="{ name: 'About' }">About Chik</router-link></a></p>
+                    <p><a href="#"><router-link :to="{ name: 'Deal' }">Пользовательское соглашение</router-link></a></p>
+                    <p><a href="#"><router-link :to="{ name: 'Contact' }">Способы оплаты</router-link></a></p>
+
                 </div>
+
             </div>
         </div>
         <footer>
             <hr />
             © 2024 Chik Freelance Uzbekistan
         </footer>
+
     </div>
 </template>
 <script>
@@ -349,6 +260,7 @@ export default {
                     this.$router.push({ name: "Home" });
                     localStorage.removeItem("authenticated");
                     this.$emit("updateSidebar");
+                    this.loggedIn = false; // Update loggedIn status
                 })
                 .catch((error) => console.log(error));
         },
@@ -370,38 +282,55 @@ export default {
     },
 
     mounted() {
+        axios
+            .get("/api/user")
+            .then((response) => (this.name = response.data.name))
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    this.$emit("updateSidebar");
+                    localStorage.removeItem("authenticated");
+                    this.$router.push({ name: "Login" });
+                }
+            });
         if (localStorage.getItem("authenticated")) {
             this.loggedIn = true;
         } else {
             this.loggedIn = false;
         }
+
     },
 };
 </script>
 <style scoped>
 .dropdown-menu li {
-    text-underline-offset: ;
+    text-underline-offset: 12px;
     text-shadow: none;
     padding-left: 20px;
     width: 250px;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.dropdown-menu .li_under {
+    border-bottom: none;
 }
 
 .dropdown-menu li a {
     padding-top: 10px;
     padding-bottom: 10px;
+    text-shadow: none;
 }
 
 .btn {
     border-radius: 0 4px 4px 0;
-    background-color: #04b70a;
+    background-color: #8c093d;
     color: #fff;
-    border-color: #04b70a;
+    border-color: #8c093d;
 }
 
 .sign {
-    border-color: #04b70a;
+    border-color: #8c093d;
     border-radius: 4px;
-    background-color: #04b70a;
+    background-color: #8c093d;
     color: #fff !important;
     /*margin-left: 20px;*/
     margin-right: 40px;
@@ -429,13 +358,19 @@ export default {
 }
 
 .move-left {
-    margin-right: 500px;
+    margin-right: 200px;
 }
 
 .move-right a {
+
     margin-right: 0px;
 
     display: inline-block;
+}
+
+.input-group .form-control {
+    font-weight: 600px;
+    width: 300px;
 }
 
 .move-right {
@@ -443,8 +378,9 @@ export default {
 }
 
 .logo2 {
-    width: 100px;
+    width: 120px;
     position: absolute;
+    left: 40px;
     top: calc(0px + 0px);
     padding: 8px;
     /*visibility: hidden;*/
@@ -455,9 +391,32 @@ export default {
     top: -5px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 1025px) {
     .move-left {
-        margin-right: 125px;
+        margin-right: 550px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .move-left {
+        margin-right: 90px;
+    }
+
+    .input-group .searchimput {
+        width: 130px;
+        font-size: medium;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .move-left {
+        margin-right: 100px;
+    }
+
+    .searchimput {
+        width: 100px;
     }
 
     .sign {
@@ -621,12 +580,14 @@ nav {
     font-size: 16px;
 
     border-top: 1px solid #e2e2e2;
+
 }
 
 a {
     color: #333;
     text-decoration: none;
     font-weight: 400;
+
 }
 
 .menu--right {
@@ -718,9 +679,11 @@ a {
     margin: 0;
     padding: 0;
     display: inline-table;
+
 }
 
 #primary_nav_wrap ul a {
+
     display: block;
     color: #000000;
     text-decoration: none;
@@ -738,6 +701,7 @@ a {
 }
 
 #primary_nav_wrap ul a:hover {
+
     color: #000000;
     background-color: white;
     /*text-shadow: 0 0 2px #2d2f33;
@@ -753,7 +717,8 @@ a {
 }
 
 #primary_nav_wrap ul a:active {
-    color: #8abf29;
+
+    color: #8ABF29;
     background-color: white;
     -webkit-transition: all 50ms linear;
     -moz-transition: all 50ms linear;
@@ -767,6 +732,7 @@ a {
     float: left;
     margin: 0;
     padding: 0;
+
 }
 
 #primary_nav_wrap ul li.current-menu-item {
@@ -775,6 +741,8 @@ a {
 
 #primary_nav_wrap ul li:hover {
     background-color: white;
+
+
 }
 
 #primary_nav_wrap ul ul {
@@ -789,24 +757,29 @@ a {
 #primary_nav_wrap ul ul li {
     float: none;
     width: 200px;
+
 }
 
 #primary_nav_wrap ul ul a {
     line-height: 120%;
     padding: 10px 15px;
     background-color: white;
+
 }
+
 
 #primary_nav_wrap ul ul ul {
     top: 0;
     left: 100%;
+
 }
 
 #primary_nav_wrap ul li:hover>ul {
-    display: block;
+    display: block
 }
 
 .cat {
+
     backdrop-filter: blur(0px) brightness(1.2);
 }
 
@@ -849,7 +822,7 @@ a {
         list-style-type: none;
         -webkit-font-smoothing: antialiased;
         transform-origin: 0% 0%;
-        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 
         li {
             padding: 10px 0;
@@ -906,8 +879,9 @@ a {
             border-radius: 3px;
             z-index: 1;
             transform-origin: 4px 0px;
-            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-                background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+                background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+                opacity 0.55s ease;
 
             &:first-child {
                 transform-origin: 0% 0%;
@@ -939,6 +913,7 @@ a {
             &:checked~.menuItem {
                 transform: none;
             }
+
         }
     }
 
@@ -952,13 +927,14 @@ a {
         list-style-type: none;
         -webkit-font-smoothing: antialiased;
         transform-origin: 0% 0%;
-        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 
         li {
             padding: 10px 0;
             font-size: 22px;
         }
     }
+
 
     .menu--right {
         .menuToggle {
@@ -1009,9 +985,11 @@ a {
         margin: 0;
         padding: 0;
         display: inline-table;
+
     }
 
     #primary_nav_wrap ul a {
+
         display: block;
         color: #2d2f33;
         text-decoration: none;
@@ -1029,6 +1007,7 @@ a {
     }
 
     #primary_nav_wrap ul a:hover {
+
         color: #2d2f33;
         background-color: white;
         /*text-shadow: 0 0 2px #2d2f33;
@@ -1044,7 +1023,8 @@ a {
     }
 
     #primary_nav_wrap ul a:active {
-        color: #8abf29;
+
+        color: #8ABF29;
         background-color: white;
         -webkit-transition: all 50ms linear;
         -moz-transition: all 50ms linear;
@@ -1058,6 +1038,7 @@ a {
         float: left;
         margin: 0;
         padding: 0;
+
     }
 
     #primary_nav_wrap ul li.current-menu-item {
@@ -1066,6 +1047,8 @@ a {
 
     #primary_nav_wrap ul li:hover {
         background-color: white;
+
+
     }
 
     #primary_nav_wrap ul ul {
@@ -1080,21 +1063,25 @@ a {
     #primary_nav_wrap ul ul li {
         float: none;
         width: 200px;
+
     }
 
     #primary_nav_wrap ul ul a {
         line-height: 120%;
         padding: 10px 15px;
         background-color: white;
+
     }
+
 
     #primary_nav_wrap ul ul ul {
         top: 0;
         left: 100%;
+
     }
 
     #primary_nav_wrap ul li:hover>ul {
-        display: block;
+        display: block
     }
 
     .colu {
@@ -1102,6 +1089,7 @@ a {
         margin: 0 60px 10px 0;
         flex-basis: 60%;
     }
+
 }
 
 @media (max-width: 360px) {
@@ -1116,7 +1104,7 @@ a {
         list-style-type: none;
         -webkit-font-smoothing: antialiased;
         transform-origin: 0% 0%;
-        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 
         li {
             padding: 10px 0;
@@ -1174,8 +1162,9 @@ a {
             border-radius: 3px;
             z-index: 1;
             transform-origin: 4px 0px;
-            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-                background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+                background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+                opacity 0.55s ease;
 
             &:first-child {
                 transform-origin: 0% 0%;
@@ -1207,6 +1196,7 @@ a {
             &:checked~.menuItem {
                 transform: none;
             }
+
         }
     }
 
@@ -1220,13 +1210,14 @@ a {
         list-style-type: none;
         -webkit-font-smoothing: antialiased;
         transform-origin: 0% 0%;
-        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 
         li {
             padding: 10px 0;
             font-size: 18px;
         }
     }
+
 
     .menu--right {
         .menuToggle {
@@ -1277,9 +1268,11 @@ a {
         margin: 0;
         padding: 0;
         display: inline-table;
+
     }
 
     #primary_nav_wrap ul a {
+
         display: block;
         color: #2d2f33;
         text-decoration: none;
@@ -1297,6 +1290,7 @@ a {
     }
 
     #primary_nav_wrap ul a:hover {
+
         color: #2d2f33;
         background-color: white;
         /*text-shadow: 0 0 2px #2d2f33;
@@ -1312,7 +1306,8 @@ a {
     }
 
     #primary_nav_wrap ul a:active {
-        color: #8abf29;
+
+        color: #8ABF29;
         background-color: white;
         -webkit-transition: all 50ms linear;
         -moz-transition: all 50ms linear;
@@ -1326,6 +1321,7 @@ a {
         float: left;
         margin: 0;
         padding: 0;
+
     }
 
     #primary_nav_wrap ul li.current-menu-item {
@@ -1334,6 +1330,8 @@ a {
 
     #primary_nav_wrap ul li:hover {
         background-color: white;
+
+
     }
 
     #primary_nav_wrap ul ul {
@@ -1348,21 +1346,25 @@ a {
     #primary_nav_wrap ul ul li {
         float: none;
         width: 200px;
+
     }
 
     #primary_nav_wrap ul ul a {
         line-height: 120%;
         padding: 10px 15px;
         background-color: white;
+
     }
+
 
     #primary_nav_wrap ul ul ul {
         top: 0;
         left: 100%;
+
     }
 
     #primary_nav_wrap ul li:hover>ul {
-        display: block;
+        display: block
     }
 
     .colu {
@@ -1436,6 +1438,7 @@ footer small {
         display: inline;
         float: right;
         font-size: 18px;
+        text-shadow: none;
     }
 
     .nav>.nav-links>a {
@@ -1443,17 +1446,19 @@ footer small {
         padding: 13px 10px 13px 10px;
         text-decoration: none;
         color: #efefef;
+        text-shadow: none;
     }
 
     .nav>.nav-links>a:hover {
         background-color: rgba(0, 0, 0, 0.3);
+        text-shadow: none;
     }
 
     .nav>#nav-check {
         display: none;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width:600px) {
         .nav>.nav-btn {
             display: inline-block;
             position: absolute;

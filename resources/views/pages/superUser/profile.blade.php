@@ -172,7 +172,7 @@
                                                                     $firstImage = $order->post->images->first();
                                                                 @endphp
                                                                 @if ($firstImage)
-                                                                    <img src="{{ asset('public/storage') . '/' . $firstImage->path }}"
+                                                                    <img src="{{ asset('storage') . '/' . $firstImage->path }}"
                                                                         alt="{{ $firstImage->title }}" width="60px">
                                                                 @endif
                                                             </div>
@@ -307,7 +307,7 @@
                                                                     $firstPostImage = $post->images->first();
                                                                 @endphp
                                                                 @if ($firstPostImage)
-                                                                    <img src="{{ asset('public/storage') . '/' . $firstPostImage->path }}"
+                                                                    <img src="{{ asset('storage') . '/' . $firstPostImage->path }}"
                                                                         alt="{{ $firstPostImage->title }}"
                                                                         width="60px">
                                                                 @endif
@@ -409,7 +409,7 @@
                                                                     $firstInqueryImage = $inquery->post->images->first();
                                                                 @endphp
                                                                 @if ($firstInqueryImage)
-                                                                    <img src="{{ asset('public/storage') . '/' . $firstInqueryImage->path }}"
+                                                                    <img src="{{ asset('storage') . '/' . $firstInqueryImage->path }}"
                                                                         alt="{{ $firstInqueryImage->title }}"
                                                                         width="60px">
                                                                 @endif

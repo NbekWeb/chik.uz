@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,700&display=swap");
+
 * {
     margin: 0;
     padding: 0;
@@ -63,7 +64,7 @@ img {
     font-weight: 300;
 }
 
-  .protect{
+.protect {
     height: 100vh;
     background-size: cover;
     background-position: center;
@@ -71,25 +72,28 @@ img {
     align-items: center;
     justify-content: center;
     position: relative;
-  }
-  .col{
+}
+
+.col {
     margin-left: 10px;
     margin-right: 10px;
-  }
+}
+
 .side-links li {
     margin: 6px 8px 20px 56px;
     list-style: none;
     font-weight: 300;
     margin-bottom: 50px;
 }
-.freelance{
+
+.freelance {
     justify-content: center;
     margin: 37px;
     display: flex;
-    
+
 }
 
-.topfreelanc{
+.topfreelanc {
     color: rgb(189, 10, 180);
 }
 
@@ -143,7 +147,7 @@ footer small {
 .colubotom{
     font-size: 12px;
     display: flex;
-    
+
     align-items: center;
     flex-basis: 80%;
 }
@@ -198,12 +202,13 @@ footer small {
 }
 
 /* Blog Styles */
-.searchbar__home{
+.searchbar__home {
     left: 50px;
     position: absolute;
     text-align: center;
     margin: 15px auto;
 }
+
 .searchbar__home input {
     padding: 10px 10px;
     width: 400px;
@@ -216,7 +221,7 @@ footer small {
 .searchbar__home button {
     /*padding: 11px 10px;*/
     border: none;
-    background-color: #04b70a;
+    background-color: #8c093d;
     cursor: pointer;
     color: #fff;
     width: 137px;
@@ -224,6 +229,7 @@ footer small {
     font-size: 16px;
     font-weight: 600;
 }
+
 .searchbar {
     text-align: center;
     margin: 15px auto;
@@ -326,10 +332,11 @@ footer small {
     background-color: #ddd;
     color: black;
 }
+
 /*footer*/
 
-  
-  .footer {
+
+.footer {
     position: relative;
     background-color: #fefefe;
     color: black;
@@ -337,9 +344,9 @@ footer small {
     width: 100%;
     bottom: 0;
     left: 0;
-  }
-  
-  .footer .heading {
+}
+
+.footer .heading {
     color: black;
     max-width: 1010px;
     width: 90%;
@@ -347,162 +354,233 @@ footer small {
     margin: 0 auto;
     margin-bottom: 3rem;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  }
-  
-  .footer .content {
+}
+
+.footer .content {
     display: flex;
     justify-content: space-evenly;
     margin: 1.5rem;
-  }
-  
-  .footer .content p {
+}
+
+.footer .content p {
     color: black;
     margin-bottom: 1.3rem;
-  }
-  
-  .footer .content a {
+}
+
+.footer .content a {
     text-decoration: none;
     color: black;
-  }
-  
-  .footer .content a:hover {
+}
+
+.footer .content a:hover {
     border-bottom: 1px solid #971717;
-  }
-  
-  .footer .content h4 {
+}
+
+.footer .content h4 {
     color: black;
     margin-bottom: 1.3rem;
     font-size: 19px;
-  }
-  
-  footer {
+}
+
+footer {
     text-align: center;
     margin-bottom: 2rem;
-  }
-  
-  /*footer hr {
+}
+
+/*footer hr {
     /*margin: 2rem 0;
   }*/
-  @media (max-width: 360px) {
+
+@media (max-width: 768px) {
+    .footer .content {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+    }
+
+
+    .footer {
+        position: unset;
+    }
+
+    .search_form {}
+
+    .searchbar__home {
+        top: 60px;
+        display: block;
+        position: absolute;
+        text-align: center;
+        margin: 15px auto;
+        margin-left: 70px;
+    }
+
     .searchbar__home input {
+        justify-content: center;
+        display: flex;
+        position: relative;
+        width: 450px;
         padding: 10px 10px;
-        width: 130px;
+        border-radius: 3px;
+        border: #333 1px solid;
+        line-height: normal;
+        height: 48px;
+        bottom: 20px;
+
+    }
+
+
+    .searchbar__home button {
+        padding: 10px 10px;
+        border: none;
+
+        background-color: #8c093d;
+        cursor: pointer;
+        color: #fff;
+        width: 450px;
+        height: 48px;
+        font-size: 16px;
+        font-weight: 600;
+
+    }
+
+    .searchbar {
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .searchbar input {
+        padding: 10px 10px;
+        width: 150px;
+    }
+
+    .searchbar button {
+        padding: 11px 10px;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+    .searchbar__home {
+
+        display: block;
+
+        top: 70px;
+        position: absolute;
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .searchbar__home input {
+        justify-content: center;
+        display: flex;
+        position: relative;
+        padding: 10px 10px;
+        width: 300px;
         border-radius: 3px;
         border: #333 1px solid;
         line-height: normal;
         height: 48px;
     }
-    
+
     .searchbar__home button {
+
         /*padding: 11px 10px;*/
         border: none;
-        background-color: #04b70a;
+        background-color: #8c093d;
         cursor: pointer;
         color: #fff;
-        width: 60px;
+        width: 300px;
         height: 48px;
         font-size: 16px;
         font-weight: 600;
     }
-    .searchbar__home{
+
+}
+
+@media (max-width: 375px) {
+
+    .searchbar__home {
+
+        display: block;
+
+        top: 70px;
         position: absolute;
         text-align: center;
         margin: 10px auto;
     }
-    .searchbar__home input {
-        padding: 10px 10px;
-        width: 50px;
-        
-    }
-    
+
     .searchbar__home button {
         padding: 10px 10px;
         border: none;
-        
+
+        background-color: #8c093d;
         cursor: pointer;
+        color: #fff;
+        width: 245px;
+        height: 40px;
+        font-size: 14px;
+        font-weight: 600;
+
     }
+
+    .searchbar__home input {
+        justify-content: center;
+        display: flex;
+        position: relative;
+        padding: 10px 10px;
+        width: 245px;
+        border-radius: 3px;
+        border: #333 1px solid;
+        line-height: normal;
+        height: 40px;
+        font-size: 14px;
+    }
+
+
+
     .searchbar {
         text-align: center;
         margin: 10px auto;
     }
-    
+
     .searchbar input {
         padding: 10px 10px;
         width: 50px;
     }
-    
+
     .searchbar button {
         padding: 11px 10px;
         border: none;
         background-color: white;
         cursor: pointer;
     }
-  }
-  @media (max-width: 767px) {
-    .footer .content {
-      display: flex;
-      flex-direction: column;
-      font-size: 14px;
-    }
-  
-    .footer {
-      position: unset;
-    }
-    .searchbar__home{
-        position: absolute;
-        text-align: center;
-        margin: 15px auto;
-    }
-    .searchbar__home input {
-        padding: 10px 10px;
-        width: 150px;
-        
-    }
-    
-    .searchbar__home button {
-        padding: 10px 10px;
-        border: none;
-        
-        cursor: pointer;
-    }
-    .searchbar {
-        text-align: center;
-        margin: 10px auto;
-    }
-    
-    .searchbar input {
-        padding: 10px 10px;
-        width: 150px;
-    }
-    
-    .searchbar button {
-        padding: 11px 10px;
-        border: none;
-        background-color: white;
-        cursor: pointer;
-    }
-  }
-  
-  @media (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
     .footer .content,
     .footer {
-      font-size: 14px;
+        font-size: 14px;
     }
-  
-    
-    
-  }
-  
-  @media (orientation: landscape) and (max-height: 500px) {
+
+
+
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
     .footer {
         position: relative;
-      position: unset;
+        position: unset;
     }
-  }
+}
+
 /* Single Blog */
-.single-blog-post-ContentImage{
+.single-blog-post-ContentImage {
     display: flex;
 }
+
 .single-blog-post h1 {
     text-align: center;
     margin: 80px 0 40px 0;
@@ -543,17 +621,20 @@ footer small {
 .single-blog-post p span {
     float: right;
 }
+
 .single-blog-post .about-text p {
     font-weight: 300;
     font-size: 25px;
 }
-.talentcategory{
+
+.talentcategory {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 3rem;
     margin-bottom: 1rem;
     border: none;
 }
+
 .recommended-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -583,16 +664,19 @@ footer small {
     margin-top: 80px;
     margin-bottom: 15px;
 }
-.messages{
+
+.messages {
     width: 50%;
     overflow: overlay;
     height: 250px;
     margin-left: 10px;
 }
-.messagesContent{
+
+.messagesContent {
     color: black;
 
 }
+
 /* Contact */
 #contact-us h1 {
     text-align: center;
@@ -681,26 +765,7 @@ textarea {
 /* Medium devices and below */
 
 @media (max-width: 768px) {
-    .searchbar__home input {
-        padding: 10px 10px;
-        width: 260px;
-        border-radius: 3px;
-        border: #333 1px solid;
-        line-height: normal;
-        height: 48px;
-    }
-    
-    .searchbar__home button {
-        /*padding: 11px 10px;*/
-        border: none;
-        background-color: #04b70a;
-        cursor: pointer;
-        color: #fff;
-        width: 137px;
-        height: 48px;
-        font-size: 16px;
-        font-weight: 600;
-    }
+
     .sidebar {
         width: 0;
         overflow: hidden;
@@ -722,11 +787,13 @@ textarea {
     .recommended-cards {
         grid-template-columns: repeat(2, 1fr);
     }
-    .colu{
-    margin: 0 60px 10px 0;
-    flex-basis: 60%;
-}
-/*footer small {
+
+    .colu {
+        margin: 0 60px 10px 0;
+        flex-basis: 60%;
+    }
+
+    /*footer small {
     display: inline-block;
     margin-top: 15px;
 }
@@ -741,7 +808,7 @@ textarea {
 .colubotom{
     font-size: 12px;
     display: flex;
-    
+
     align-items: center;
     flex-basis: 80%;
 }
@@ -765,8 +832,9 @@ textarea {
 }
 
 @media (max-width: 600px) {
+
     /* Blog */
-    .talentcategory{
+    .talentcategory {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-gap: 2rem;
@@ -774,6 +842,7 @@ textarea {
         margin-bottom: 1rem;
         border: none;
     }
+
     .cards-blog {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
@@ -791,7 +860,7 @@ textarea {
     }
 
     /* Footer */
-   /* .main-footer div {
+    /* .main-footer div {
         display: block;
     }*/
 

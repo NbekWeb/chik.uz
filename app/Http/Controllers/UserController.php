@@ -43,6 +43,7 @@ class UserController extends Controller
         $user->fill($validatedData);
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images/avatars');
+            $imagePath = str_replace('public/', '', $imagePath);
             $user->image = $imagePath;
             $user->save();
             if ($oldImagePath) {

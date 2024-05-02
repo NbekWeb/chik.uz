@@ -13,10 +13,13 @@ class CategoryPostsController extends Controller
     public function index(Request $request)
     {
         if ($request->category) {
-            return PostResource::collection(Category::where('name', $request->category)->firstOrFail()->posts()->latest()->paginate(1)->withQueryString());
+            return PostResource::collection(
+                Category::where('name', $request->category)
+                ->firstOrFail()->posts()->latest()->paginate(15)
+                ->withQueryString());
         } else if ($request->search) {
             return  PostResource::collection(Post::where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('body', 'like', '%' . $request->search . '%')->latest()->paginate(1)->withQueryString());
+                ->orWhere('body', 'like', '%' . $request->search . '%')->latest()->paginate(15)->withQueryString());
         }
     }
 }

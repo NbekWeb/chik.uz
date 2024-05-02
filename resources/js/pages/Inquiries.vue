@@ -1,34 +1,39 @@
 <template>
     <div class="container">
-        <div>
-            <div class="page__header">
-                <h2 v-if="inquiries.length !== 0" class="diz">All Inquiries</h2>
-            </div>
+        <br>
+        <div class="inquiry" title="Здесь вы найдете запросы на ваши Chik">
             <div v-if="inquiries.length === 0">
-                <hr>
-                <h2 style="text-align: center; color:red; font-weight:bold">No Inquiries found.</h2>
+                <p>Запросов не найдено</p>
             </div>
             <div v-else>
-                <div v-for="(inquiry, i) in inquiries" :key="inquiry.id" class="inquiry-item">
-                    <p>Inquiries ID: {{ i + 1 }}</p>
-                    <p>User Name: {{ inquiry.user_name }}</p>
-                    <p>Post Title: {{ inquiry.post_title }}</p>
-                    <p>Status: {{ inquiry.status }}</p>
-                    <p>Price: {{ inquiry.price }}</p>
-                    <p>Created At: {{ inquiry.created_at }}</p>
-                    <!-- <button @click="cancelPurchase(inquiry.id)">Cancel Purchase</button> -->
+                <h1 class="h3 mb-3">Запросы на заказ</h1>
+                <div v-for="inquiry in inquiries" :key="inquiry.id" title="">
+                    <ul class="list-group py-2 pt-3">
+                        <li class="list-group-item">Заказ ID: {{ inquiry.id }}</li>
+                        <li class="list-group-item">Заказчик: {{ inquiry.user_name }}</li>
+                        <li class="list-group-item">Chik: {{ inquiry.post_title }}</li>
+                        <li class="list-group-item">Статус:
+                            <span v-if="inquiry.status !== null">
+                                <template v-if="inquiry.status === 200">Под общением</template>
+                                <template v-else-if="inquiry.status === 201">В ожидании...</template>
+                                <template v-else-if="inquiry.status === 202">Принят</template>
+                                <template v-else-if="inquiry.status === 203">Экстренный оператор</template>
+                                <template v-else-if="inquiry.status === 204">Завершен</template>
+                                <template v-else-if="inquiry.status === 205">Представлено на рассмотрение</template>
+                                <template v-else-if="inquiry.status === 206">Заказ отклонен</template>
+                                <template v-else>Неизвестный</template>
+                            </span>
+                        </li>
+                        <li class="list-group-item">Цена: {{ inquiry.price }}</li>
+                        <li class="list-group-item">Сделано: {{ inquiry.created_at }}</li>
+                    </ul>
+                    <router-link :to="'/inquiry/' + inquiry.id" type="button" class="btn btn-primary btn-sm"
+                        title="Открыть Заказ">Открыть
+                        Заказ</router-link>
                 </div>
             </div>
-
-
-            <div v-for="inquiry in inquiries" :key="inquiry.id">
-                <!-- Link to specific inquiry ID page -->
-                <router-link :to="'/inquiry/' + inquiry.id">{{ inquiry.id }}</router-link>
-                <!-- Display other inquiry details -->
-                <span>{{ inquiry.status }}</span>
-                <!-- Add more inquiry details here as needed -->
-            </div>
         </div>
+        <br>
     </div>
 </template>
 
@@ -53,20 +58,6 @@ export default {
                     console.error("Error fetching inquiries:", error);
                 });
         },
-        // cancelPurchase(inquiryId) {
-        //     // Implement cancellation logic as needed
-        //     // Example:
-        //     axios
-        //         .post(`/api/cancel-inquiry/${inquiryId}`)
-        //         .then(() => {
-        //             this.fetchinquiries(); // Refresh inquiries after cancellation
-        //             // Update the total price if needed
-        //             // this.totalPrice -= postPrice;
-        //         })
-        //         .catch((error) => {
-        //             console.error("Cancellation failed:", error);
-        //         });
-        // },
     },
     mounted() {
         this.fetchinquiries();
@@ -75,10 +66,15 @@ export default {
 </script>
 
 <style scoped>
-/* Add any custom styles for your inquiries here */
+/* Add any custom styles for your orders here */
 .inquiry-item {
     margin-bottom: 20px;
     border: 1px solid #ccc;
     padding: 10px;
+}
+
+.btn {
+    background-color: #e4606d;
+    border-color: #e4606d;
 }
 </style>
