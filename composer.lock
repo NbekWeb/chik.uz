@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "55fd0a231c2b96ff2dc80e7c86797078",
+    "content-hash": "c6612b91915664ef92c6060178f6685b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1148,6 +1148,54 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "khamdullaevuz/laravel-payme",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/khamdullaevuz/laravel-payme.git",
+                "reference": "b896173fa28ac1fa2509761f620ec9ddaf15de9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/khamdullaevuz/laravel-payme/zipball/b896173fa28ac1fa2509761f620ec9ddaf15de9c",
+                "reference": "b896173fa28ac1fa2509761f620ec9ddaf15de9c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0|^9.0",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Khamdullaevuz\\Payme\\PaymeServiceProvider"
+                    ],
+                    "aliases": {
+                        "Payme": "Khamdullaevuz\\Payme\\Facades\\Payme"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Khamdullaevuz\\Payme\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Elbek Khamdullaev",
+                    "email": "elbek.khamdullaev@gmail.com"
+                }
+            ],
+            "description": "Laravel Payme",
+            "support": {
+                "issues": "https://github.com/khamdullaevuz/laravel-payme/issues",
+                "source": "https://github.com/khamdullaevuz/laravel-payme/tree/1.0.0"
+            },
+            "time": "2023-07-21T06:10:58+00:00"
         },
         {
             "name": "laravel/fortify",

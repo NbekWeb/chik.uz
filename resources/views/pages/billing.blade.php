@@ -85,8 +85,18 @@
                         <hr>
                         <br>
                         <br>
-
-
+                        <form method="POST" action="https://checkout.paycom.uz" target="_blank">
+                            <input type="hidden" name="merchant" value="6634ed1abb4772635bb90d36" />
+                            <input required name="amount" value="" />
+                            <input type="hidden" name="account[{id}]" value="17114" />
+                            <input type="hidden" name="callback" value="http://chik.loc/admin/billing" />
+                            <input type="hidden" name="callback_timeout" value="50" />
+                            <button type="submit">Оплатить с помощью <b>Payme</b></button>
+                        </form>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
                             <input type="hidden" name="amount" value="1000" />
                             <input type="hidden" name="merchant_id" value="25578" />
