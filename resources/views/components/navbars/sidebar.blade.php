@@ -54,9 +54,61 @@
                     <a class="nav-link text-white {{ $activePage == 'orders' ? ' active bg-gradient-success' : '' }} "
                         href="{{ route('orders') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">table_view</i>
+                            <i class="material-icons opacity-10">shopping_cart</i>
                         </div>
                         <span class="nav-link-text ms-1">Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/categories') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">category</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Список категории</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/categories/create') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">playlist_add</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Создать категорию</span>
+                    </a>
+                </li>
+            @endif
+            @if (auth()->user()->role_id == 2)
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/dashboard-posts') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">checklist</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Список Chick</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/posts/create') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">post_add</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Создать Chick</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/inquiries') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">archive</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Запросы на заказ</span>
+                    </a>
+                </li>
+            @endif
+            @if (auth()->user()->role_id == 3)
+                <li class="nav-item">
+                    <a class="nav-link text-white" href=" {{ URL::to('/orders') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">shopping_cart</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Заказы</span>
                     </a>
                 </li>
             @endif

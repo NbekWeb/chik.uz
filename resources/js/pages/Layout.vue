@@ -1,5 +1,4 @@
 <template>
-
     <div class="container">
         <div>
             <div class="page__header">
@@ -17,40 +16,25 @@
                             <div class="item-price">
                                 <h3>{{ post.price }}</h3> Uzs
                             </div>
-
                         </div>
-
-
                     </div>
                 </div>
-
             </div>
-
-
-
         </div>
     </div>
-
-
-
-
-
 </template>
 
 <script>
 export default {
     props: ['posts', 'category'],
-
     data() {
         return {
             posts: [],
         };
     },
-
     mounted() {
         this.filterByCategory('Верстка'); // Initial load with category name 'Верстка'
     },
-
     methods: {
         filterByCategory(name) {
             axios

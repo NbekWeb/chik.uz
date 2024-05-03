@@ -66,10 +66,10 @@ export default {
             axios
                 .post("/api/login", this.fields)
                 .then(() => {
-                    this.$router.push({ name: "Dashboard" });
+                    // this.$router.push({ name: "Dashboard" });
                     localStorage.setItem("authenticated", "true");
                     this.$emit("updateSidebar");
-                    // window.location.href = "/admin/dashboard";
+                    window.location.href = "/admin/dashboard";
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;

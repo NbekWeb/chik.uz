@@ -87,20 +87,6 @@
                         <br>
 
 
-                        <form method="post" action="/your-after-payment-url">
-                            <script src="https://my.click.uz/pay/checkout.js"
-                                      class="uzcard_payment_button"
-                                      data-service-id="33547"
-                                      data-merchant-id="25578"
-                                      data-transaction-param="user1"
-                                      data-merchant-user-id="40773"
-                                      data-amount="1000"
-                                      {{-- data-card-type="MERCHANT_CARD_TYPE" --}}
-                                      data-label="Pay" <!-- Payment button title -->
-                            ></script>
-                        </form>
-
-
                         <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
                             <input type="hidden" name="amount" value="1000" />
                             <input type="hidden" name="merchant_id" value="25578" />

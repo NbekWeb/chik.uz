@@ -8,10 +8,10 @@
                 <img :src="avatar ? '/storage/' + avatar : '/assets/img/avatar.png'" alt="" class="userphoto">
 
                 <div class="userinfor">
-                    <span class="userName"> {{ name }}!</span>
+                    <span class="userName"> {{ name }}</span>
                     <br>
                     <br>
-                    <h3 class="balance"></h3> <span class="userBalance">Баланс: {{ cash }} Uzs!</span>
+                    <h3 class="balance"></h3> <span class="userBalance">Баланс: {{ cash }} UZS</span>
                     <br>
                     <br>
                     <span class="userEmail">Email Адрес: {{ email }}</span>

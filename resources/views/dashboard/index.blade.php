@@ -610,7 +610,7 @@
     </main>
     <x-plugins></x-plugins>
     </div>
-    @push('js')
+    {{-- @push('js')
         <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
         <script>
             var ctx = document.getElementById("chart-bars").getContext("2d");
@@ -859,5 +859,5 @@
                 },
             });
         </script>
-    @endpush
+    @endpush --}}
 </x-layout>

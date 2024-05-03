@@ -162,21 +162,24 @@
                                 </li>
                                 <li class="nav-item ms-md move-right" v-if="loggedIn">
                                     <a class="nav-link signin prof">
-                                        <i class="fa-solid"></i> <router-link :to="{ name: 'Dashboard' }">
-                                            <div class="btn-group">
-                                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" data-bs-auto-close="true"
-                                                    aria-expanded="false">
-                                                    Профил
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#"><router-link
-                                                                :to="{ name: 'Dashboard' }"> Профил </router-link></a>
-                                                    </li>
-                                                    <li><a class="dropdown-item" @click="logout">Выйти</a></li>
-                                                </ul>
-                                            </div>
-                                        </router-link>
+                                        <i class="fa-solid"></i>
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" data-bs-auto-close="true"
+                                                aria-expanded="false">
+                                                Профил
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="/admin/dashboard">
+                                                        Профил
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" @click="logout">Выйти</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>
@@ -202,11 +205,6 @@
             </div>
             <div class="content">
                 <div class="details">
-
-                    <!--<p>
-            Lorem ipsum dolor sit amet consectetur <br />
-            adipisicing elit. Cupiditate, qui!
-          </p>-->
                     <h4 class="mail">Email</h4>
                     <p><a href="#">info@chik.uz</a></p>
                 </div>

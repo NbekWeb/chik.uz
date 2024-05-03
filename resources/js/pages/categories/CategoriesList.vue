@@ -1,10 +1,10 @@
 <template>
     <div class="categories-list">
-        <h1>Categories List</h1>
+        <h1>Список категорий</h1>
         <!-- success message -->
         <div class="success-msg" v-if="success">
             <i class="fa fa-check"></i>
-            Deleted successfully
+            Удален успешно
         </div>
         <div class="item" v-for="(category, index) in categories" :key="category.id">
             <span>{{ index + 1 }}</span>
@@ -17,7 +17,7 @@
             <input type="button" value="Delete" @click="destroy(category.id)" class="delete-btn" />
         </div>
         <div class="index-categories">
-            <router-link :to="{ name: 'CreateCategories' }">Create Categories<span>&#8594;</span></router-link>
+            <router-link :to="{ name: 'CreateCategories' }">Создать категории<span>&#8594;</span></router-link>
         </div>
     </div>
 </template>
