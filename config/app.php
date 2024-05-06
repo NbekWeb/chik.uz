@@ -181,7 +181,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Khamdullaevuz\Payme\PaymeServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -212,7 +211,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Payme' => Khamdullaevuz\Payme\Facades\Payme::class,
+        'Payme' => App\Facades\Payme::class,
     ])->toArray(),
 
 ];

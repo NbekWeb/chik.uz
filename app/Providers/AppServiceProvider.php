@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Exceptions\PaymeExceptionHandler;
 use Carbon\Carbon;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +17,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // payme exceptions
+        $this->app->singleton(
+            ExceptionHandler::class,
+            PaymeExceptionHandler::class
+        );
     }
 
     /**

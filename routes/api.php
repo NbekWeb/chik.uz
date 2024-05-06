@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Khamdullaevuz\Payme\Facades\Payme;
-use Khamdullaevuz\Payme\Http\Middleware\PaymeCheck;
+use App\Facades\Payme;
+use App\Http\Middleware\PaymeCheck;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +87,6 @@ Route::get('dashboard-posts', [DashboardPostController::class, 'index']);
 
 
 // payme integration url
-Route::post('/payme', function (Request $request) {
+Route::any('/payme', function (Request $request) {
     return Payme::handle($request);
 })->middleware(PaymeCheck::class);

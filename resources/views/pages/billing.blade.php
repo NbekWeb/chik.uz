@@ -7,7 +7,7 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
                         {{-- <div class="col-xl-6 mb-xl-0 mb-4">
                             <div class="card bg-transparent shadow-xl">
@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="col-xl-6">
                             <div class="row">
                                 <div class="col-md-6 col-6">
@@ -76,89 +76,73 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
-
-
-
-                        <hr>
-                        <hr>
-                        <br>
-                        <br>
-                        <form method="POST" action="https://checkout.paycom.uz" target="_blank">
-                            <input type="hidden" name="merchant" value="6634ed1abb4772635bb90d36" />
-                            <input required name="amount" value="" />
-                            <input type="hidden" name="account[{id}]" value="17114" />
-                            <input type="hidden" name="callback" value="http://chik.loc/admin/billing" />
-                            <input type="hidden" name="callback_timeout" value="50" />
-                            <button type="submit">Оплатить с помощью <b>Payme</b></button>
-                        </form>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
-                            <input type="hidden" name="amount" value="1000" />
-                            <input type="hidden" name="merchant_id" value="25578" />
-                            <input type="hidden" name="merchant_user_id" value="40773" />
-                            <input type="hidden" name="service_id" value="33547" />
-                            <input type="hidden" name="transaction_param" value="{user_id=>1}" />
-                            <input type="hidden" name="return_url" value="/admin/dashboard" />
-                            <button type="submit" class=" btn btn-success"><i></i>Pay with CLICK</button>
-                        </form>
-                        <br>
-                        <br>
-                        <hr>
-                        <hr>
                         <div class="col-md-12 mb-lg-0 mb-4">
-                            <div class="card mt-4">
+                            <div class="card mt-4-">
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h6 class="mb-0">Latest Payment Card</h6>
+                                            <h6 class="m-2">Make New Payment</h6>
                                         </div>
-                                        <div class="col-6 text-end">
-                                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                                    class="material-icons text-sm">add</i>&nbsp;&nbsp;Make New
-                                                Payment</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-md-0 mb-4">
-                                            <div
-                                                class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                <img class="w-10 me-3 mb-0"
-                                                    src="{{ asset('assets') }}/img/logos/mastercard.png" alt="logo">
-                                                <h6 class="mb-0">
-                                                    ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852
-                                                </h6>
-                                                <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Edit Card">edit</i>
+
+                                        {{-- ===================================================== --}}
+                                        <form id="paymentForm" method="POST" action="{{ config('payme.payme_url') }}"
+                                            target="_blank">
+
+                                            <div class="input-group input-group-outline">
+                                                {{-- merchat id --}}
+                                                <input type="hidden" name="merchant"
+                                                    value="{{ config('payme.merchant_id') }}" />
+                                                {{-- amount of value --}}
+                                                <label class="form-label">Min 10 000 sum ,Max 10 000 000 sum</label>
+                                                <input id="amountDisplay" class="form-control border-rounded rounded"
+                                                    min="10000" max="10000000" required name="amountDisplay"
+                                                    type="number" />
+                                                <span id="clickAmountWarning" style="color: red; display: none;">Please
+                                                    enter a valid amount.</span>
+                                                {{-- new field for sending actuall money value in tyin --}}
+                                                <input id="amountInput" name="amount" hidden type="number"
+                                                    class="form-controll" />
+                                                {{--  --}}
+                                                <input type="hidden" name="account[id]"
+                                                    value="{{ auth()->user()->id }}" />
+                                                <input type="hidden" name="description"
+                                                    value="{{ auth()->user()->name }}" />
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div
-                                                class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                <img class="w-10 me-3 mb-0"
-                                                    src="{{ asset('assets') }}/img/logos/visa.png" alt="logo">
-                                                <h6 class="mb-0">
-                                                    ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248
-                                                </h6>
-                                                <i class="material-icons ms-auto text-dark cursor-pointer"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Edit Card">edit</i>
-                                            </div>
-                                        </div>
+                                            <button type="submit" class="btn btn-info col-4 my-2">
+                                                Оплатить с помощью<b> Payme</b> </button>
+                                            <img class="w-20 " src="{{ asset('assets') }}/img/logos/payme.png"
+                                                alt="logo">
+                                        </form>
+
+                                        {{-- ============================================== --}}
+
+
+                                        <form id="click_form" action="{{ config('click.click_url') }}" method="get"
+                                            target="_blank">
+                                            <input id="amountClick" hidden name="amount" />
+                                            <input type="hidden" name="merchant_id"
+                                                value="{{ config('click.merchant_id') }}" />
+                                            <input type="hidden" name="merchant_user_id"
+                                                value="{{ config('click.login') }}" />
+                                            <input type="hidden" name="service_id"
+                                                value="{{ config('click.service_id') }}" />
+                                            <input type="hidden" name="transaction_param"
+                                                value="{{ auth()->user()->id }}" />
+                                            <button id="clickButton" type="submit" class="btn btn-success col-4 my-2">
+                                                Оплатить с помощью<b> CLICK</b> </button>
+                                            <img class="w-20 mx-3 px-4" src="{{ asset('assets') }}/img/logos/click.png"
+                                                alt="logo">
+                                        </form>
+                                        {{-- ============================================= --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <div class="card h-100">
                         <div class="card-header pb-0 p-3">
                             <div class="row">
@@ -240,7 +224,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row">
                 <div class="col-md-7 mt-4">
@@ -326,7 +310,7 @@
                             </div>
                         </div>
                         <div class="card-body pt-4 p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
+                            {{-- <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6> --}}
                             <ul class="list-group">
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -343,6 +327,9 @@
                                         class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
                                         - $ 2,500
                                     </div>
+                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                            class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
+                                        PDF</button>
                                 </li>
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -359,42 +346,11 @@
                                         class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
                                         + $ 2,000
                                     </div>
+                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                            class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
+                                        PDF</button>
                                 </li>
-                            </ul>
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-                            <ul class="list-group">
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-                                            <span class="text-xs">26 March 2020, at 13:45 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 750
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-                                            <span class="text-xs">26 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 1,000
-                                    </div>
-                                </li>
+
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                     <div class="d-flex align-items-center">
@@ -410,6 +366,9 @@
                                         class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
                                         + $ 2,500
                                     </div>
+                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                            class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
+                                        PDF</button>
                                 </li>
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -437,3 +396,48 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+<script>
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        var amountDisplay = document.getElementById('amountDisplay').value;
+        var amountCents = parseInt(amountDisplay) * 100;
+        document.getElementById('amountInput').value = amountCents;
+    });
+
+    // Click button click event
+    document.getElementById('clickButton').addEventListener('click', function(event) {
+        var paymeAmountInput = document.getElementById('amountDisplay');
+        var paymeAmount = paymeAmountInput.value.trim();
+        var clickForm = document.getElementById('clickForm');
+        var clickAmountInput = document.getElementById('amountClick');
+
+        if (paymeAmount === '') {
+            paymeAmountInput.setCustomValidity(
+                'Please enter an amount in the form.');
+            paymeAmountInput.reportValidity();
+            event.preventDefault();
+        }
+        if (paymeAmount > '10000000') {
+            paymeAmountInput.setCustomValidity(
+                'Please enter valid amount in the form.');
+            paymeAmountInput.reportValidity();
+            event.preventDefault();
+        } else {
+            paymeAmountInput.setCustomValidity('');
+            clickAmountInput.value = paymeAmount;
+            clickForm.submit();
+        }
+    });
+</script>
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>

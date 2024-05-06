@@ -410,9 +410,7 @@ router.beforeEach((to, from) => {
     const authenticated = localStorage.getItem("authenticated");
 
     if (to.meta.requiresGuest && authenticated) {
-        return {
-            name: "Dashboard",
-        };
+        window.location.href = "/admin/dashboard";
     } else if (to.meta.requiresAuth && !authenticated) {
         return {
             name: "Login",

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'payme_url' => env('PAYME_URL', 'https://checkout.paycom.uz'),
     'min_amount' => env('PAYME_MIN_AMOUNT', 1_000_00),
     'max_amount' => env('PAYME_MAX_AMOUNT', 100_000_000_00),
     'identity' => env('PAYME_IDENTITY', 'id'),
