@@ -14,7 +14,7 @@ import Seo from "../pages/Seo.vue";
 import Social from "../pages/Social.vue";
 import Texts from "../pages/Texts.vue";
 import Printing from "../pages/Printing.vue";
-import Websitepromotion from "../pages/Website Promotion.vue";
+import WebsitePromotion from "../pages/Website Promotion.vue";
 import Usability from "../pages/Usability.vue";
 import Translates from "../pages/Translates.vue";
 import Trafics from "../pages/Trafics.vue";
@@ -192,7 +192,7 @@ const routes = [
     {
         path: "/websitepromotion",
         name: "Websitepromotion",
-        component: Websitepromotion,
+        component: WebsitePromotion,
     },
     {
         path: "/usability",
