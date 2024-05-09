@@ -40,7 +40,6 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');
     // Routes needing 'auth'|| 'isActive' middleware
     Route::get('/billing', [PaymentController::class, 'index'])->name('billing');
-    Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
     Route::middleware('isActive')->group(function () {
         Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');
     });

@@ -236,52 +236,13 @@
                             <ul class="list-group">
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span
-                                                class="text-dark font-weight-bold ms-sm-2">Viking
-                                                Burrito</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                        <span class="text-xs">VAT Number: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                            href="javascript:;"><i
-                                                class="material-icons text-sm me-2">delete</i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                                class="material-icons text-sm me-2">edit</i>Edit</a>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span
-                                                class="text-dark font-weight-bold ms-sm-2">Stone Tech
-                                                Zone</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                                        <span class="text-xs">VAT Number: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                            href="javascript:;"><i
-                                                class="material-icons text-sm me-2">delete</i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                                class="material-icons text-sm me-2">edit</i>Edit</a>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Ethan James</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span
-                                                class="text-dark font-weight-bold ms-sm-2">Fiber
-                                                Notion</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-                                        <span class="text-xs">VAT Number: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                                        <h6 class="mb-3 text-sm">12.12.2024/12:10</h6>
+                                        <span class="mb-2 text-xs">Payment Type: <span
+                                                class="text-dark font-weight-bold ms-sm-2">Payme</span></span>
+                                        <span class="mb-2 text-xs">Status: <span
+                                                class="text-dark ms-sm-2 font-weight-bold">Successful</span></span>
+                                        <span class="text-xs">Amount: <span
+                                                class="text-dark ms-sm-2 font-weight-bold">20 000</span></span>
                                     </div>
                                     <div class="ms-auto text-end">
                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0"
@@ -327,9 +288,9 @@
                                         class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
                                         - $ 2,500
                                     </div>
-                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
                                             class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                        PDF</button>
+                                        PDF</button> --}}
                                 </li>
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -346,9 +307,9 @@
                                         class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
                                         + $ 2,000
                                     </div>
-                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
                                             class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                        PDF</button>
+                                        PDF</button> --}}
                                 </li>
 
                                 <li
@@ -366,9 +327,9 @@
                                         class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
                                         + $ 2,500
                                     </div>
-                                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
                                             class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                        PDF</button>
+                                        PDF</button> --}}
                                 </li>
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -410,13 +371,13 @@
         var clickForm = document.getElementById('clickForm');
         var clickAmountInput = document.getElementById('amountClick');
 
-        if (paymeAmount === '') {
+        if (paymeAmount < 10000) {
             paymeAmountInput.setCustomValidity(
                 'Please enter an amount in the form.');
             paymeAmountInput.reportValidity();
             event.preventDefault();
         }
-        if (paymeAmount > '10000000') {
+        if (paymeAmount > 10000000) {
             paymeAmountInput.setCustomValidity(
                 'Please enter valid amount in the form.');
             paymeAmountInput.reportValidity();

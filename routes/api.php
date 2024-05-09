@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Facades\Payme;
+use App\Http\Controllers\ClickController;
 use App\Http\Middleware\PaymeCheck;
 
 /*
@@ -90,3 +91,5 @@ Route::get('dashboard-posts', [DashboardPostController::class, 'index']);
 Route::any('/payme', function (Request $request) {
     return Payme::handle($request);
 })->middleware(PaymeCheck::class);
+Route::any('/click/prepare', [ClickController::class, 'prepare'])->name('click.prepare');
+Route::any('/click/complete', [ClickController::class, 'complete'])->name('click.complete');
