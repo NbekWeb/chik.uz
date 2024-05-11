@@ -6,7 +6,7 @@
             </div>
             <h2>{{ category }} </h2>
             <section class="cards-blog latest-blog">
-                <div class="card" style="width: 18rem;" v-for="post in posts" :key="post.id">
+                <div class="card" v-for="post in posts" :key="post.id">
                     <img v-if="post.images.length > 0" :src="post.images[0]?.url" :alt="`First Image`" />
                     <div class="card-body">
                         <h5 class="card-title"><a href="single-blog.html"></a>
@@ -24,14 +24,20 @@
                                 style="width: 40px; height: 40px; border-radius: 50%;" />
                             <h6>{{ post.user ? post.user : 'Unknown User' }}</h6>
                         </div>
-                        <!--<p class="card-text">{{ post.body }}</p>
-                         <a href="#" class="btn btn-primary">Go somewhere</a>-->
                     </div>
                 </div>
 
             </section>
-
+            <ul class="pagination">
+                <li v-for="(page, index) in pagination.links" :key="index" class="page-item"
+                    :class="{ 'active': page.active }">
+                    <a class="page-link" @click.prevent="fetchPage(page.url)" href="#">
+                        {{ page.label }}
+                    </a>
+                </li>
+            </ul>
         </div>
+
     </div>
 </template>
 
@@ -42,20 +48,34 @@ export default {
     data() {
         return {
             posts: [],
+            pagination: {},
         };
     },
 
     mounted() {
         axios
             .get("/api/categories")
-            .then((response) => (this.categories = response.data))
+            .then((response) => {
+                this.categories = response.data;
+                this.filterByCategory('Игры'); // Move this inside the categories fetch success block
+            })
             .catch((error) => {
                 console.log(error);
             });
-        this.filterByCategory('Игры');
     },
-
     methods: {
+
+        fetchPage(url, category) {
+            axios.get(url, { params: { category } })
+                .then((response) => {
+                    this.posts = response.data.data; // Update posts data
+                    this.pagination = response.data.meta; // Update pagination data
+                    this.replaceLabels(); // Call replaceLabels here
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
         filterByCategory(name) {
             axios
                 .get("/api/posts", {
@@ -65,10 +85,21 @@ export default {
                 })
                 .then((response) => {
                     this.posts = response.data.data;
+                    this.pagination = response.data.meta;
+                    this.replaceLabels(); // Call replaceLabels here
                 })
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        replaceLabels() {
+            this.pagination.links.forEach(page => {
+                if (page.label === "&laquo; Previous") {
+                    page.label = "<<";
+                } else if (page.label === "Next &raquo;") {
+                    page.label = ">>";
+                }
+            });
         },
     },
 };

@@ -1,5 +1,4 @@
 <template>
-    <!-- header -->
     <header class="header">
 
         <!--<div class="overlay"></div>-->
@@ -10,70 +9,15 @@
         <h3 class="htitle">Фриланс-услуги в один клик: просто,быстро,эффективно</h3>
         <div class="searchbar__home">
             <div class="container">
-
-
-
                 <form class="search_form" action="">
-                    <input type="text" placeholder="    Создать сайт" name="search" v-model="title" />
+                    <input type="text" placeholder="    Создать сайт" name="search" autocomplete="off" v-model="title" />
                     <button class="btn btn-outline-secondary" type="submit">Найти</button>
-
-                    <!--<button type="submit">
-          <i class="fa fa-search"></i>
-        </button>-->
                 </form>
             </div>
-
         </div>
     </section>
 
-
-    <!--<<section>
-    <div class="row">
-    <div class="freelance">
-       <h1 class="topfreelanc">Top Freelancers</h1>
-    </div>
-    <div class="freelanceh3">
-      <h3>Dorem eiusmod tempor incune untname labore etdolore maigna aile enim poskina ilukita</h3>
-    </div>
-  </div>
-  </section>-->
-
-    <!--<section class="protect">
-  <div class="col col-md-4">
-        <a class="rubrics__link" href="./Тексты и Переводы.vue" >
-          <img src="../images/progr.jpg" alt="">
-        </a>
-        <h4>Name</h4>
-        <h3>Descriptions</h3>
-        <h4>Description</h4>
-      </div>
-      <div class="col col-md-4">
-        <a class="rubrics__link" href="./Бизнес и жизнь.vue" >
-          <img src="../images/progr.jpg" alt="">
-        </a>
-        <h4>Name</h4>
-        <h3>Descriptions</h3>
-        <h4>Description</h4>
-      </div>
-      <div class="col col-md-4">
-        <a class="rubrics__link" href="./Аудио.vue" >
-          <img src="../images/progr.jpg" alt="">
-        </a>
-        <h4>Name</h4>
-        <h3>Descriptions</h3>
-        <h4>Description</h4>
-      </div>
-      <div class="col col-md-4">
-        <a class="rubrics__link" href="./Аудио.vue" >
-          <img src="../images/progr.jpg" alt="">
-        </a>
-        <h4>Name</h4>
-        <h3>Descriptions</h3>
-        <h4>Description</h4>
-      </div>
-</section>-->
     <section>
-
         <div class="rubrics">
             <h1>Выберите рубрику, чтобы начать</h1>
             <div class=" rubrics__items">
@@ -160,10 +104,6 @@
 
             </div>
         </div>
-
-
-
-
     </section>
     <!--<section class="cards-blog latest-blog">
     <div class="card-blog-content" v-for="post in posts" :key="post.id">

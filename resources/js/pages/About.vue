@@ -1,26 +1,35 @@
 <template>
-  <section class="single-blog-post">
-    <h1>About Me</h1>
-    <div class="single-blog-post-ContentImage" data-aos="fade-left">
-      <img src='../images/logotipy.jpg' alt="" />
-    </div>
+    <div class="container">
+        <br>
+        <h3 class="h3 mb-3"><strong>Chik – фриланс Платформа в Узбекистане</strong></h3>
 
-    <div>
-      <p class="about-text">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam, ut
-        tempore repellat molestias a distinctio fuga molestiae eaque laborum
-        vero eos, maiores fugit culpa porro delectus aliquam adipisci nisi
-        voluptas sequi odit, numquam architecto officia? Corrupti recusandae
-        beatae sint quasi iste libero maiores commodi odio molestias vel fugit,
-        omnis nobis consectetur harum veritatis necessitatibus asperiores
-        officiis. Dolores nemo voluptates.
-        <br /><br />
-        Adipisicing elit. Illum reprehenderit sapiente at ab amet, nobis porro
-        pariatur similique dicta nisi velit fugiat reiciendis, quos fuga nemo
-        aliquam aspernatur est vel. Lorem ipsum dolor sit amet consectetur,
-        adipisicing elit. Omnis non ad veritatis. Lorem ipsum dolor sit amet
-        consectetur, adipisicing elit. Lorem ipsum dolor sit.
-      </p>
+        <p class="lh-base">Иногда мы обращаемся к услугам фрилансеров, чтобы быстро и качественно выполнить необходимую
+            работу. Когда мы создавали Chik, наша цель заключалась в том, чтобы сделать концепцию удобства и
+            оперативности фриланса идеальной.</p>
+        <ul class="list-unstyled">
+            <li>Мы убеждены в следующем:
+                <ul>
+                    <li> Фриланс должен быть доступным и простым. Заказ на Chik так же прост, как положить товар в
+                        корзину. Нет необходимости в долгих и скучных переговорах с исполнителями. Вы просто выбираете
+                        нужную услугу, нажимаете "Заказать" и ждете результата.</li>
+                    <li> Фриланс должен быть доступным и простым. Заказ на Chik так же прост, как положить товар в
+                        корзину. Нет необходимости в долгих и скучных переговорах с исполнителями. Вы просто выбираете
+                        нужную услугу, нажимаете "Заказать" и ждете результата.</li>
+                    <li> Фриланс должен обеспечивать безопасность. На Chik вы можете мгновенно вернуть средства в случае
+                        просрочки, предотвращая разочарование от исчезновения фрилансера после получения предоплаты.
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+
+
+        <p class="lh-base">Жизнь прекрасна, и у каждого из нас много дел. Мы стремимся обеспечить себе комфорт и
+            удобство во всем – от одежды и дома до работы и фриланса. Именно в этом контексте мы запустили Chik.</p>
+        <p class="lh-base">
+            <strong>Мы стремимся сделать процесс заказа фриланс-услуг действительно эффективным и
+                приятным. Присоединяйтесь к нам, чтобы вместе воплотить наши мечты в жизнь!
+            </strong>
+        </p>
     </div>
-  </section>
 </template>

@@ -15,7 +15,7 @@ class CategoryPostsController extends Controller
         if ($request->category) {
             return PostResource::collection(
                 Category::where('name', $request->category)
-                ->firstOrFail()->posts()->latest()->paginate(15)
+                ->firstOrFail()->posts()->latest()->paginate(12)
                 ->withQueryString());
         } else if ($request->search) {
             return  PostResource::collection(Post::where('title', 'like', '%' . $request->search . '%')

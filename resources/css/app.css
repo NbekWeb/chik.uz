@@ -280,9 +280,11 @@ footer small {
 .cards-blog {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 3rem;
+    grid-gap: 2rem;
     margin-bottom: 1rem;
     border: none;
+    box-sizing: border-box !important;
+    overflow: hidden;
 }
 
 .card-blog-content p {
@@ -317,7 +319,7 @@ footer small {
 }
 
 .pagination a {
-    color: white;
+    color: rgb(22, 6, 255);
     float: left;
     padding: 6px 16px;
     text-decoration: none;
@@ -402,8 +404,6 @@ footer {
     .footer {
         position: unset;
     }
-
-    .search_form {}
 
     .searchbar__home {
         top: 60px;
@@ -847,7 +847,7 @@ textarea {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-gap: 2rem;
-        background: #101010;
+        /* background: #101010; */
         margin-bottom: 1rem;
         border: none;
     }
