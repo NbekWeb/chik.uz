@@ -11,6 +11,8 @@ class ClickController extends Controller
 {
     public function prepare(Request $request)
     {
+        // logging the request
+        Log::info($request);
         $clickTransId = $request->input('click_trans_id');
         $serviceId = $request->input('service_id');
         $clickPaydocId = $request->input('click_paydoc_id');
@@ -21,7 +23,7 @@ class ClickController extends Controller
         $errorNote = 'Success';
         $signTime = $request->input('sign_time');
 
-        $secretKey = 'your_secret_key';
+        $secretKey = config('click.secret_key');
 
         $generatedSignature = md5($clickTransId . $serviceId . $secretKey . $merchantTransId . $amount . $action . $signTime);
 
@@ -57,6 +59,9 @@ class ClickController extends Controller
 
     public function complete(Request $request)
     {
+        // logging the request
+        Log::info($request);
+
         $clickTransId = $request->input('click_trans_id');
         $serviceId = $request->input('service_id');
         $clickPaydocId = $request->input('click_paydoc_id');
