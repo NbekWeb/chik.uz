@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,6 +22,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@mail.ru',
             'phone' => '+998979260757',
             'password' => Hash::make('password'),
+            'email_verified_at' => now()
+
         ]);
         $freelancer = User::create([
             'name' => 'Freelancer',
@@ -29,6 +32,8 @@ class UserSeeder extends Seeder
             'email' => 'freelancer@mail.ru',
             'phone' => '+998979260745',
             'password' => Hash::make('password'),
+            'email_verified_at' => now()
+
         ]);
         $client = User::create([
             'name' => 'Client',
@@ -37,6 +42,8 @@ class UserSeeder extends Seeder
             'email' => 'client@mail.ru',
             'phone' => '+998979260745',
             'password' => Hash::make('password'),
+            'email_verified_at' => now()
+
         ]);
 
     }
