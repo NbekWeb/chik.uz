@@ -172,7 +172,7 @@ class ClickController extends Controller
         $payment = Click::where('click_trans_id', $request['click_trans_id'])->first();
 
         // check to already paid
-        if ($payment['status'] == PaymentsStatus::CONFIRMED) {
+        if ($payment && $payment['status'] == PaymentsStatus::CONFIRMED) {
             return [
                 'error' => -4,
                 'error_note' => 'Already paid'
@@ -180,7 +180,7 @@ class ClickController extends Controller
         }
 
         // check to correct amount
-        if ($payment['amount'] !== $request['amount']) {
+        if ($payment && $payment['amount'] !== $request['amount']) {
             return [
                 'error' => -2,
                 'error_note' => 'Incorrect parameter amount'
@@ -188,7 +188,7 @@ class ClickController extends Controller
         }
 
         // check status to transaction cancelled
-        if ($payment['status'] == PaymentsStatus::REJECTED) {
+        if ($payment && $payment['status'] == PaymentsStatus::REJECTED) {
             return [
                 'error' => -9,
                 'error_note' => 'Transaction cancelled'
