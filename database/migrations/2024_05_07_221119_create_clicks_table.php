@@ -16,13 +16,11 @@ return new class extends Migration
         Schema::create('clicks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('click_trans_id');
-            $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('click_paydoc_id');
-            $table->unsignedBigInteger('merchant_trans_id');
-            $table->unsignedBigInteger('amount');
-            $table->unsignedBigInteger('action');
-            $table->dateTime('sign_time');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('amount');
+            $table->string('status');
+            $table->dateTime('sign_time');
             $table->timestamps();
         });
     }

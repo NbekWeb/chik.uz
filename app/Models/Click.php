@@ -10,13 +10,11 @@ class Click extends Model
     use HasFactory;
     protected $fillable = [
         'click_trans_id',
-        'service_id',
         'click_paydoc_id',
-        'merchant_trans_id',
         'amount',
-        'action',
         'sign_time',
-        'user_id'
+        'user_id',
+        'status'
     ];
 
     public function user()
