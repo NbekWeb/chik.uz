@@ -15,10 +15,6 @@
     "file": "assets/tex.5195c563.png",
     "src": "resources/js/images/tex.png"
   },
-  "resources/js/images/integer.png": {
-    "file": "assets/integer.01c1d1d2.png",
-    "src": "resources/js/images/integer.png"
-  },
   "resources/js/images/seo.png": {
     "file": "assets/seo.aa669b55.png",
     "src": "resources/js/images/seo.png"
@@ -26,6 +22,18 @@
   "resources/js/images/sic.png": {
     "file": "assets/sic.cd5c189d.png",
     "src": "resources/js/images/sic.png"
+  },
+  "resources/js/images/homw2.jpg": {
+    "file": "assets/homw2.bb0a2519.jpg",
+    "src": "resources/js/images/homw2.jpg"
+  },
+  "resources/js/images/narujnaya.jpg": {
+    "file": "assets/narujnaya.b515d9b6.jpg",
+    "src": "resources/js/images/narujnaya.jpg"
+  },
+  "resources/js/images/integer.png": {
+    "file": "assets/integer.01c1d1d2.png",
+    "src": "resources/js/images/integer.png"
   },
   "resources/js/images/polig.jpg": {
     "file": "assets/polig.63e95c1c.jpg",
@@ -35,33 +43,17 @@
     "file": "assets/obro.98a9f913.jpg",
     "src": "resources/js/images/obro.jpg"
   },
-  "resources/js/images/narujnaya.jpg": {
-    "file": "assets/narujnaya.b515d9b6.jpg",
-    "src": "resources/js/images/narujnaya.jpg"
-  },
-  "resources/js/images/pro.jpg": {
-    "file": "assets/pro.c4351b63.jpg",
-    "src": "resources/js/images/pro.jpg"
-  },
-  "resources/js/images/homw2.jpg": {
-    "file": "assets/homw2.bb0a2519.jpg",
-    "src": "resources/js/images/homw2.jpg"
-  },
-  "resources/js/images/web.jpg": {
-    "file": "assets/web.4b87eb10.jpg",
-    "src": "resources/js/images/web.jpg"
-  },
   "resources/js/images/logotipy.jpg": {
     "file": "assets/logotipy.52cbabdc.jpg",
     "src": "resources/js/images/logotipy.jpg"
   },
-  "resources/js/images/larg.jpg": {
-    "file": "assets/larg.7c1f97e2.jpg",
-    "src": "resources/js/images/larg.jpg"
-  },
   "resources/js/images/prez.jpg": {
     "file": "assets/prez.9b108839.jpg",
     "src": "resources/js/images/prez.jpg"
+  },
+  "resources/js/images/web.jpg": {
+    "file": "assets/web.4b87eb10.jpg",
+    "src": "resources/js/images/web.jpg"
   },
   "resources/js/images/art.jpg": {
     "file": "assets/art.1bc13538.jpg",
@@ -71,33 +63,49 @@
     "file": "assets/market.98a609dc.jpg",
     "src": "resources/js/images/market.jpg"
   },
+  "resources/js/images/larg.jpg": {
+    "file": "assets/larg.7c1f97e2.jpg",
+    "src": "resources/js/images/larg.jpg"
+  },
   "resources/js/images/Трафик.png": {
     "file": "assets/Трафик.05cf83b5.png",
     "src": "resources/js/images/Трафик.png"
-  },
-  "resources/js/images/Продвижениесайта.png": {
-    "file": "assets/Продвижениесайта.c40bf51b.png",
-    "src": "resources/js/images/Продвижениесайта.png"
-  },
-  "resources/js/images/Маркетплейсы.png": {
-    "file": "assets/Маркетплейсы.d8708b2f.png",
-    "src": "resources/js/images/Маркетплейсы.png"
   },
   "resources/js/images/Статистика.png": {
     "file": "assets/Статистика.c7ca129c.png",
     "src": "resources/js/images/Статистика.png"
   },
-  "resources/js/images/Реклама.png": {
-    "file": "assets/Реклама.55ca19dd.png",
-    "src": "resources/js/images/Реклама.png"
+  "resources/js/images/pro.jpg": {
+    "file": "assets/pro.c4351b63.jpg",
+    "src": "resources/js/images/pro.jpg"
   },
   "resources/js/images/Контекстнаяреклама.png": {
     "file": "assets/Контекстнаяреклама.5552a4f3.png",
     "src": "resources/js/images/Контекстнаяреклама.png"
   },
+  "resources/js/images/Маркетплейсы.png": {
+    "file": "assets/Маркетплейсы.d8708b2f.png",
+    "src": "resources/js/images/Маркетплейсы.png"
+  },
+  "resources/js/images/Продвижениесайта.png": {
+    "file": "assets/Продвижениесайта.c40bf51b.png",
+    "src": "resources/js/images/Продвижениесайта.png"
+  },
   "resources/js/images/Базыданных.png": {
     "file": "assets/Базыданных.75e16035.png",
     "src": "resources/js/images/Базыданных.png"
+  },
+  "resources/js/images/Реклама.png": {
+    "file": "assets/Реклама.55ca19dd.png",
+    "src": "resources/js/images/Реклама.png"
+  },
+  "resources/js/images/Email.png": {
+    "file": "assets/Email.1ea36f3c.png",
+    "src": "resources/js/images/Email.png"
+  },
+  "resources/js/images/SMM.png": {
+    "file": "assets/SMM.642c93f5.png",
+    "src": "resources/js/images/SMM.png"
   },
   "resources/js/images/Обучение.png": {
     "file": "assets/Обучение.21648dd8.png",
@@ -107,49 +115,41 @@
     "file": "assets/Продажа.fee805e2.png",
     "src": "resources/js/images/Продажа.png"
   },
-  "resources/js/images/Email.png": {
-    "file": "assets/Email.1ea36f3c.png",
-    "src": "resources/js/images/Email.png"
+  "resources/js/images/Набортекста.png": {
+    "file": "assets/Набортекста.832909ed.png",
+    "src": "resources/js/images/Набортекста.png"
   },
   "resources/js/images/Резюме.png": {
     "file": "assets/Резюме.f189e8f8.png",
     "src": "resources/js/images/Резюме.png"
   },
-  "resources/js/images/Набортекста.png": {
-    "file": "assets/Набортекста.832909ed.png",
-    "src": "resources/js/images/Набортекста.png"
+  "resources/js/images/наполнениесайта.png": {
+    "file": "assets/наполнениесайта.baf2a029.png",
+    "src": "resources/js/images/наполнениесайта.png"
   },
   "resources/js/images/Переводы.png": {
     "file": "assets/Переводы.f7886f38.png",
     "src": "resources/js/images/Переводы.png"
   },
-  "resources/js/images/SMM.png": {
-    "file": "assets/SMM.642c93f5.png",
-    "src": "resources/js/images/SMM.png"
+  "resources/js/images/бизнестексты.png": {
+    "file": "assets/бизнестексты.82d8d8b6.png",
+    "src": "resources/js/images/бизнестексты.png"
   },
   "resources/js/images/Верстка.png": {
     "file": "assets/Верстка.da914a2c.png",
     "src": "resources/js/images/Верстка.png"
   },
-  "resources/js/images/бизнестексты.png": {
-    "file": "assets/бизнестексты.82d8d8b6.png",
-    "src": "resources/js/images/бизнестексты.png"
-  },
-  "resources/js/images/наполнениесайта.png": {
-    "file": "assets/наполнениесайта.baf2a029.png",
-    "src": "resources/js/images/наполнениесайта.png"
-  },
   "resources/js/images/Скрипты.png": {
     "file": "assets/Скрипты.23d2dcb9.png",
     "src": "resources/js/images/Скрипты.png"
   },
-  "resources/js/images/настройкасайта.png": {
-    "file": "assets/настройкасайта.8834b00b.png",
-    "src": "resources/js/images/настройкасайта.png"
-  },
   "resources/js/images/texts.png": {
     "file": "assets/texts.9616c2ce.png",
     "src": "resources/js/images/texts.png"
+  },
+  "resources/js/images/настройкасайта.png": {
+    "file": "assets/настройкасайта.8834b00b.png",
+    "src": "resources/js/images/настройкасайта.png"
   },
   "resources/js/images/Десктоп.png": {
     "file": "assets/Десктоп.817a6a75.png",
@@ -159,10 +159,6 @@
     "file": "assets/app.30d70c6f.png",
     "src": "resources/js/images/app.png"
   },
-  "resources/js/images/servera.png": {
-    "file": "assets/servera.efd42945.png",
-    "src": "resources/js/images/servera.png"
-  },
   "resources/js/images/Созданиесайтов.png": {
     "file": "assets/Созданиесайтов.2fdfe477.png",
     "src": "resources/js/images/Созданиесайтов.png"
@@ -171,16 +167,20 @@
     "file": "assets/game.1e40ec16.png",
     "src": "resources/js/images/game.png"
   },
+  "resources/js/images/servera.png": {
+    "file": "assets/servera.efd42945.png",
+    "src": "resources/js/images/servera.png"
+  },
   "resources/js/images/faq4.jpg": {
     "file": "assets/faq4.eba5efb0.jpg",
     "src": "resources/js/images/faq4.jpg"
   },
   "resources/js/app.js": {
-    "file": "assets/app.cf2f24fe.js",
+    "file": "assets/app.9edf7472.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.a3bfe304.css"
+      "assets/app.71c9547a.css"
     ],
     "assets": [
       "assets/l2.29151542.png",
@@ -230,7 +230,7 @@
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.a3bfe304.css",
+    "file": "assets/app.71c9547a.css",
     "src": "resources/js/app.css"
   }
 }
