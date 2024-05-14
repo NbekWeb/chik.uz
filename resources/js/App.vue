@@ -574,6 +574,7 @@ nav {
     backdrop-filter: blur(0px) brightness(1.2);
     -webkit-backdrop-filter: blur(8px) brightness(1.2);
     /*text-shadow: 0 0 5px rgba(0,0,0,0.5);*/
+    text-shadow: none;
     color: #333;
     font-size: 16px;
 
