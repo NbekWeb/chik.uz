@@ -229,31 +229,137 @@
             <div class="row">
                 <div class="col-md-7 mt-4">
                     <div class="card">
-                        <div class="card-header pb-0 px-3">
+                        <div class="card-header pb-0 px-3" style="border-radius: 0.75rem" >
                             <h6 class="mb-0">Billing Information</h6>
-                        </div>
-                        <div class="card-body pt-4 p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">12.12.2024/12:10</h6>
-                                        <span class="mb-2 text-xs">Payment Type: <span
-                                                class="text-dark font-weight-bold ms-sm-2">Payme</span></span>
-                                        <span class="mb-2 text-xs">Status: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">Successful</span></span>
-                                        <span class="text-xs">Amount: <span
-                                                class="text-dark ms-sm-2 font-weight-bold">20 000</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                            href="javascript:;"><i
-                                                class="material-icons text-sm me-2">delete</i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                                class="material-icons text-sm me-2">edit</i>Edit</a>
-                                    </div>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active text-info text-bold" id="payme-tab"
+                                        data-bs-toggle="tab" data-bs-target="#payme" type="button" role="tab"
+                                        aria-controls="payme" aria-selected="true">Payme</button>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link text-info text-bold" id="click-tab" data-bs-toggle="tab"
+                                        data-bs-target="#click" type="button" role="tab" aria-controls="click"
+                                        aria-selected="false">Click</button>
+                                </li>
+
                             </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="payme" role="tabpanel"
+                                    aria-labelledby="payme-tab">
+                                    <div class="card-body pt-4 p-3">
+                                        @if (count($payme_transactions) > 0)
+                                            <ul class="list-group">
+                                                @foreach ($payme_transactions as $item)
+                                                    <li
+                                                        class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                                        <div class="d-flex flex-column">
+                                                            <h6 class="mb-3 text-sm">
+                                                                {{ date('d-M-Y, H:i A', strtotime($item->created_at)) }}
+                                                            </h6>
+                                                            <span class="mb-2 text-xs">Status:
+                                                                <span class="text-dark ms-sm-2 font-weight-bold">
+                                                                    @php
+                                                                        $status = 'Unknown Status';
+
+                                                                        switch ($item->state) {
+                                                                            case \App\Enums\PaymeState::Pending:
+                                                                                $status = 'Pending';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Done:
+                                                                                $status = 'Done';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Cancelled:
+                                                                                $status = 'Cancelled';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Cancelled_After_Success:
+                                                                                $status = 'Cancelled After Success';
+                                                                                break;
+                                                                        }
+                                                                    @endphp
+
+                                                                    {{ $status }}
+                                                                </span>
+                                                            </span>
+                                                            <span class="text-xs">Amount: <span
+                                                                    class="text-dark ms-sm-2 font-weight-bold">{{ $item->amount }}</span></span>
+                                                        </div>
+                                                        {{-- <div class="ms-auto text-end">
+                                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                                href="javascript:;"><i
+                                                                    class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
+                                                                    class="material-icons text-sm me-2">edit</i>Edit</a>
+                                                        </div> --}}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="p-2 pt-3 text-danger text-bold">Payments not found</p>
+                                        @endif
+                                    </div>
+                                </div>
+
+
+                                {{-- click tab --}}
+                                <div class="tab-pane fade" id="click" role="tabpanel"
+                                    aria-labelledby="click-tab">
+                                    <div class="card-body pt-4 p-3">
+                                        @if (count($click_transactions) > 0)
+                                            <ul class="list-group">
+                                                @foreach ($click_transactions as $item)
+                                                    <li
+                                                        class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                                        <div class="d-flex flex-column">
+                                                            <h6 class="mb-3 text-sm">
+                                                                {{ date('d-M-Y, H:i A', strtotime($item->created_at)) }}
+                                                            </h6>
+                                                            <span class="mb-2 text-xs">Status:
+                                                                <span class="text-dark ms-sm-2 font-weight-bold">
+                                                                    @php
+                                                                        $status = 'Unknown Status';
+
+                                                                        switch ($item->state) {
+                                                                            case \App\Enums\PaymeState::Pending:
+                                                                                $status = 'Pending';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Done:
+                                                                                $status = 'Done';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Cancelled:
+                                                                                $status = 'Cancelled';
+                                                                                break;
+                                                                            case \App\Enums\PaymeState::Cancelled_After_Success:
+                                                                                $status = 'Cancelled After Success';
+                                                                                break;
+                                                                        }
+                                                                    @endphp
+
+                                                                    {{ $status }}
+                                                                </span>
+                                                            </span>
+                                                            <span class="text-xs">Amount: <span
+                                                                    class="text-dark ms-sm-2 font-weight-bold">{{ $item->amount }}</span></span>
+                                                        </div>
+                                                        {{-- <div class="ms-auto text-end">
+                                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0"
+                                                                href="javascript:;"><i
+                                                                    class="material-icons text-sm me-2">delete</i>Delete</a>
+                                                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
+                                                                    class="material-icons text-sm me-2">edit</i>Edit</a>
+                                                        </div> --}}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="p-2 pt-3 text-danger text-bold">Payments not found</p>
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-md-5 mt-4">
@@ -265,88 +371,59 @@
                                 </div>
                                 <div
                                     class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                                    <i class="material-icons me-2 text-lg">date_range</i>
-                                    <small>23 - 30 March 2020</small>
+                                    {{-- <i class="material-icons me-2 text-lg">date_range</i> --}}
+                                    {{-- <small>23 - 30 March 2020</small> --}}
                                 </div>
                             </div>
                         </div>
                         <div class="card-body pt-4 p-3">
-                            {{-- <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6> --}}
-                            <ul class="list-group">
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_more</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-                                            <span class="text-xs">27 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                        - $ 2,500
-                                    </div>
-                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
+                            @if (count($transactions) > 0)
+                                {{-- <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6> --}}
+                                <ul class="list-group">
+                                    @foreach ($transactions as $transaction)
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    class="btn btn-icon-only btn-rounded mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center
+                                                     {{ $transaction->transaction_type === 'deduction'
+                                                         ? 'btn-outline-danger'
+                                                         : ($transaction->transaction_type === 'transfer_to_back'
+                                                             ? 'btn-outline-info'
+                                                             : ($transaction->transaction_type === 'transfer_to_seller'
+                                                                 ? 'btn-outline-success'
+                                                                 : 'btn-outline-warning')) }}"><i
+                                                        class="material-icons text-lg">expand_more</i></button>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">
+                                                        {{ $transaction->order->post->title }}</h6>
+                                                    <span class="text-xs">
+                                                        {{ date('d-M-Y, H:i A', strtotime($transaction->created_at)) }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center text-gradient text-sm font-weight-bold
+                                                {{ $transaction->transaction_type === 'deduction'
+                                                    ? 'text-danger'
+                                                    : ($transaction->transaction_type === 'transfer_to_back'
+                                                        ? 'text-info'
+                                                        : ($transaction->transaction_type === 'transfer_to_seller'
+                                                            ? 'text-success'
+                                                            : 'text-warning')) }}">
+                                                {{ number_format($transaction->amount, 2) }} UZS
+                                            </div>
+                                            {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
                                             class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
                                         PDF</button> --}}
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Apple</h6>
-                                            <span class="text-xs">27 March 2020, at 04:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,000
-                                    </div>
-                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                            class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                        PDF</button> --}}
-                                </li>
+                                        </li>
+                                    @endforeach
 
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">expand_less</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-                                            <span class="text-xs">26 March 2020, at 08:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,500
-                                    </div>
-                                    {{-- <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                            class="material-icons text-lg position-relative me-1">picture_as_pdf</i>
-                                        PDF</button> --}}
-                                </li>
-                                <li
-                                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button
-                                            class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                                class="material-icons text-lg">priority_high</i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Webflow</h6>
-                                            <span class="text-xs">26 March 2020, at 05:00 AM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-                                        Pending
-                                    </div>
-                                </li>
-                            </ul>
+                                </ul>
+                            @else
+                                <p class="p-2 pt-5 text-danger text-bold">Transactions not found</p>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -371,7 +448,7 @@
         var clickForm = document.getElementById('clickForm');
         var clickAmountInput = document.getElementById('amountClick');
 
-        if (paymeAmount < 10000) {
+        if (paymeAmount < 1000) {
             paymeAmountInput.setCustomValidity(
                 'Please enter an amount in the form.');
             paymeAmountInput.reportValidity();

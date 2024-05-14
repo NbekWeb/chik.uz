@@ -9,10 +9,10 @@
             </div>
             <div class="contact-form">
                 <form @submit.prevent="submit">
-                    <label for="name"><span>Name</span></label>
+                    <label for="name"><span>Название</span></label>
                     <input type="text" id="name" v-model="field.name" />
                     <span v-if="errors.name" class="error">{{ errors.name[0] }}</span>
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Добавить" />
                 </form>
             </div>
             <div class="create-categories">

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('amount');
             $table->unsignedBigInteger('action');
             $table->dateTime('sign_time');
-            $table->unsignedBigInteger('user_id'); // Assuming user_id is the foreign key
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
