@@ -448,7 +448,7 @@
         var clickForm = document.getElementById('clickForm');
         var clickAmountInput = document.getElementById('amountClick');
 
-        if (paymeAmount < 1000) {
+        if (paymeAmount < 10000) {
             paymeAmountInput.setCustomValidity(
                 'Please enter an amount in the form.');
             paymeAmountInput.reportValidity();

@@ -3,9 +3,6 @@
         <!-- sidebar -->
         <nav class="navbar navbar-light navbar-expand-md">
             <div class="container-fluid">
-                <!--<a class="navbar-brand logo" href="#"><router-link :to="{ name: 'Home' }"
-              ><img src="./images/l2.png" ></router-link
-            ></a>-->
                 <a class="navbar-brand logo2" href="#"><router-link :to="{ name: 'Home' }"><img
                             src="./images/l2.png"></router-link></a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
@@ -135,7 +132,7 @@
                             </ul>
                         </div>
                         <div class="col-12 ps-0 order-md-first">
-                            <ul class="navbar-nav d-flex justify-content-end">
+                            <ul class="navbar-nav d-flex justify-content-end pt-3">
                                 <li class="nav-item ms-md move-left">
                                     <div class="input-group">
                                         <input type="text" class="form-control searchimput"

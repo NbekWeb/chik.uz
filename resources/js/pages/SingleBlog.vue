@@ -271,7 +271,7 @@ export default {
 <style scoped>
 .article .article-content h3 {
     color: black !important;
-    font-weight: 400 !important;
+    font-weight: 600 !important;
 }
 
 .lh-base {

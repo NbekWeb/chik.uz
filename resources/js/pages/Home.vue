@@ -187,13 +187,11 @@ export default {
         visibility: hidden;
     }
 
-    .searchbar__home {}
-
 }
 
 .tops-image {
-    height: 100vh;
-    width: 100vw;
+    /* height: 100vh; */
+    /* width: 100vw; */
     background-size: cover;
     background-position: center;
     display: flex;
@@ -204,8 +202,8 @@ export default {
 
 .tops {
     /*background-image: url("images/diverse.jpg");*/
-    height: 686px;
-    width: 100vw;
+    /* height: 100%; */
+    /* width: 100vw; */
     background-size: cover;
     background-position: center;
     display: flex;
@@ -306,13 +304,13 @@ export default {
     position: absolute;
     color: black;
     display: block;
-    left: 120px;
+    left: 70px;
     justify-content: left;
     justify-items: left;
-    font-weight: 500;
+    font-weight: 600;
     /*align-items: enter;*/
     padding-bottom: 200px;
-    font-size: 18px;
+    font-size: 25px;
     /* padding-top: 64px;*/
 }
 
@@ -453,7 +451,7 @@ export default {
         left: 120px;
         justify-content: left;
         justify-items: left;
-        font-weight: 500;
+        font-weight: 600;
         /*align-items: enter;*/
         padding-bottom: 150px;
         font-size: 18px;
@@ -469,7 +467,7 @@ export default {
         left: 60px;
         justify-content: left;
         justify-items: left;
-        font-weight: 500;
+        font-weight: 600;
         /*align-items: enter;*/
         padding-bottom: 150px;
         font-size: 12px;

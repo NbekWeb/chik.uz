@@ -25,7 +25,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Post ma'lumotlari</h6>
+                                <h6 class="text-white text-capitalize ps-3">Информации проекта</h6>
                             </div>
                         </div>
                         {{-- if else --}}
@@ -138,13 +138,13 @@
                         @if (count($postOrders) > 0)
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3">Postga bo'lgan buyurtmalar</h6>
+                                    <h6 class="text-white text-capitalize ps-3">Заказы на проект</h6>
                                 </div>
                             </div>
                         @else
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3">Postga buyurtma bo'lmagan</h6>
+                                    <h6 class="text-white text-capitalize ps-3">Заказов ещё не было</h6>
                                 </div>
                             </div>
                         @endif

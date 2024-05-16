@@ -106,6 +106,7 @@ class ClickController extends Controller
             }
         }
         // return response array
+        Log::info($result);
         return $result;
     }
 
@@ -180,12 +181,12 @@ class ClickController extends Controller
         }
 
         // check to correct amount
-        if ($payment && $payment['amount'] !== $request['amount']) {
-            return [
-                'error' => -2,
-                'error_note' => 'Incorrect parameter amount'
-            ];
-        }
+        // if ($payment && $payment['amount'] !== $request['amount']) {
+        //     return [
+        //         'error' => -2,
+        //         'error_note' => 'Incorrect parameter amount'
+        //     ];
+        // }
 
         // check status to transaction cancelled
         if ($payment && $payment['status'] == PaymentsStatus::REJECTED) {
