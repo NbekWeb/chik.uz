@@ -3,6 +3,10 @@
     "file": "assets/l2.29151542.png",
     "src": "resources/js/images/l2.png"
   },
+  "resources/js/images/tex.png": {
+    "file": "assets/tex.5195c563.png",
+    "src": "resources/js/images/tex.png"
+  },
   "resources/js/images/des.png": {
     "file": "assets/des.50f59b6b.png",
     "src": "resources/js/images/des.png"
@@ -11,37 +15,33 @@
     "file": "assets/it.cb7f56dc.png",
     "src": "resources/js/images/it.png"
   },
-  "resources/js/images/tex.png": {
-    "file": "assets/tex.5195c563.png",
-    "src": "resources/js/images/tex.png"
+  "resources/js/images/seo.png": {
+    "file": "assets/seo.aa669b55.png",
+    "src": "resources/js/images/seo.png"
   },
   "resources/js/images/sic.png": {
     "file": "assets/sic.cd5c189d.png",
     "src": "resources/js/images/sic.png"
   },
-  "resources/js/images/seo.png": {
-    "file": "assets/seo.aa669b55.png",
-    "src": "resources/js/images/seo.png"
-  },
   "resources/js/images/homw2.jpg": {
     "file": "assets/homw2.bb0a2519.jpg",
     "src": "resources/js/images/homw2.jpg"
-  },
-  "resources/js/images/integer.png": {
-    "file": "assets/integer.01c1d1d2.png",
-    "src": "resources/js/images/integer.png"
-  },
-  "resources/js/images/narujnaya.jpg": {
-    "file": "assets/narujnaya.b515d9b6.jpg",
-    "src": "resources/js/images/narujnaya.jpg"
   },
   "resources/js/images/polig.jpg": {
     "file": "assets/polig.63e95c1c.jpg",
     "src": "resources/js/images/polig.jpg"
   },
+  "resources/js/images/integer.png": {
+    "file": "assets/integer.01c1d1d2.png",
+    "src": "resources/js/images/integer.png"
+  },
   "resources/js/images/obro.jpg": {
     "file": "assets/obro.98a9f913.jpg",
     "src": "resources/js/images/obro.jpg"
+  },
+  "resources/js/images/narujnaya.jpg": {
+    "file": "assets/narujnaya.b515d9b6.jpg",
+    "src": "resources/js/images/narujnaya.jpg"
   },
   "resources/js/images/web.jpg": {
     "file": "assets/web.4b87eb10.jpg",
@@ -55,13 +55,13 @@
     "file": "assets/logotipy.52cbabdc.jpg",
     "src": "resources/js/images/logotipy.jpg"
   },
-  "resources/js/images/art.jpg": {
-    "file": "assets/art.1bc13538.jpg",
-    "src": "resources/js/images/art.jpg"
-  },
   "resources/js/images/prez.jpg": {
     "file": "assets/prez.9b108839.jpg",
     "src": "resources/js/images/prez.jpg"
+  },
+  "resources/js/images/art.jpg": {
+    "file": "assets/art.1bc13538.jpg",
+    "src": "resources/js/images/art.jpg"
   },
   "resources/js/images/market.jpg": {
     "file": "assets/market.98a609dc.jpg",
@@ -75,13 +75,13 @@
     "file": "assets/Трафик.05cf83b5.png",
     "src": "resources/js/images/Трафик.png"
   },
-  "resources/js/images/Продвижениесайта.png": {
-    "file": "assets/Продвижениесайта.c40bf51b.png",
-    "src": "resources/js/images/Продвижениесайта.png"
-  },
   "resources/js/images/larg.jpg": {
     "file": "assets/larg.7c1f97e2.jpg",
     "src": "resources/js/images/larg.jpg"
+  },
+  "resources/js/images/Продвижениесайта.png": {
+    "file": "assets/Продвижениесайта.c40bf51b.png",
+    "src": "resources/js/images/Продвижениесайта.png"
   },
   "resources/js/images/Контекстнаяреклама.png": {
     "file": "assets/Контекстнаяреклама.5552a4f3.png",
@@ -176,11 +176,11 @@
     "src": "resources/js/images/faq4.jpg"
   },
   "resources/js/app.js": {
-    "file": "assets/app.14b341c0.js",
+    "file": "assets/app.dcd807c6.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.a32679ca.css"
+      "assets/app.49bdd104.css"
     ],
     "assets": [
       "assets/l2.29151542.png",
@@ -230,7 +230,7 @@
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.a32679ca.css",
+    "file": "assets/app.49bdd104.css",
     "src": "resources/js/app.css"
   }
 }

@@ -7,12 +7,15 @@
     <section class="tops">
         <img class="tops-image" src="../images/larg.jpg" alt="">
         <h3 class="htitle">Фриланс-услуги в один клик:
-            <br>просто,быстро,эффективно</h3>
+            <br>просто,быстро,эффективно
+        </h3>
         <div class="searchbar__home">
-            <div class="container">
+            <div class="container search_bar" style="height:45px">
                 <form class="search_form" action="">
-                    <input type="text" placeholder="    Создать сайт" name="search" autocomplete="off" v-model="title" />
-                    <button class="btn btn-outline-secondary" type="submit">Найти</button>
+                    <input style="border-radius: 5px 0 0 5px !important;" type="text" placeholder="    Создать сайт" name="search" autocomplete="off"
+                        v-model="title" />
+                    <button class="btn btn-outline-secondary" type="submit"
+                        style="border-radius: 0 5px 5px 0 !important; margin-top: -3px; height:50px">Найти</button>
                 </form>
             </div>
         </div>

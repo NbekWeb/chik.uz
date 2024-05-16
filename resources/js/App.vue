@@ -141,7 +141,7 @@
                                         <input type="text" class="form-control searchimput"
                                             placeholder="     Что ищем, напишите" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button">Найти</button>
+                                            <button class="btn btn-outline-secondary" type="button" style="margin-top: 0px">Найти</button>
                                         </div>
                                     </div>
                                 </li>
