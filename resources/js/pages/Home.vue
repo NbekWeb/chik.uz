@@ -6,7 +6,8 @@
 
     <section class="tops">
         <img class="tops-image" src="../images/larg.jpg" alt="">
-        <h3 class="htitle">Фриланс-услуги в один клик: просто,быстро,эффективно</h3>
+        <h3 class="htitle">Фриланс-услуги в один клик:
+            <br>просто,быстро,эффективно</h3>
         <div class="searchbar__home">
             <div class="container">
                 <form class="search_form" action="">

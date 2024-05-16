@@ -1,9 +1,12 @@
 <template>
     <div id="wrapper">
         <!-- sidebar -->
-        <nav class="navbar navbar-light navbar-expand-md">
+        <nav class="navbar navbar-light navbar-expand-md pt-3">
             <div class="container-fluid">
-                <a class="navbar-brand logo2" href="#"><router-link :to="{ name: 'Home' }"><img
+                <!--<a class="navbar-brand logo" href="#"><router-link :to="{ name: 'Home' }"
+              ><img src="./images/l2.png" ></router-link
+            ></a>-->
+                <a class="navbar-brand logo2" href="#"><router-link :to="{ name: 'Home' }"><img class="logo_style"
                             src="./images/l2.png"></router-link></a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
                     <span class="visually-hidden">Toggle navigation</span>
@@ -132,7 +135,7 @@
                             </ul>
                         </div>
                         <div class="col-12 ps-0 order-md-first">
-                            <ul class="navbar-nav d-flex justify-content-end pt-3">
+                            <ul class="navbar-nav d-flex justify-content-end">
                                 <li class="nav-item ms-md move-left">
                                     <div class="input-group">
                                         <input type="text" class="form-control searchimput"
@@ -161,7 +164,7 @@
                                     <a class="nav-link signin prof">
                                         <i class="fa-solid"></i>
                                         <div class="btn-group">
-                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" style="line-height:1rem; height: 30px;" type="button"
                                                 data-bs-toggle="dropdown" data-bs-auto-close="true"
                                                 aria-expanded="false">
                                                 Профил
@@ -379,6 +382,11 @@ export default {
     top: calc(0px + 0px);
     padding: 8px;
     /*visibility: hidden;*/
+}
+.logo2 .logo_style{
+    height: 38px;
+    /* padding-top: 5px; */
+    margin-bottom: -20px;
 }
 
 .btn-group {
