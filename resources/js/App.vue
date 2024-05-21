@@ -7,7 +7,7 @@
               ><img src="./images/l2.png" ></router-link
             ></a>-->
                 <a class="navbar-brand logo2" href="#"><router-link :to="{ name: 'Home' }"><img class="logo_style"
-                            src="./images/l2.png"></router-link></a>
+                            src="./images/logo.svg"></router-link></a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
                     <span class="visually-hidden">Toggle navigation</span>
                     <span class="navbar-toggler-icon"></span>
@@ -141,7 +141,8 @@
                                         <input type="text" class="form-control searchimput"
                                             placeholder="     Что ищем, напишите" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" style="margin-top: 0px">Найти</button>
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                style="margin-top: 0px">Найти</button>
                                         </div>
                                     </div>
                                 </li>
@@ -154,7 +155,14 @@
                                             class="sign" :to="{ name: 'Register' }">Регистрация</router-link>
                                     </a>
                                 </li>
-                                <li class="nav-item ms-md move-right" v-if="loggedIn" :key="loggedIn">
+
+                                <li class="nav-item ms-md move-right mobil-btn" v-if="loggedIn"><a class="nav-link"
+                                        href="/admin/dashboard"> Профил </a>
+                                </li>
+                                <li class="nav-item ms-md move-right mobil-btn" v-if="loggedIn"><a class="nav-link"
+                                        @click="logout">Выйти</a></li>
+
+                                <li class="nav-item ms-md move-right" v-if="loggedIn && userRole == 2" :key="loggedIn">
                                     <a class="nav-link signin">
                                         <i class="fa-solid"></i> <router-link
                                             :to="{ name: 'DashboardPostsList' }">Проекты</router-link>
@@ -164,7 +172,8 @@
                                     <a class="nav-link signin prof">
                                         <i class="fa-solid"></i>
                                         <div class="btn-group">
-                                            <button class="btn btn-secondary btn-sm dropdown-toggle" style="line-height:1rem; height: 30px;" type="button"
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle"
+                                                style="line-height:1rem; height: 30px;" type="button"
                                                 data-bs-toggle="dropdown" data-bs-auto-close="true"
                                                 aria-expanded="false">
                                                 Профил
@@ -248,6 +257,7 @@ export default {
             overlayVisibility: false,
             loggedIn: false,
             editSuccess: false,
+            userRole: null
         };
     },
     methods: {
@@ -277,26 +287,31 @@ export default {
         showEditSuccess() {
             this.editSuccess = true;
         },
+        user_role(role_id) {
+            this.userRole = role_id;
+        }
     },
 
     mounted() {
         axios
             .get("/api/user")
-            .then((response) => (this.name = response.data.name))
+            .then((response) => {
+                this.user_role(response.data.role_id); // Correct function call
+            })
             .catch((error) => {
-                if (error.response.status === 401) {
+                if (error.response && error.response.status === 401) {
                     this.$emit("updateSidebar");
                     localStorage.removeItem("authenticated");
                     this.$router.push({ name: "Login" });
                 }
             });
+
         if (localStorage.getItem("authenticated")) {
             this.loggedIn = true;
         } else {
             this.loggedIn = false;
         }
-
-    },
+    }
 };
 </script>
 <style scoped>
@@ -383,7 +398,8 @@ export default {
     padding: 8px;
     /*visibility: hidden;*/
 }
-.logo2 .logo_style{
+
+.logo2 .logo_style {
     height: 38px;
     /* padding-top: 5px; */
     margin-bottom: -20px;
@@ -394,13 +410,29 @@ export default {
     top: -5px;
 }
 
+@media screen and (min-width: 1600px) {
+    .mobil-btn {
+        visibility: hidden;
+    }
+}
+
 @media screen and (min-width: 1025px) {
+    .mobil-btn {
+        visibility: hidden;
+        margin: 0px;
+    }
+
     .move-left {
-        margin-right: 550px;
+        margin-right: 350px;
     }
 }
 
 @media screen and (max-width: 768px) {
+
+    .mobil-btn {
+        visibility: hidden;
+        margin: 0px;
+    }
 
     .move-left {
         margin-right: 90px;
@@ -413,6 +445,11 @@ export default {
 }
 
 @media screen and (max-width: 767px) {
+
+    .mobil-btn {
+        visibility: hidden;
+        margin: 0px;
+    }
 
     .move-left {
         margin-right: 100px;
@@ -449,10 +486,20 @@ export default {
 }
 
 @media screen and (max-width: 480px) {
+    .mobil-btn {
+        visibility: visible;
+    }
+
+    .move-right a {
+        display: block;
+        padding-left: 0px;
+    }
+
     .logo2 {
-        width: 70px;
+        width: 95px;
         height: 50px;
         visibility: visible;
+        line-height: 0rem;
     }
 
     .logo {
@@ -476,10 +523,16 @@ export default {
 }
 
 @media screen and (max-width: 360px) {
+    .move-right a {
+        display: block;
+        padding-left: 0px;
+    }
+
     .logo2 {
-        width: 70px;
+        width: 95px;
         height: 50px;
         visibility: visible;
+        line-height: 0rem;
     }
 
     .logo {

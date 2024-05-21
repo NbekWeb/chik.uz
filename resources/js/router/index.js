@@ -7,7 +7,6 @@ import Contact from "../pages/Contact.vue";
 import SingleBlog from "../pages/SingleBlog.vue";
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
-import Dashboard from "../pages/Dashboard.vue";
 import Sigtn from "../pages/Sigtn.vue";
 import Design from "../pages/Design.vue";
 import Seo from "../pages/Seo.vue";
@@ -104,12 +103,6 @@ const routes = [
         name: "Register",
         component: Register,
         meta: { requiresGuest: true }
-    },
-    {
-        path: "/dashboard",
-        name: "Dashboard",
-        component: Dashboard,
-        meta: { requiresAuth: true }
     },
     {
         path: "/categories/create",

@@ -604,7 +604,7 @@ export default {
         position: absolute;
         color: black;
         display: block;
-        left: 50px;
+        /* left: 50px; */
         justify-content: left;
         justify-items: left;
         font-weight: 600;

@@ -467,7 +467,7 @@
                                                             @php
                                                                 $progress = 1;
                                                                 $statusColor = 'bg-gradient-danger'; // Default color for pending status
-                                                                switch ($order->status) {
+                                                                switch ($inquery->status) {
                                                                     case 201: // Pending status
                                                                         $progress = 2;
                                                                         $statusColor = 'bg-gradient-warning';

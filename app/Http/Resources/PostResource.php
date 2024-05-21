@@ -33,6 +33,7 @@ class PostResource extends JsonResource
             }),
             'category_id' => $this->category_id,
             'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }
