@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Facades\Payme;
 use App\Http\Controllers\ClickController;
+use App\Http\Controllers\MenuController;
 use App\Http\Middleware\PaymeCheck;
 
 /*
@@ -73,6 +74,7 @@ Route::post('register', [RegisterController::class, 'store']);
 Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 // categories
+Route::get('menu_list', [MenuController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 
 // posts
