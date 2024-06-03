@@ -24,6 +24,6 @@ class RegisterController extends Controller
         SendEmailVerification::dispatch($user);
         auth()->login($user);
 
-        return redirect('/dashboard');
+        return response(['data' => 'success'], 200);
     }
 }
