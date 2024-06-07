@@ -69,7 +69,7 @@ export default {
                     // this.$router.push({ name: "Dashboard" });
                     localStorage.setItem("authenticated", "true");
                     this.$emit("updateSidebar");
-                    window.location.href = "/admin/dashboard";
+                    this.$router.push({ name: "Home" });
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;

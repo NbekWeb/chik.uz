@@ -77,7 +77,9 @@ export default {
             axios
                 .post("/api/register", this.fields)
                 .then(() => {
-                    this.$router.push({ name: "Dashboard" });
+                    localStorage.setItem("authenticated", "true");
+                    this.$emit("updateSidebar");
+                    this.$router.push({ name: "Home" });
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;

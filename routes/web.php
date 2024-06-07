@@ -34,11 +34,9 @@ Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 've
 
 // here started all admin Routes
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
-    // Routes needing 'auth'' middleware
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');
-    // Routes needing 'auth'|| 'isActive' middleware
     Route::get('/billing', [PaymentController::class, 'index'])->name('billing');
     Route::middleware('isActive')->group(function () {
         Route::put('/user-profile/update', [UserController::class, 'update'])->name('user-profile.update');

@@ -10,13 +10,13 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UpdateOrderStatusController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RelatedPostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Facades\Payme;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClickController;
 use App\Http\Controllers\MenuController;
 use App\Http\Middleware\PaymeCheck;
@@ -38,7 +38,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->post('logout', [AuthenticatedSessionController::class, 'destroy']);
 // categories only related to superuser
 Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->post('categories/create', [CategoryController::class, 'store']);
 Route::middleware(['auth:sanctum', 'verified', 'isSuperUser'])->get('categories/{category}', [CategoryController::class, 'show']);
@@ -70,8 +69,9 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [C
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
+Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('register', [RegisterController::class, 'store']);
-Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
 // categories
 Route::get('menu_list', [MenuController::class, 'index']);
