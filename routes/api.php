@@ -69,8 +69,6 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [C
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
-// Route::post('register', [RegisterController::class, 'store']);
-
 // categories
 Route::get('menu_list', [MenuController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
