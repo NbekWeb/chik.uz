@@ -1,12 +1,79 @@
+<script setup>
+import { ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
+import axios from "axios";
+
+const posts = ref([]);
+const totalPages = ref(0);
+const current = ref(1);
+const pagination = ref({});
+const categories = ref([]);
+const loading = ref();
+const route = useRoute();
+
+const fetchPage = (url, category) => {
+    axios
+        .get(url, { params: { category } })
+        .then((response) => {
+            posts.value = response.data.data;
+            pagination.value = response.data.meta;
+            replaceLabels();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+const filterByCategory = (name) => {
+    loading.value = true;
+    axios
+        .get("https://chik.uz/api/posts", {
+            params: { category: name },
+        })
+        .then((response) => {
+            posts.value = response.data.data;
+            totalPages.value = posts.value.length;
+            pagination.value = response.data.meta;
+            replaceLabels();
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
+
+const replaceLabels = () => {
+    pagination.value.links.forEach((page) => {
+        if (page.label === "&laquo; Previous") {
+            page.label = "<<";
+        } else if (page.label === "Next &raquo;") {
+            page.label = ">>";
+        }
+    });
+};
+
+watch(
+    () => route.query.category,
+    (newCategory) => {
+        filterByCategory(newCategory);
+    }
+);
+
+onMounted(() => {
+    filterByCategory(route.query.category);
+});
+</script>
 <template>
-    <div class="pt-3 container">
-        <div>
-            <h2 class="text-center font-bold pb-3">Игры</h2>
+    <div class="container pt-3">
+        <div class="">
+            <h2 class="m-0 font-bold text-center">{{ route.query.category }}</h2>
 
             <a-spin :spinning="loading">
-                <div class="min-h-[250px] flex justify-center items-center pb-3 flex-col">
+                <div class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3">
                     <template v-if="posts.length && !loading">
-                        <a-row :gutter="[16, 24]">
+                        <a-row :gutter="[16, 24]" class="smm__row">
                             <a-col v-for="post in posts" :key="post.id" :span="6" :lg="6" :md="8" :sm="12" :xs="24">
                                 <router-link :to="{
                                     name: 'SingleBlog',
@@ -29,7 +96,7 @@
                                             </h6>
                                             <hr />
                                             <div class="flex items-center mx-2 mb-2">
-                                                <img src="./images/avatar.png "
+                                                <img src="../images/avatar.png "
                                                     class="object-cover w-10 h-10 rounded-full" />
                                                 <h6 class="mb-0 ml-2 text-lg">
                                                     {{ post.user ? post.user : "Unknown User" }}
@@ -59,7 +126,7 @@
                                             </h6>
                                             <hr />
                                             <div class="flex items-center mx-2 mb-2">
-                                                <img src="./images/avatar.png "
+                                                <img src="../images/avatar.png "
                                                     class="object-cover w-10 h-10 rounded-full" />
                                                 <h6 class="mb-0 ml-2 text-lg">
                                                     {{ post.user ? post.user : "Unknown User" }}
@@ -70,151 +137,41 @@
                                 </router-link>
                             </a-col>
                         </a-row>
-                        <div class=" w-full flex justify-end mt-3">
+                        <div class="flex justify-end w-full mt-3">
                             <a-pagination v-model:current="current" :total="totalPages" :pageSize="2" show-less-items
                                 hideOnSinglePage />
                         </div>
                     </template>
                     <template v-else>
                         <a-empty description="Пака Пустой" class="empty" />
-                        {{ posts }}
                     </template>
                 </div>
             </a-spin>
-
-            <!-- <section class="cards-blog latest-blog">
-          <div class="card" v-for="post in posts" :key="post.id">
-            <img
-              v-if="post.images.length > 0"
-              :src="post.images[0]?.url"
-              :alt="`First Image`"
-            />
-            <div class="card-body">
-              <h5 class="card-title">
-                <a href="single-blog.html"></a>
-                <router-link
-                  :to="{
-                    name: 'SingleBlog',
-                    params: { slug: post.slug },
-                  }"
-                  >{{ post.title }}</router-link
-                >
-              </h5>
-
-              <br />
-              <h6 class="card-subtitle mb-2 text-end">{{ post.price }} Uzs</h6>
-              <hr />
-              <div class="card-user">
-                <img
-                  :src="
-                    post.userImage ? post.userImage : '@/assets/img/avatar.png'
-                  "
-                  style="width: 40px; height: 40px; border-radius: 50%"
-                />
-                <h6>{{ post.user ? post.user : "Unknown User" }}</h6>
-              </div>
-            </div>
-          </div>
-        </section>
-        <ul class="pagination">
-          <li
-            v-for="(page, index) in pagination.links"
-            :key="index"
-            class="page-item"
-            :class="{ active: page.active }"
-          >
-            <a class="page-link" @click.prevent="fetchPage(page.url)" href="#">
-              {{ page.label }}
-            </a>
-          </li>
-        </ul> -->
         </div>
     </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
-
-const posts = ref([]);
-const loading = ref();
-const pagination = ref({});
-const categories = ref([]);
-
-const route = useRoute();
-const category = route.params.category || "Игры";
-
-const fetchPage = async (url, category) => {
-    try {
-        const response = await axios.get(url, { params: { category } });
-        posts.value = response.data.data;
-        pagination.value = response.data.meta;
-
-        replaceLabels();
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loading.value = false;
-    }
-};
-
-const filterByCategory = (name) => {
-    loading.value = true;
-    axios
-        .get("https://chik.uz/api/posts", {
-            params: { category: name },
-        })
-        .then((response) => {
-            posts.value = response.data.data;
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-};
-
-const replaceLabels = () => {
-    if (pagination.value.links) {
-        pagination.value.links.forEach((page) => {
-            if (page.label === "&laquo; Previous") {
-                page.label = "<<";
-            } else if (page.label === "Next &raquo;") {
-                page.label = ">>";
-            }
-        });
-    }
-};
-
-onMounted(async () => {
-    //   try {
-    //     const response = await axios.get("https://chik.uz/api/categories");
-    //     categories.value = response.data;
-    //     filterByCategory("Игры");
-    //     loading.value = true;
-    //   } catch (error) {
-    //     console.error(error);
-    filterByCategory("Игры");
-    //   }
-    //   axios
-    //   .get("https://chik.uz/api/categories")
-    //   .then((response)=>{
-    //     categories.value = response.data;
-    //     filterByCategory("Игры")
-    //     console.log(categories.value)
-    //   })
-    //   .catch((error) => {
-    //       console.log(error);
-    //     });
-});
-</script>
-
 <style>
+.smm {
+    min-height: 250px;
+}
+
 .right_side_menu {
     color: rgb(0, 0, 0);
+}
+
+.smm__col__wrapper {
+    border: 1px solid #e2e2e2;
+}
+
+.ant-skeleton.ant-skeleton-element .ant-skeleton-image {
+    /* object-fit: cover; */
+    height: 160px !important;
+    width: 100% !important;
+}
+
+.ant-skeleton.ant-skeleton-element {
+    width: 100% !important;
 }
 
 .design_page {

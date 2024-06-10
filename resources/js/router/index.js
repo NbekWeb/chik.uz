@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import About from '../pages/About.vue'
+import About from "../pages/About.vue";
 import Home from "../pages/Home.vue";
 import Blog from "../pages/Blog.vue";
 import Contact from "../pages/Contact.vue";
@@ -52,6 +52,7 @@ import CreateCategories from "../pages/categories/CreateCategories.vue";
 import CategoriesList from "../pages/categories/CategoriesList.vue";
 import EditCategories from "../pages/categories/EditCategories.vue";
 import CreatePosts from "../pages/posts/CreatePosts.vue";
+import Sa1 from "../pages/posts/CreatePost.vue";
 import DashboardPostsList from "../pages/posts/DashboardPostsList.vue";
 import EditPosts from "../pages/posts/EditPosts.vue";
 import Header from "../components/Header.vue";
@@ -62,8 +63,8 @@ import SingleOrder from "../pages/SingleOrder.vue";
 import Privacy from "../pages/Privacy.vue";
 import Deal from "../pages/Deal.vue";
 
-
 import Footer from "../components/Footer.vue";
+import PostComponent from "../components/PostComponent.vue";
 
 const routes = [
     {
@@ -82,6 +83,16 @@ const routes = [
         component: Blog,
     },
     {
+        path: "/sa1",
+        name: "Sa1",
+        component: Sa1,
+    },
+    {
+        path: "/post",
+        name: "PostComponent",
+        component: PostComponent
+    },
+    {
         path: "/contact",
         name: "Contact",
         component: Contact,
@@ -96,13 +107,13 @@ const routes = [
         path: "/login",
         name: "Login",
         component: Login,
-        meta: { requiresGuest: true }
+        meta: { requiresGuest: true },
     },
     {
         path: "/register",
         name: "Register",
         component: Register,
-        meta: { requiresGuest: true }
+        meta: { requiresGuest: true },
     },
     {
         path: "/categories/create",
@@ -123,7 +134,7 @@ const routes = [
         name: "EditCategories",
         component: EditCategories,
         meta: { requiresAuth: true },
-        props: true
+        props: true,
     },
 
     {
@@ -145,7 +156,7 @@ const routes = [
         name: "EditPosts",
         component: EditPosts,
         meta: { requiresAuth: true },
-        props: true
+        props: true,
     },
     {
         path: "/footer",
@@ -358,7 +369,6 @@ const routes = [
         name: "Orders",
         component: Orders,
         props: true,
-
     },
     {
         path: "/order/:id",
@@ -373,14 +383,14 @@ const routes = [
         name: "Inquiries",
         component: Inquiries,
         props: true,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
     },
     {
         path: "/inquiry/:id",
         name: "Inquiry",
         component: Inquiry,
         props: true,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
     },
     {
         path: "/privacy",
