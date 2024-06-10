@@ -263,7 +263,7 @@ export default {
     methods: {
         logout() {
             axios
-                .post("/api/logout")
+                .post("/logout")
                 .then((response) => {
                     this.$router.push({ name: "Home" });
                     localStorage.removeItem("authenticated");

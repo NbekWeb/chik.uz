@@ -75,7 +75,7 @@ export default {
     methods: {
         submit() {
             axios
-                .post("/api/register", this.fields)
+                .post("/register", this.fields)
                 .then(() => {
                     localStorage.setItem("authenticated", "true");
                     this.$emit("updateSidebar");

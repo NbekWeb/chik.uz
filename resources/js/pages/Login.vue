@@ -64,7 +64,7 @@ export default {
     methods: {
         submit() {
             axios
-                .post("/api/login", this.fields)
+                .post("/login", this.fields)
                 .then(() => {
                     // this.$router.push({ name: "Dashboard" });
                     localStorage.setItem("authenticated", "true");

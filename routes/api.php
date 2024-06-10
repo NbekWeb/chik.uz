@@ -69,9 +69,7 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [C
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
-Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('register', [RegisterController::class, 'store']);
-Route::post('login', [AuthController::class, 'login'])->name('login');
+// Route::post('register', [RegisterController::class, 'store']);
 
 // categories
 Route::get('menu_list', [MenuController::class, 'index']);
