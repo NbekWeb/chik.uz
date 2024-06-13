@@ -6,34 +6,85 @@
                     <MenuOutlined @click="() => (openMenu = true)" />
                 </span>
                 <router-link :to="{ name: 'Home' }">
-                    <img class="w-auto h-10 max-md:h-8" src="./images/logo.svg" />
+                    <img
+                        class="w-auto h-10 max-md:h-8"
+                        src="./images/logo.svg"
+                    />
                 </router-link>
-                <a-input-search placeholder="Что ищем, напишите" enter-button="Найти" size="large"
-                    class="w-[360px] max-md:hidden" />
+                <a-input-search
+                    placeholder="Что ищем, напишите"
+                    enter-button="Найти"
+                    size="large"
+                    class="w-[360px] max-md:hidden"
+                />
                 <div class="flex gap-2">
-                    <router-link :to="{ name: 'Login' }" class="md:flex max-md:hidden">
+                    <router-link
+                        :to="{ name: 'Login' }"
+                        class="md:flex max-md:hidden"
+                        v-if="!loggedIn"
+                    >
                         <a-button> Вход </a-button>
                     </router-link>
-                    <router-link :to="{ name: 'Login' }" class="md:hidden max-md:flex">
+                    <router-link
+                        :to="{ name: 'Login' }"
+                        class="md:hidden max-md:flex"
+                        v-if="!loggedIn"
+                    >
                         <a-button> Войти</a-button>
                     </router-link>
-                    <router-link :to="{ name: 'Register' }" class="md:flex max-md:hidden">
+                    <router-link
+                        :to="{ name: 'Register' }"
+                        class="md:flex max-md:hidden"
+                        v-if="!loggedIn"
+                    >
                         <a-button type="primary"> Регистрация </a-button>
                     </router-link>
+                    <a-popover
+                        v-model:open="visible"
+                        trigger="click"
+                        v-if="loggedIn"
+                    >
+                        <template #content>
+                            <div class="flex gap-y-2 flex-col">
+                                <a href="admin/dashboard">
+                                <a-button type="link">
+                                    Профил
+                                </a-button>
+                            </a>
+                            <a-button danger @click="logout">Выйти</a-button>
+                            </div>
+                        </template>
+                        <a-button type="primary">Профил</a-button>
+                    </a-popover>
                 </div>
             </div>
-            <a-input-search placeholder="Что ищем, напишите" enter-button="Найти" size="large"
-                class="container w-full mt-3 border-none md:hidden max-md:flex" />
-            <div class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex">
+            <a-input-search
+                placeholder="Что ищем, напишите"
+                enter-button="Найти"
+                size="large"
+                class="container w-full mt-3 border-none md:hidden max-md:flex"
+            />
+            <div
+                class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex"
+            >
                 <a-spin :spinning="loader">
                     <div class="container">
-                        <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" @click="pushToMenu"
-                            style="justify-content: space-between !important;" />
+                        <a-menu
+                            v-model:selectedKeys="current"
+                            mode="horizontal"
+                            :items="items"
+                            @click="pushToMenu"
+                            style="justify-content: space-between !important"
+                        />
                     </div>
                 </a-spin>
             </div>
 
-            <div v-if="openMenu" class="menu-backdrop" @click="() => (openMenu = false)"></div>
+            <div
+                v-if="openMenu"
+                class="menu-backdrop"
+                @click="() => (openMenu = false)"
+            ></div>
             <div :class="['menu-container', { open: openMenu }]">
                 <div class="p-4">
                     <div class="flex items-center gap-10 mb-4">
@@ -42,8 +93,14 @@
                     </div>
                     <scrollbar-component height="calc(100vh - 155px)">
                         <template #content>
-                            <a-menu id="menu" v-model:selectedKeys="current" mode="inline" :items="items" class="w-full"
-                                @click="pushToMenu" />
+                            <a-menu
+                                id="menu"
+                                v-model:selectedKeys="current"
+                                mode="inline"
+                                :items="items"
+                                class="w-full"
+                                @click="pushToMenu"
+                            />
                         </template>
                     </scrollbar-component>
                 </div>
@@ -65,44 +122,93 @@
                 </div>
                 <div class="services">
                     <p>
-                        <a href=""><router-link :to="{ name: 'Design' }">Дизайн</router-link></a>
+                        <a href=""
+                            ><router-link :to="{ name: 'Design' }"
+                                >Дизайн</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Development' }">Разработка и IT</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Development' }"
+                                >Разработка и IT</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Texts' }">Тексты и Переводы</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Texts' }"
+                                >Тексты и Переводы</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Seo' }">SEO и трафик</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Seo' }"
+                                >SEO и трафик</router-link
+                            ></a
+                        >
                     </p>
                 </div>
                 <div class="services">
                     <p>
-                        <a><router-link :to="{ name: 'Social' }">Соцсети и реклама</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Social' }"
+                                >Соцсети и реклама</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Home' }">Фрилансеру</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Home' }"
+                                >Фрилансеру</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Home' }">Покупателям</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Home' }"
+                                >Покупателям</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a><router-link :to="{ name: 'Statics' }">Статистика и аналитика</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Statics' }"
+                                >Статистика и аналитика</router-link
+                            ></a
+                        >
                     </p>
                 </div>
                 <div class="footerlinks">
                     <p>
-                        <a><router-link :to="{ name: 'Privacy' }">Политика конфиденциальности PRIVACY</router-link></a>
+                        <a
+                            ><router-link :to="{ name: 'Privacy' }"
+                                >Политика конфиденциальности
+                                PRIVACY</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a href="#"><router-link :to="{ name: 'About' }">About Chik</router-link></a>
+                        <a href="#"
+                            ><router-link :to="{ name: 'About' }"
+                                >About Chik</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a href="#"><router-link :to="{ name: 'Deal' }">Пользовательское соглашение</router-link></a>
+                        <a href="#"
+                            ><router-link :to="{ name: 'Deal' }"
+                                >Пользовательское соглашение</router-link
+                            ></a
+                        >
                     </p>
                     <p>
-                        <a href="#"><router-link :to="{ name: 'Contact' }">Способы оплаты</router-link></a>
+                        <a href="#"
+                            ><router-link :to="{ name: 'Contact' }"
+                                >Способы оплаты</router-link
+                            ></a
+                        >
                     </p>
                 </div>
             </div>
@@ -124,17 +230,18 @@ import axios from "axios";
 const overlayVisibility = ref(false);
 const loggedIn = ref(false);
 const editSuccess = ref(false);
+const visible = ref(false);
 const userRole = ref(null);
 const router = useRouter();
 
 const logout = () => {
     axios
-        .post("/api/logout")
+        .post("/logout")
         .then(() => {
             router.push({ name: "Home" });
             localStorage.removeItem("authenticated");
-            updateSidebar();
             loggedIn.value = false;
+            visible.value = false;
         })
         .catch((error) => console.log(error));
 };
@@ -146,10 +253,6 @@ const openMenu = ref(false);
 
 const hideOverlay = () => {
     overlayVisibility.value = false;
-};
-
-const updateSidebar = () => {
-    loggedIn.value = !loggedIn.value;
 };
 
 const showEditSuccess = () => {
@@ -176,27 +279,27 @@ const items = ref([]);
 const loader = ref(true);
 
 onMounted(() => {
-     axios
+    axios
         .get("/api/user")
         .then((response) => {
-          setUserRole(response.data.role_id);
-        //   router.push('/admin/dashboard')
-        //   console.log('sa')
-          // loader.value = true;
+            setUserRole(response.data.role_id);
+            //   router.push('/admin/dashboard')
+            //   console.log('sa')
+            // loader.value = true;
         })
         .catch((error) => {
-          if (error.response && error.response.status === 401) {
-            updateSidebar();
-            localStorage.removeItem("authenticated");
-            // router.push({ name: "Login" });
-          }
+            if (error.response && error.response.status === 401) {
+                updateSidebar();
+                localStorage.removeItem("authenticated");
+                // router.push({ name: "Login" });
+            }
         });
 
-      if (localStorage.getItem("authenticated")) {
+    if (localStorage.getItem("authenticated")) {
         loggedIn.value = true;
-      } else {
+    } else {
         loggedIn.value = false;
-      }
+    }
     axios
         .get("api/menu_list")
         .then((res) => {
@@ -208,7 +311,10 @@ onMounted(() => {
                     key: res.data.data[i].url_link,
                     children: [],
                 };
-                if (res.data.data[i].submenu && res.data.data[i].submenu.length > 0) {
+                if (
+                    res.data.data[i].submenu &&
+                    res.data.data[i].submenu.length > 0
+                ) {
                     item.children.push({
                         label: "Общий",
                         key: res.data.data[i].url_link,
