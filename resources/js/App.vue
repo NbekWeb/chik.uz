@@ -180,7 +180,7 @@ onMounted(() => {
         .get("/api/user")
         .then((response) => {
           setUserRole(response.data.role_id);
-          router.push('admin/dashboard')
+        //   router.push('/admin/dashboard')
         //   console.log('sa')
           // loader.value = true;
         })

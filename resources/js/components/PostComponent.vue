@@ -3,6 +3,10 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/swiper-bundle.css";
+
 const posts = ref([]);
 const totalPages = ref(0);
 const current = ref(1);
@@ -10,6 +14,8 @@ const pagination = ref({});
 const categories = ref([]);
 const loading = ref();
 const route = useRoute();
+
+const modul = ref([Navigation, Pagination, Autoplay]);
 
 const fetchPage = (url, category) => {
     axios
@@ -24,15 +30,15 @@ const fetchPage = (url, category) => {
         });
 };
 
-const filterByCategory = (name,page=1) => {
+const filterByCategory = (name, page = 1) => {
     loading.value = true;
     axios
         .get("/api/posts", {
-            params: { category: name,page:page },
+            params: { category: name, page: page },
         })
         .then((response) => {
             posts.value = response.data.data;
-            totalPages.value = Math.ceil(response.data.meta.total/12);
+            totalPages.value = Math.ceil(response.data.meta.total / 12);
             pagination.value = response.data.meta;
             replaceLabels();
         })
@@ -68,36 +74,85 @@ onMounted(() => {
 <template>
     <div class="container pt-3">
         <div class="">
-            <h2 class="m-0 font-bold text-center">{{ route.query.category }}</h2>
+            <h2 class="m-0 font-bold text-center">
+                {{ route.query.category }}
+            </h2>
 
             <a-spin :spinning="loading">
-                <div class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3">
+                <div
+                    class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3"
+                >
                     <template v-if="posts.length && !loading">
-                        <a-row :gutter="[16, 24]" class="smm__row">
-                            <a-col v-for="post in posts" :key="post.id" :span="6" :lg="6" :md="8" :sm="12" :xs="24">
-                                <router-link :to="{
-                                    name: 'SingleBlog',
-                                    params: { slug: post.slug },
-                                }">
+                        <a-row :gutter="[16, 24]" class="w-full post-comp">
+                            <a-col
+                                v-for="post in posts"
+                                :key="post.id"
+                                :span="6"
+                                :lg="6"
+                                :md="8"
+                                :sm="12"
+                                :xs="24"
+                                class="w-full"
+                            >
+                                <router-link
+                                    :to="{
+                                        name: 'SingleBlog',
+                                        params: { slug: post.slug },
+                                    }"
+                                    class="w-full"
+                                >
                                     <div class="bg-white">
-                                        <img v-if="post.images.length > 0" :src="post.images[0]?.url"
+                                        <Swiper
+                                            :slides-per-view="1"
+                                            spaceBetween="10"
+                                            :autoplay="{ delay: 3000 }"
+                                            :pagination="{ clickable: true }"
+                                            navigation
+                                            :modules="modul"
+                                            class="object-cover w-full h-[160px]"
+                                        >
+                                            <SwiperSlide
+                                                v-for="(
+                                                    image, index
+                                                ) in post.images"
+                                                :key="index"
+                                            >
+                                                <img
+                                                    :src="image.url"
+                                                    class="object-cover w-full h-full"
+                                                />
+                                            </SwiperSlide>
+                                        </Swiper>
+                                        <!-- <img v-if="post.images.length > 0" :src="post.images[0]?.url"
                                             :alt="`First Image`" class="h-[160px] object-cover w-full" />
-                                        <a-skeleton-image active class="smm__row__image" v-else />
+                                        <a-skeleton-image active class="smm__row__image" v-else /> -->
                                         <div class="card-body">
-                                            <p class="h-10 mx-2 mt-3 text-sm text-light__black desc__text">
+                                            <p
+                                                class="h-10 mx-2 mt-3 text-sm text-light__black desc__text"
+                                            >
                                                 {{ post.title }}
                                             </p>
 
                                             <br />
-                                            <h6 class="mb-2 mr-2 text-lg font-bold text-end text-green">
+                                            <h6
+                                                class="mb-2 mr-2 text-lg font-bold text-end text-green"
+                                            >
                                                 {{ post.price }} Uzs
                                             </h6>
                                             <hr />
-                                            <div class="flex items-center mx-2 mb-2">
-                                                <img src="../images/avatar.png "
-                                                    class="object-cover w-10 h-10 rounded-full" />
+                                            <div
+                                                class="flex items-center mx-2 mb-2"
+                                            >
+                                                <img
+                                                    src="../images/avatar.png "
+                                                    class="object-cover w-10 h-10 rounded-full"
+                                                />
                                                 <h6 class="mb-0 ml-2 text-lg">
-                                                    {{ post.user ? post.user : "Unknown User" }}
+                                                    {{
+                                                        post.user
+                                                            ? post.user
+                                                            : "Unknown User"
+                                                    }}
                                                 </h6>
                                             </div>
                                         </div>
@@ -105,9 +160,20 @@ onMounted(() => {
                                 </router-link>
                             </a-col>
                         </a-row>
-                        <div class="flex justify-end w-full mt-3">
-                            <a-pagination v-model:current="current" :total="totalPages" :pageSize="1" show-less-items
-                                hideOnSinglePage @change="filterByCategory(route.query.category,current)" />
+                        <div class="flex justify-end w-full my-3">
+                            <a-pagination
+                                v-model:current="current"
+                                :total="totalPages"
+                                :pageSize="1"
+                                show-less-items
+                                hideOnSinglePage
+                                @change="
+                                    filterByCategory(
+                                        route.query.category,
+                                        current
+                                    )
+                                "
+                            />
                         </div>
                     </template>
                     <template v-else>
@@ -130,6 +196,10 @@ onMounted(() => {
 
 .smm__col__wrapper {
     border: 1px solid #e2e2e2;
+}
+
+.post-comp .swiper-button-prev,.post-comp .swiper-button-next{
+    display: none !important;
 }
 
 .ant-skeleton.ant-skeleton-element .ant-skeleton-image {
