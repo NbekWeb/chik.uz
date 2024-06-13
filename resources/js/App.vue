@@ -176,29 +176,29 @@ const items = ref([]);
 const loader = ref(true);
 
 onMounted(() => {
-    //  axios
-    //     .get("https://chik.uz/api/user")
-    //     .then((response) => {
-    //       setUserRole(response.data.role_id);
-    //       router.push('admin/dashboard')
-    //       console.log('sa')
-    //       // loader.value = true;
-    //     })
-    //     .catch((error) => {
-    //       if (error.response && error.response.status === 401) {
-    //         updateSidebar();
-    //         localStorage.removeItem("authenticated");
-    //         router.push({ name: "Login" });
-    //       }
-    //     });
+     axios
+        .get("/api/user")
+        .then((response) => {
+          setUserRole(response.data.role_id);
+          router.push('admin/dashboard')
+        //   console.log('sa')
+          // loader.value = true;
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            updateSidebar();
+            localStorage.removeItem("authenticated");
+            // router.push({ name: "Login" });
+          }
+        });
 
-    //   if (localStorage.getItem("authenticated")) {
-    //     loggedIn.value = true;
-    //   } else {
-    //     loggedIn.value = false;
-    //   }
+      if (localStorage.getItem("authenticated")) {
+        loggedIn.value = true;
+      } else {
+        loggedIn.value = false;
+      }
     axios
-        .get("/api/menu_list")
+        .get("api/menu_list")
         .then((res) => {
             loader.value = true;
             const menuItems = [];
