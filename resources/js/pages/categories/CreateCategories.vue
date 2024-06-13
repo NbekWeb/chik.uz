@@ -1,0 +1,62 @@
+<template>
+    <div id="create-categories">
+        <div id="contact-us">
+            <h1>Создать новую категорию!</h1>
+            <!-- success message -->
+            <div class="success-msg" v-if="success">
+                <i class="fa fa-check"></i>
+                Категория успешно создана
+            </div>
+            <div class="contact-form">
+                <form @submit.prevent="submit">
+                    <label for="name"><span>Название</span></label>
+                    <input type="text" id="name" v-model="field.name" />
+                    <span v-if="errors.name" class="error">{{ errors.name[0] }}</span>
+                    <input type="submit" value="Добавить" />
+                </form>
+            </div>
+            <div class="create-categories">
+                <router-link :to="{ name: 'CategoriesList' }">Список категорий <span>&#8594;</span></router-link>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            field: {},
+            errors: {},
+            success: false,
+        };
+    },
+
+    methods: {
+        submit() {
+            axios
+                .post("/api/categories/create", this.field)
+                .then(() => {
+                    this.field = {};
+                    this.errors = {};
+                    this.success = true;
+
+                    setInterval(() => {
+                        this.success = false;
+                    }, 2500);
+                })
+                .catch((error) => {
+                    this.errors = error.response.data.errors;
+                });
+        },
+    },
+};
+</script>
+
+<style scoped>
+#create-categories {
+    background-color: #f3f4f6;
+    height: 90vh;
+    padding: 50px;
+}
+</style>
