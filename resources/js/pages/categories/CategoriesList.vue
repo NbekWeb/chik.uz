@@ -11,7 +11,7 @@
                                 :to="{ name: 'EditCategories', params: { id: record.id }}"
                                 class="edit-link"
                             >
-                                Edit
+   Edit
                             </router-link>
                             <button
                                 type="button"
