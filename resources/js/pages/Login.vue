@@ -10,7 +10,6 @@
                                     alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
-<<<<<<< HEAD
                                 <div class="p-4 text-black card-body p-lg-5">
                                     <div class="pb-1 mb-3 d-flex align-items-center">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -20,28 +19,13 @@
                                     <form @submit.prevent="submit">
 
                                         <div class="mb-4 form-outline">
-=======
-                                <div class="card-body p-4 p-lg-5 text-black">
-                                    <div class="d-flex align-items-center mb-3 pb-1">
-                                        <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                        <span class="h1 fw-bold mb-0">Chik</span>
-                                    </div>
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Войти</h5>
-                                    <form @submit.prevent="submit">
-
-                                        <div class="form-outline mb-4">
->>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
                                             <input type="email" id="email" v-model="fields.email"
                                                 class="form-control form-control-lg" />
                                             <label class="form-label" for="email">Email адрес</label>
-                                            <span v-if="errors.email" class="error">{{ errors.email[0] }}</span>
+                                            <span v-if="errors.email" class="error">{{ errors.email[0] }} </span>
                                         </div>
 
-<<<<<<< HEAD
                                         <div class="mb-4 form-outline">
-=======
-                                        <div class="form-outline mb-4">
->>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
                                             <input type="password" id="password" v-model="fields.password"
                                                 class="form-control form-control-lg" />
                                             <label class="form-label" for="password">Пароль</label>
@@ -69,7 +53,6 @@
     </section>
 </template>
 
-<<<<<<< HEAD
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -90,31 +73,6 @@ const submit = () => {
         .catch((error) => {
            console.log(error);
         });
-=======
-<script>
-export default {
-    data() {
-        return {
-            fields: {},
-            errors: {},
-        };
-    },
-    methods: {
-        submit() {
-            axios
-                .post("/login", this.fields)
-                .then(() => {
-                    // this.$router.push({ name: "Dashboard" });
-                    localStorage.setItem("authenticated", "true");
-                    this.$emit("updateSidebar");
-                    this.$router.push({ name: "Home" });
-                })
-                .catch((error) => {
-                    this.errors = error.response.data.errors;
-                });
-        },
-    },
->>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
 };
 </script>
 

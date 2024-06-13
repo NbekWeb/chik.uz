@@ -5,7 +5,7 @@
             <div class="mx-3">
                 <a-table :columns="columns" :data-source="categories" bordered>
                     <!-- Custom slot for actions column -->
-                    <template #actions="{ text, record }">
+                    <template #actions="{  record }">
                         <span class="flex justify-center gap-2">
                             <router-link
                                 :to="{ name: 'EditCategories', params: { id: record.id }}"

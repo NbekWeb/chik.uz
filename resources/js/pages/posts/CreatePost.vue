@@ -206,11 +206,7 @@ const submit = () => {
 
 onMounted(() => {
     axios
-<<<<<<< HEAD
         .get("/api/categories")
-=======
-        .get("https://chik.uz/api/categories")
->>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
         .then((response) => (categories.value = response.data))
         .catch((error) => {
             console.log(error);
