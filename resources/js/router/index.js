@@ -13,26 +13,44 @@ import Seo from "../pages/Seo.vue";
 import Social from "../pages/Social.vue";
 import Texts from "../pages/Texts.vue";
 import Printing from "../pages/Printing.vue";
+<<<<<<< HEAD
 // import WebsitePromotion from "../pages/Website Promotion.vue";
+=======
+import WebsitePromotion from "../pages/Website Promotion.vue";
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
 import Usability from "../pages/Usability.vue";
 import Translates from "../pages/Translates.vue";
 import Trafics from "../pages/Trafics.vue";
 import Study from "../pages/Study.vue";
 import Statics from "../pages/Statics.vue";
 import Smm from "../pages/Smm.vue";
+<<<<<<< HEAD
 // import Sitesetup from "../pages/Site Setup.vue";
 import Siteselling from "../pages/Site Selling.vue";
 import Sitemaking from "../pages/Site Making.vue";
 // import Sitecontent from "../pages/Site Content.vue";
+=======
+import Sitesetup from "../pages/Site Setup.vue";
+import Siteselling from "../pages/Site Selling.vue";
+import Sitemaking from "../pages/Site Making.vue";
+import Sitecontent from "../pages/Site Content.vue";
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
 import Server from "../pages/Server.vue";
 import Scripts from "../pages/Scripts.vue";
 import Reklame from "../pages/Reklame.vue";
 import Presentations from "../pages/Presentations.vue";
 import Pr from "../pages/Pr.vue";
+<<<<<<< HEAD
 // import Mobiledesign from "../pages/Mobile Design.vue";
 // import Marketplace from "../pages/Marketplace.vue";
 // import Makingtexts from "../pages/Making Texts.vue";
 // import Logo from "../pages/Logo.vue";
+=======
+import Mobiledesign from "../pages/Mobile Design.vue";
+import Marketplace from "../pages/Marketplace.vue";
+import Makingtexts from "../pages/Making Texts.vue";
+import Logo from "../pages/Logo.vue";
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
 import Layout from "../pages/Layout.vue";
 import Intejerextejer from "../pages/Intejer Extejer.vue";
 import Informatics from "../pages/Informatics.vue";
@@ -43,8 +61,13 @@ import Editing from "../pages/Editing.vue";
 import Desktop from "../pages/Desktop.vue";
 import Databasez from "../pages/Databasez.vue";
 import Cv from "../pages/Cv.vue";
+<<<<<<< HEAD
 // import Outdooradvertising from "../pages/Outdoor Advertising.vue";
 // import Businesstexts from "../pages/Business Texts.vue";
+=======
+import Outdooradvertising from "../pages/Outdoor Advertising.vue";
+import Businesstexts from "../pages/Business Texts.vue";
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
 import Art from "../pages/Art.vue";
 import Application from "../pages/Application.vue";
 import Development from "../pages/Development.vue";
@@ -193,11 +216,19 @@ const routes = [
         name: "Printing",
         component: Printing,
     },
+<<<<<<< HEAD
     // {
     //     path: "/websitepromotion",
     //     name: "Websitepromotion",
     //     component: WebsitePromotion,
     // },
+=======
+    {
+        path: "/websitepromotion",
+        name: "Websitepromotion",
+        component: WebsitePromotion,
+    },
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
     {
         path: "/usability",
         name: "Usability",
@@ -228,11 +259,19 @@ const routes = [
         name: "Smm",
         component: Smm,
     },
+<<<<<<< HEAD
     // {
     //     path: "/sitesetup",
     //     name: "Sitesetup",
     //     component: Sitesetup,
     // },
+=======
+    {
+        path: "/sitesetup",
+        name: "Sitesetup",
+        component: Sitesetup,
+    },
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
     {
         path: "/siteselling",
         name: "Siteselling",
@@ -243,11 +282,19 @@ const routes = [
         name: "Sitemaking",
         component: Sitemaking,
     },
+<<<<<<< HEAD
     // {
     //     path: "/sitecontent",
     //     name: "Sitecontent",
     //     component: Sitecontent,
     // },
+=======
+    {
+        path: "/sitecontent",
+        name: "Sitecontent",
+        component: Sitecontent,
+    },
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
     {
         path: "/server",
         name: "Server",
@@ -273,6 +320,7 @@ const routes = [
         name: "Pr",
         component: Pr,
     },
+<<<<<<< HEAD
     // {
     //     path: "/mobiledesign",
     //     name: "Mobiledesign",
@@ -294,6 +342,29 @@ const routes = [
     //     component: Logo,
     //     props: true,
     // },
+=======
+    {
+        path: "/mobiledesign",
+        name: "Mobiledesign",
+        component: Mobiledesign,
+    },
+    {
+        path: "/marketplace",
+        name: "Marketplace",
+        component: Marketplace,
+    },
+    {
+        path: "/makingtexts",
+        name: "Makingtexts",
+        component: Makingtexts,
+    },
+    {
+        path: "/logo",
+        name: "Logo",
+        component: Logo,
+        props: true,
+    },
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
     {
         path: "/layout",
         name: "Layout",
@@ -344,6 +415,7 @@ const routes = [
         name: "Cv",
         component: Cv,
     },
+<<<<<<< HEAD
     // {
     //     path: "/outdooradvertising",
     //     name: "Outdooradvertising",
@@ -354,6 +426,18 @@ const routes = [
     //     name: "Businesstexts",
     //     component: Businesstexts,
     // },
+=======
+    {
+        path: "/outdooradvertising",
+        name: "Outdooradvertising",
+        component: Outdooradvertising,
+    },
+    {
+        path: "/businesstexts",
+        name: "Businesstexts",
+        component: Businesstexts,
+    },
+>>>>>>> 5763ea15e0cfc0f5722e96bfa1edc534d9a9f94c
     {
         path: "/art",
         name: "Art",
