@@ -47,6 +47,10 @@ body {
     border-bottom-color: #8c093d !important;
 }
 
+.ant-pagination .ant-pagination-item-active {
+    border-color: #8c093d !important;
+}
+
 .ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active,
 .ant-spin .ant-spin-dot-item {
     background-color: #8c093d !important;
