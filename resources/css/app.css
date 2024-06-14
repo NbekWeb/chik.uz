@@ -23,35 +23,61 @@ body {
 
 .ant-btn-primary {
     background-color: #8c093d !important;
-    transition: background-color 0.3s ease; /* Optional: Add transition for smooth effect */
+    transition: background-color 0.3s ease;
+    /* Optional: Add transition for smooth effect */
 }
 
-.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
+.ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title {
     color: #8c093d !important;
 }
 
 .ant-btn-primary:hover {
-    background-color: rgba(140, 9, 61, 0.8) !important; /* Apply opacity on hover */
+    background-color: rgba(140, 9, 61, 0.8) !important;
+    /* Apply opacity on hover */
 }
-.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected::after,
-.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-open::after{
-    border-bottom-color:#8c093d !important;
+
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu-selected::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu-open::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-item:hover::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu:hover::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-item-active::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu-active::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-item-open::after,
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu-open::after {
+    border-bottom-color: #8c093d !important;
 }
-.ant-menu-light .ant-menu-item-selected{
-background-color: rgba(140, 9, 61, 0.1) !important;
+
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active,
+.ant-spin .ant-spin-dot-item {
+    background-color: #8c093d !important;
 }
+
+.ant-menu-light .ant-menu-item-selected,
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active {
+    background-color: rgba(140, 9, 61, 0.1) !important;
+}
+
 .ant-menu-light .ant-menu-item-selected {
     color: #8c093d !important;
 }
 
-.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected{
-    color:#8c093d !important;
+.ant-menu-light.ant-menu-horizontal>.ant-menu-submenu-selected {
+    color: #8c093d !important;
 }
 
-.swiper-pagination-bullet-active{
+.swiper-pagination-bullet-active {
     background-color: #8c093d !important;
 }
 
+.ant-input-search .ant-input:hover,
+.ant-input-search .ant-input:focus {
+    border-color: #8c093d !important;
+}
+
+.ant-btn-default:not(:disabled):hover {
+    color: #8c093d;
+    border-color: #8c093d;
+}
 
 #wrapper {
     margin-left: 0px;
@@ -731,7 +757,7 @@ footer {
     font-weight: 400;
 }
 
-#contact-us  {
+#contact-us {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -875,7 +901,7 @@ textarea {
     }*/
 
     /* Contact-us */
-    #contact-us  {
+    #contact-us {
         display: grid;
         grid-template-columns: 1fr;
         justify-items: center;

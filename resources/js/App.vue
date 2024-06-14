@@ -261,7 +261,6 @@ const showEditSuccess = () => {
 };
 
 const pushToMenu = (val) => {
-    console.log(val.item.originItemValue.label);
     router.push({
         path: `/post`,
         query: {
