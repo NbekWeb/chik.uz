@@ -185,7 +185,7 @@ const fetchData = async () => {
 const buyPost = async (postId) => {
     try {
         buying.value = true;
-        const response = await axios.post(`api/buy-order/${postId}`);
+        const response = await axios.post(`/api/buy-order/${postId}`);
         const orderId = response.data.order_id;
         router.push(`/order/${orderId}`);
         loading.value = true;
