@@ -21,6 +21,36 @@ body {
     background: #f6f6f6;
 }
 
+.ant-btn-primary {
+    background-color: #8c093d !important;
+    transition: background-color 0.3s ease; /* Optional: Add transition for smooth effect */
+}
+
+.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
+    color: #8c093d !important;
+}
+
+.ant-btn-primary:hover {
+    background-color: rgba(140, 9, 61, 0.8) !important; /* Apply opacity on hover */
+}
+.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected::after,
+.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-open::after{
+    border-bottom-color:#8c093d !important;
+}
+.ant-menu-light .ant-menu-item-selected{
+background-color: rgba(140, 9, 61, 0.1) !important;
+}
+.ant-menu-light .ant-menu-item-selected {
+    color: #8c093d !important;
+}
+
+.ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected{
+    color:#8c093d !important;
+}
+
+.swiper-pagination-bullet-active{
+    background-color: #8c093d !important;
+}
 
 
 #wrapper {

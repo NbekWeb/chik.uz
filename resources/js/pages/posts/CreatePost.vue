@@ -12,7 +12,7 @@
                         <a-upload v-model:file-list="fileList" list-type="picture-card"
                             class="avatar-uploader w-[200px]" :show-upload-list="true" :before-upload="beforeUpload"
                             @change="handleChange" @preview="handlePreview" :customRequest="dummyRequest" multiple>
-                            <div v-if="fileList.length < 3">
+                            <div v-if="fileList.length < 10">
                                 <PlusOutlined />
                                 <div class="ant-upload-text">Upload</div>
                             </div>
@@ -99,6 +99,8 @@ function checkFileList() {
     return new Promise((resolve, reject) => {
         if (fileList.value.length < 3) {
             reject("Вы должны загрузить минимум 3 изображения!");
+        } else if (fileList.value.length > 10) {
+            reject("Вы можете загрузить максимум 10 изображений!");
         } else {
             resolve();
         }

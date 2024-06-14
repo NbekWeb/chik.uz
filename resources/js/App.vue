@@ -283,7 +283,6 @@ watch(
     (newPath) => {
         if (newPath !== "/post") {
             current.value = ["Трафик"];
-            console.log(current, newPath);
         }
     }
 );
