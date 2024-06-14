@@ -50,6 +50,10 @@ const filterByCategory = (name, page = 1) => {
         });
 };
 
+const formatPrice = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
 const replaceLabels = () => {
     pagination.value.links.forEach((page) => {
         if (page.label === "&laquo; Previous") {
@@ -83,7 +87,13 @@ onMounted(() => {
                     class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3"
                 >
                     <template v-if="posts.length && !loading">
-                        <a-row :gutter="[16, 24]" class="w-full post-comp">
+                        <a-row
+                            :gutter="[
+                                { xs: 8, sm: 12, md: 16 },
+                                { xs: 8, sm: 12, md: 16 },
+                            ]"
+                            class="w-full post-comp"
+                        >
                             <a-col
                                 v-for="post in posts"
                                 :key="post.id"
@@ -94,7 +104,6 @@ onMounted(() => {
                                 :xs="24"
                                 class="w-full"
                             >
-                            
                                 <router-link
                                     :to="{
                                         name: 'SingleBlog',
@@ -136,9 +145,16 @@ onMounted(() => {
 
                                             <br />
                                             <h6
-                                                class="mb-2 mr-2 text-lg font-bold text-end text-green"
+                                                class="mb-2 mr-3 font-bold tex4t-lg text-end text-green"
                                             >
-                                                {{ post.price }} Uzs
+                                                {{
+                                                    formatPrice(
+                                                        parseInt(
+                                                            post.price 
+                                                        )
+                                                    )
+                                                }}
+                                                Uzs
                                             </h6>
                                             <hr />
                                             <div
@@ -199,7 +215,8 @@ onMounted(() => {
     border: 1px solid #e2e2e2;
 }
 
-.post-comp .swiper-button-prev,.post-comp .swiper-button-next{
+.post-comp .swiper-button-prev,
+.post-comp .swiper-button-next {
     display: none !important;
 }
 

@@ -65,7 +65,7 @@
                 class="container w-full mt-3 border-none md:hidden max-md:flex"
             />
             <div
-                class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex"
+                class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex pt-1"
             >
                 <a-spin :spinning="loader">
                     <div class="container">

@@ -1,8 +1,6 @@
 <template>
-    <div class="container min-h-screen px-0 ">
-        <div
-            class="flex justify-between py-4 lg:flex-row max-lg:flex-col"
-        >
+    <div class="container min-h-screen px-0">
+        <div class="flex justify-between py-4 lg:flex-row max-lg:flex-col">
             <div class="lg:w-[660px] max-lg:w-full">
                 <a-spin :spinning="loading" class="flex">
                     <div class="bg-white">
@@ -31,7 +29,7 @@
                         <div v-html="post.body" class="px-4 py-2"></div>
                         <div class="flex justify-between px-4 pb-3">
                             <p class="text-xl font-bold text-black">
-                                Цена: {{ post.price }}
+                                Цена: {{ formatPrice(parseInt(post.price)) }}
                             </p>
                             <a-button @click="buyPost(post.id)" type="primary">
                                 Связаться
@@ -41,9 +39,7 @@
                 </a-spin>
             </div>
             <div class="w-auto ml-2">
-                <div
-                    class=" max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4"
-                >
+                <div class="max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4">
                     <div class="flex w-full gap-3 p-3 bg-white">
                         <div class="items-center md:flex max-md:hidden">
                             <img
@@ -99,8 +95,7 @@
                     </div>
                 </div>
                 <div class="pt-4 bg-inherit">
-                    
-                    <a-spin :spinning="loading" >
+                    <a-spin :spinning="loading">
                         <div class="gap-2 p-3 bg-white">
                             <div class="flex items-center">
                                 <img
@@ -111,8 +106,10 @@
                                     "
                                     class="w-[60px] h-[60px] rounded-full"
                                 />
-    
-                                <p class="text-xl font-semibold">{{ post.user }}</p>
+
+                                <p class="text-xl font-semibold">
+                                    {{ post.user }}
+                                </p>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="">Репутация</span>
@@ -149,6 +146,10 @@ const props = defineProps({
         required: true,
     },
 });
+
+const formatPrice=(num)=> {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
 
 // Reactive state
 const modul = ref([Navigation, Pagination, Autoplay]);

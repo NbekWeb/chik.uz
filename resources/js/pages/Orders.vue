@@ -1,38 +1,69 @@
 <template>
     <div class="container">
-        <br>
+        <br />
         <div class="order">
             <div v-if="orders.length === 0">
-                <h1 class="h3 mb-3 text-center text-danger fw-bold">Заказов не найдено.</h1>
+                <h1 class="mb-3 text-center h3 text-danger fw-bold">
+                    Заказов не найдено.
+                </h1>
             </div>
             <div v-else>
-                <h1 class="h3 mb-3">Заказы</h1>
+                <h1 class="mb-3 h3">Заказы</h1>
                 <div v-for="order in orders" :key="order.id">
-                    <ul class="list-group py-2 pt-3">
-                        <li class="list-group-item">Заказ ID: {{ order.id }}</li>
-                        <li class="list-group-item">Владелец Чика: {{ order.post_user_name }}</li>
-                        <li class="list-group-item">Chik: {{ order.post_title }}</li>
-                        <li class="list-group-item">Статус:
+                    <ul class="py-2 pt-3 list-group">
+                        <li class="list-group-item">
+                            Заказ ID: {{ order.id }}
+                        </li>
+                        <li class="list-group-item">
+                            Владелец Чика: {{ order.post_user_name }}
+                        </li>
+                        <li class="list-group-item">
+                            Chik: {{ order.post_title }}
+                        </li>
+                        <li class="list-group-item">
+                            Статус:
                             <span v-if="order.status !== null">
-                                <template v-if="order.status === 200">Под общением</template>
-                                <template v-else-if="order.status === 201">В ожидании...</template>
-                                <template v-else-if="order.status === 202">Принят</template>
-                                <template v-else-if="order.status === 203">Экстренный оператор</template>
-                                <template v-else-if="order.status === 204">Завершен</template>
-                                <template v-else-if="order.status === 205">Представлено на рассмотрение</template>
-                                <template v-else-if="order.status === 206">Заказ отклонен</template>
+                                <template v-if="order.status === 200"
+                                    >Под общением</template
+                                >
+                                <template v-else-if="order.status === 201"
+                                    >В ожидании...</template
+                                >
+                                <template v-else-if="order.status === 202"
+                                    >Принят</template
+                                >
+                                <template v-else-if="order.status === 203"
+                                    >Экстренный оператор</template
+                                >
+                                <template v-else-if="order.status === 204"
+                                    >Завершен</template
+                                >
+                                <template v-else-if="order.status === 205"
+                                    >Представлено на рассмотрение</template
+                                >
+                                <template v-else-if="order.status === 206"
+                                    >Заказ отклонен</template
+                                >
                                 <template v-else>Неизвестный</template>
                             </span>
                         </li>
-                        <li class="list-group-item">Цена: {{ order.price }}</li>
-                        <li class="list-group-item">Сделано: {{ order.created_at }}</li>
+                        <li class="list-group-item">
+                            Цена: {{ formatPrice(parseInt(order.price)) }}
+                        </li>
+                        <li class="list-group-item">
+                            Сделано: {{ order.created_at }}
+                        </li>
                     </ul>
-                    <router-link :to="'/order/' + order.id" type="button" class="btn btn-primary btn-sm">Открыть
-                        Заказ</router-link>
+                    <router-link
+                        :to="'/order/' + order.id"
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        >Открыть Заказ</router-link
+                    >
                 </div>
             </div>
         </div>
-        <br>
+        <br />
     </div>
 </template>
 
@@ -47,6 +78,9 @@ export default {
         };
     },
     methods: {
+        formatPrice(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        },
         fetchOrders() {
             axios
                 .get("/api/orders")
@@ -61,10 +95,12 @@ export default {
             try {
                 this.buying = true;
                 // Make the PUT request to update the order status
-                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+                await axios.put(`/api/update-order-status/${orderId}`, {
+                    status: status,
+                });
                 window.location.reload();
             } catch (error) {
-                console.error('Purchase failed:', error);
+                console.error("Purchase failed:", error);
             } finally {
                 this.buying = false;
             }

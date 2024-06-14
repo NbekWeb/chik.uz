@@ -3,12 +3,12 @@
         <br>
         <div class="inquiry" title="Здесь вы найдете запросы на ваши Chik">
             <div v-if="inquiries.length === 0">
-                <h1 class="h3 mb-3 text-center fw-bold text-danger">Запросов не найдено</h1>
+                <h1 class="mb-3 text-center h3 fw-bold text-danger">Запросов не найдено</h1>
             </div>
             <div v-else>
-                <h1 class="h3 mb-3">Запросы на заказ</h1>
+                <h1 class="mb-3 h3">Запросы на заказ</h1>
                 <div v-for="inquiry in inquiries" :key="inquiry.id" title="">
-                    <ul class="list-group py-2 pt-3">
+                    <ul class="py-2 pt-3 list-group">
                         <li class="list-group-item">Заказ ID: {{ inquiry.id }}</li>
                         <li class="list-group-item">Заказчик: {{ inquiry.user_name }}</li>
                         <li class="list-group-item">Chik: {{ inquiry.post_title }}</li>
@@ -24,7 +24,7 @@
                                 <template v-else>Неизвестный</template>
                             </span>
                         </li>
-                        <li class="list-group-item">Цена: {{ inquiry.price }}</li>
+                        <li class="list-group-item">Цена: {{ parseInt(inquiry.price) }}</li>
                         <li class="list-group-item">Сделано: {{ inquiry.created_at }}</li>
                     </ul>
                     <router-link :to="'/inquiry/' + inquiry.id" type="button" class="btn btn-primary btn-sm"
