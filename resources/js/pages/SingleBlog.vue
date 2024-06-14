@@ -1,7 +1,7 @@
 <template>
-    <div class="container min-h-screen">
+    <div class="container min-h-screen px-0 ">
         <div
-            class="flex flex-wrap justify-between py-4 lg:flex-row max-lg:flex-col"
+            class="flex justify-between py-4 lg:flex-row max-lg:flex-col"
         >
             <div class="lg:w-[660px] max-lg:w-full">
                 <a-spin :spinning="loading" class="flex">
@@ -40,9 +40,9 @@
                     </div>
                 </a-spin>
             </div>
-            <div>
+            <div class="w-auto ml-2">
                 <div
-                    class="lg:w-[335px] max-h-[500px] max-lg:w-full lg:mt-0 max-lg:mt-4"
+                    class=" max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4"
                 >
                     <div class="flex w-full gap-3 p-3 bg-white">
                         <div class="items-center md:flex max-md:hidden">
@@ -98,32 +98,35 @@
                         </ul>
                     </div>
                 </div>
-                <a-spin :spinning="loading">
-                    <div class="gap-2 p-3 mt-4 bg-white">
-                        <div class="flex items-center">
-                            <img
-                                :src="
-                                    post.userImage
-                                        ? post.userImage
-                                        : '/assets/img/avatar.png'
-                                "
-                                class="w-[60px] h-[60px] rounded-full"
-                            />
-
-                            <p class="text-xl font-semibold">{{ post.user }}</p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="">Репутация</span>
+                <div class="pt-4 bg-inherit">
+                    
+                    <a-spin :spinning="loading" >
+                        <div class="gap-2 p-3 bg-white">
                             <div class="flex items-center">
-                                <p class="pr-1 m-0 text-sm">5.0</p>
                                 <img
-                                    src="../images/star.png"
-                                    class="w-[15px] h-[15px] object-contain"
+                                    :src="
+                                        post.userImage
+                                            ? post.userImage
+                                            : '/assets/img/avatar.png'
+                                    "
+                                    class="w-[60px] h-[60px] rounded-full"
                                 />
+    
+                                <p class="text-xl font-semibold">{{ post.user }}</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="">Репутация</span>
+                                <div class="flex items-center">
+                                    <p class="pr-1 m-0 text-sm">5.0</p>
+                                    <img
+                                        src="../images/star.png"
+                                        class="w-[15px] h-[15px] object-contain"
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a-spin>
+                    </a-spin>
+                </div>
             </div>
         </div>
     </div>

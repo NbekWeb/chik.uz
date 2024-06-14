@@ -51,6 +51,11 @@ body {
     border-color: #8c093d !important;
 }
 
+.swiper-button-next,.swiper-button-prev{
+    color: #8c093d !important;
+    font-size: 24px !important;
+}
+
 .ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active,
 .ant-spin .ant-spin-dot-item {
     background-color: #8c093d !important;

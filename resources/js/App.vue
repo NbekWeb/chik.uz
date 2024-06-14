@@ -304,7 +304,7 @@ onMounted(() => {
         loggedIn.value = false;
     }
     axios
-        .get("api/menu_list")
+        .get("/api/menu_list")
         .then((res) => {
             loader.value = true;
             const menuItems = [];
