@@ -17,18 +17,12 @@ const route = useRoute();
 
 const modul = ref([Navigation, Pagination, Autoplay]);
 
-const fetchPage = (url, category) => {
-    axios
-        .get(url, { params: { category } })
-        .then((response) => {
-            posts.value = response.data.data;
-            pagination.value = response.data.meta;
-            replaceLabels();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-};
+watch(
+    () => route.query.category,
+    () => {
+        current.value = 1; 
+    }
+);
 
 const filterByCategory = (name, page = 1) => {
     loading.value = true;
@@ -150,21 +144,21 @@ onMounted(() => {
                                                 {{
                                                     formatPrice(
                                                         parseInt(
-                                                            post.price 
+                                                            post.price *12000
                                                         )
                                                     )
                                                 }}
                                                 Uzs
                                             </h6>
-                                            <hr />
+                                            
                                             <div
-                                                class="flex items-center mx-2 mb-2"
+                                                class="flex items-center pt-1 pb-2 mx-2 border-t"
                                             >
                                                 <img
                                                     src="../images/avatar.png "
                                                     class="object-cover w-10 h-10 rounded-full"
                                                 />
-                                                <h6 class="mb-0 ml-2 text-lg">
+                                                <h6 class="mb-0 ml-2 text-lg font-semibold text-black ">
                                                     {{
                                                         post.user
                                                             ? post.user
