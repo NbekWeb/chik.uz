@@ -45,13 +45,13 @@
                         v-if="loggedIn"
                     >
                         <template #content>
-                            <div class="flex gap-y-2 flex-col">
+                            <div class="flex flex-col gap-y-2">
                                 <a href="admin/dashboard">
-                                <a-button type="link">
-                                    Профил
-                                </a-button>
-                            </a>
-                            <a-button danger @click="logout">Выйти</a-button>
+                                    <a-button type="link"> Профил </a-button>
+                                </a>
+                                <a-button danger @click="logout"
+                                    >Выйти</a-button
+                                >
                             </div>
                         </template>
                         <a-button type="primary">Профил</a-button>
@@ -221,8 +221,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import ScrollbarComponent from "./components/ScrollbarComponent.vue";
 import axios from "axios";
@@ -233,6 +233,7 @@ const editSuccess = ref(false);
 const visible = ref(false);
 const userRole = ref(null);
 const router = useRouter();
+const route = useRoute();
 
 const logout = () => {
     axios
@@ -277,21 +278,25 @@ const current = ref(["SMM"]);
 const items = ref([]);
 
 const loader = ref(true);
+watch(
+    () => route.path,
+    (newPath) => {
+        if (newPath !== "/post") {
+            current.value = ["Трафик"];
+            console.log(current, newPath);
+        }
+    }
+);
 
 onMounted(() => {
     axios
         .get("/api/user")
         .then((response) => {
             setUserRole(response.data.role_id);
-            //   router.push('/admin/dashboard')
-            //   console.log('sa')
-            // loader.value = true;
         })
         .catch((error) => {
             if (error.response && error.response.status === 401) {
-                updateSidebar();
                 localStorage.removeItem("authenticated");
-                // router.push({ name: "Login" });
             }
         });
 
@@ -382,4 +387,11 @@ onMounted(() => {
 .ant-spin-nested-loading {
     width: 100% !important;
 }
+
+/* .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
+    color:#000e00 !important;
+} */
+/* .ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected::after{
+    border-bottom-color:transparent !important;
+} */
 </style>

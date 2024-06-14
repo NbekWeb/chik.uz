@@ -4,23 +4,30 @@
             <h1 class="py-3 text-center">Список категорий</h1>
             <div class="mx-3">
                 <a-table :columns="columns" :data-source="categories" bordered>
-                    <!-- Custom slot for actions column -->
-                    <template #actions="{  record }">
-                        <span class="flex justify-center gap-2">
-                            <router-link
-                                :to="{ name: 'EditCategories', params: { id: record.id }}"
-                                class="edit-link"
+                    <template #bodyCell="{ column, record }">
+                        <template v-if="column.dataIndex === 'action'">
+                            <div class="flex items-center justify-start gap-3 ">
+                                <router-link
+                                :to="{
+                                    name: 'EditCategories',
+                                    params: { id: record.id },
+                                }"
                             >
-   Edit
+                            <a-button type="link p-0">
+                                
+                                Редактировать
+                            </a-button>
                             </router-link>
-                            <button
-                                type="button"
-                                @click="destroy(record.id)"
-                                class="delete-btn"
+                            <a-popconfirm
+                                title="Удалить эту категорию?"
+                                @confirm="destroy(record.id)"
                             >
-                                Delete
-                            </button>
-                        </span>
+                                <template #default>
+                                    <a-button danger> Удалить </a-button>
+                                </template>
+                            </a-popconfirm>
+                            </div>
+                        </template>
                     </template>
                 </a-table>
             </div>
@@ -29,13 +36,14 @@
         <!-- success message -->
         <div class="success-msg" v-if="success">
             <i class="fa fa-check"></i>
-            Удален успешно
+            Удалено успешно
         </div>
 
+        <!-- Navigation to Create Categories -->
         <div class="index-categories">
-            <router-link :to="{ name: 'CreateCategories' }"
-                >Создать категории<span>&#8594;</span></router-link
-            >
+            <router-link :to="{ name: 'CreateCategories' }">
+                Создать категорию <span>&#8594;</span>
+            </router-link>
         </div>
     </div>
 </template>
@@ -51,16 +59,14 @@ const columns = [
     {
         title: "Название",
         dataIndex: "name",
-        key: "name",
     },
     {
         title: "Действия",
-        key: "actions",
-        align: "center", // optional alignment
-        slots: { customRender: "actions" }, // Using a slot for custom rendering
+        dataIndex: "action",
     },
 ];
 
+// Fetch categories function
 const fetchCategories = () => {
     axios
         .get("/api/categories")
@@ -72,6 +78,7 @@ const fetchCategories = () => {
         });
 };
 
+// Delete category function
 const destroy = (id) => {
     axios
         .delete("/api/categories/" + id)
@@ -80,79 +87,27 @@ const destroy = (id) => {
             setTimeout(() => {
                 success.value = false;
             }, 2500);
-            fetchCategories();
+            fetchCategories(); // Refresh categories after deletion
         })
         .catch((error) => {
             console.error(error);
         });
 };
 
-onMounted(fetchCategories);
+onMounted(fetchCategories); // Fetch categories when component is mounted
 </script>
 
-
 <style scoped>
-.categories-list {
-    min-height: 100vh;
-    background: #fff;
+.edit-link {
+    margin-right: 10px;
 }
-
-.categories-list h1 {
-    font-weight: 300;
-    padding: 50px 0 30px 0;
-    text-align: center;
+.delete-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
 }
-
-.categories-list .item {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    max-width: 300px;
-    margin: 0 auto !important;
-}
-
-.categories-list .item p {
-    font-size: 16px;
-}
-
-.categories-list .item p,
-.categories-list .item div,
-.categories-list .item {
-    margin: 15px 8px;
-}
-
-.categories ul li {
-    list-style: none;
-    background-color: #494949;
-    margin: 20px 5px;
-    border-radius: 15px;
-}
-
-.categories ul {
-    display: flex;
-    justify-content: center;
-}
-
-.categories a {
-    color: white;
-    padding: 10px 20px;
-    display: inline-block;
-}
-
-.create-categories a,
-.index-categories a {
-    all: revert;
-    margin: 20px 0;
-    display: inline-block;
-    text-decoration: none;
-}
-
-.create-categories a span,
-.index-categories a span {
-    font-size: 22px;
-}
-
-.index-categories {
-    text-align: center;
+.delete-btn:hover {
+    color: #0056b3;
 }
 </style>

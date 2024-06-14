@@ -1,112 +1,362 @@
 <template>
-    <div class="container pt-3">
-        <div class="bg-white">
-            <h1 class="py-3 text-center">Список категорий</h1>
-            <div class="mx-3">
-                <a-table :columns="columns" :data-source="categories" bordered>
-                    <template #action="{  record }">
-                        <a-popconfirm
-                            v-if="categories.length > 0"
-                            title="Удалить эту категорию?"
-                            @confirm="onDelete(record.id)"
-                        >
-                            <template #default>
-                                <p>Delete</p>
-                            </template>
-                        </a-popconfirm>
-                    </template>
-                </a-table>
-            </div>
-        </div>
+    <br>
+    <div class="container">
+        <div class="order-page">
+            <div class="order">
+                <h1 class="mb-3 h3">Заказ</h1>
+                <ul class="list-group">
+                    <li class="list-group-item">Заказ ID: {{ order.id }}</li>
+                    <li class="list-group-item">Chik: {{ order.post_title }}</li>
+                    <li class="list-group-item">
+                        Статус:
+                        <span v-if="order.status !== null">
+                            <template v-if="order.status === 200">Под общением</template>
+                            <template v-else-if="order.status === 201">В ожидании...</template>
+                            <template v-else-if="order.status === 202">Принят</template>
+                            <template v-else-if="order.status === 203">Экстренный оператор</template>
+                            <template v-else-if="order.status === 204">Завершен</template>
+                            <template v-else-if="order.status === 205">Представлено на рассмотрение</template>
+                            <template v-else-if="order.status === 206">Заказ отклонен</template>
+                            <template v-else>Неизвестный</template>
+                        </span>
+                    </li>
 
-        <!-- success message -->
-        <div class="success-msg" v-if="success">
-            <i class="fa fa-check"></i>
-            Удалено успешно
-        </div>
-
-        <!-- List of categories -->
-        <div
-            class="item"
-            v-for="(category, index) in categories"
-            :key="category.id"
-        >
-            <span>{{ index + 1 }}</span>
-            <p>{{ category.name }}</p>
-            <div>
-                <router-link
-                    class="edit-link"
-                    :to="{
-                        name: 'EditCategories',
-                        params: { id: category.id },
-                    }"
-                >
-                    Редактировать
-                </router-link>
+                    <li class="list-group-item">Время: {{ order.created_at }}</li>
+                    <li class="list-group-item">Цена: {{ formatPrice(order.price) }}</li>
+                </ul>
             </div>
-            <button
-                type="button"
-                @click="destroy(category.id)"
-                class="delete-btn"
-            >
-                Удалить
+            <br>
+
+            <main class="content">
+                <div class="container p-0">
+
+                    <h1 class="mb-3 h3">Чать</h1>
+
+                    <div class="card">
+                        <div class="row g-0">
+                            <!-- <div class="col-12 col-lg-5 col-xl-3 border-right">
+
+                                <div class="px-4 d-none d-md-block">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <input type="text" class="my-3 form-control" placeholder="Поиск...">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 border-0 list-group-item list-group-item-action">
+                                    <div class="float-right badge bg-success">5</div>
+                                    <div class="d-flex align-items-start align-items-center">
+                                        <img :src="order.post_user_image ? order.post_user_image : '/assets/img/avatar.png'"
+                                            class="mr-1 rounded-circle" alt="Vanessa Tucker" width="40" height="40">
+                                        <div class="ml-3 flex-grow-1">
+                                            <strong> {{ order.post_user_name }}</strong>
+                                            <div class="small">
+                                                <span class="fas fa-circle chat-online"></span> Online
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-1 mb-0 d-block d-lg-none">
+                            </div> -->
+                            <div class="col-12 ">
+                                <div class="px-4 py-2 border-bottom d-lg-block">
+                                    <div title="Эта кнопка на случай форс-мажорных или подобных случаев. После нажатия этой кнопки чат будет деактивирован и продолжения не будет."
+                                        class="py-1 d-flex align-items-center">
+                                        <div class="position-relative">
+                                            <img :src="'/assets/img/force_m.png'" class="mr-1 rounded-circle"
+                                                alt="Sharon Lessman" width="40" height="40">
+                                        </div>
+                                        <div class="pl-3 flex-grow-1">
+                                            <strong> &nbsp; Экстренный оператор</strong>
+                                            <!-- <div class="text-muted small"><em>Typing...</em></div> -->
+                                        </div>
+                                        <div>
+                                            <button
+                                                title="Эта кнопка на случай форс-мажорных или подобных случаев. После нажатия этой кнопки чат будет деактивирован и продолжения не будет."
+                                                type="button" class="btn btn-danger btn-sm"
+                                                @click="confirmForceMajeure(order.id)"
+                                                :disabled="buying || order.status == 203 || order.status == 204">Арбитраж</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="position-relative">
+                                    <div class="p-4 chat-messages">
+                                        <div v-for="(chat, index) in chats" :key="index">
+                                            <!-- <div class="pb-4 chat-message-left"> -->
+                                            <div
+                                                :class="{ 'chat-message-left pb-4': chat.user_id !== currentUser.id, 'chat-message-right pb-4': chat.user_id === currentUser.id }">
+
+                                                <div>
+                                                    <img :src="chat.userImage ? chat.userImage : '/assets/img/avatar.png'"
+                                                        class="mr-1 rounded-circle" width="40" height="40">
+                                                    <div class="mt-2 text-muted small text-nowrap">
+                                                        {{ chat.time }}
+                                                    </div>
+                                                </div>
+                                                <div class="px-3 py-2 mr-3 rounded flex-shrink-1 bg-light">
+                                                    <div class="mb-1 font-weight-bold ">{{ chat.user_id ===
+                                                        currentUser.id ?
+                                                        "Вы" : chat.user ?
+                                                            `${chat.user.name}` : "Unknown" }}</div>
+                                                    {{ chat.text }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex-grow-0 px-4 py-3 border-top">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                        v-if="order && order.id && order.status !== 203 && order.status !== 204">
+                                        <form @submit.prevent="submit" class="mr-2 flex-grow-1 d-flex">
+                                            <input v-model="text" type="text" id="textAreaExample"
+                                                class="mr-2 form-control" placeholder="Напишите сообщение"
+                                                autocomplete="off">
+                                            <button type="submit" class="btn btn-primary">Отправить</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <br>
+        <div class="gap-2 d-grid d-md-flex justify-content-md-end">
+            <button class="btn btn-success btn-buy me-md-2" @click="buyOrder(order.id, 201)"
+                :disabled="buying || order.status !== 200" type="button">Покупать</button>
+            <button class="btn btn-danger" type="button" @click="buyOrder(order.id, 206)"
+                :disabled="buying || order.status !== 201">{{ order.status === 206 ? 'Заказ отклонен' : 'Отказать заказ'
+                }}</button>
+            <button class="btn btn-primary btn-p" type="button" @click="buyOrder(order.id, 204)"
+                :disabled="buying || order.status !== 205">
+                {{ order.status === 204 ? 'Подверден' : 'Подвердите заказ' }}
             </button>
         </div>
-
-        <!-- Navigation to Create Categories -->
-        <div class="index-categories">
-            <router-link :to="{ name: 'CreateCategories' }">
-                Создать категорию <span>&#8594;</span>
-            </router-link>
-        </div>
     </div>
+
 </template>
 
-<script setup>
+<script>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import Pusher from "pusher-js";
 
-const categories = ref([]);
-const success = ref(false);
-
-const columns = [
-    {
-        title: "Название",
-        dataIndex: "name",
+export default {
+    props: ["id"],
+    data() {
+        return {
+            order: {},
+            chats: [],
+            text: "",
+            loading: false,
+            error: null,
+            currentUser: null,
+            cash: "",
+            buying: false,
+        };
     },
-    {
-        title: "Действия",
-        dataIndex: "action",
+    methods: {
+        formatPrice(price) {
+            return new Intl.NumberFormat('uz-Uz').format(price);
+        },
+        async submit() {
+            try {
+                this.loading = true;
+                const formData = new FormData();
+                formData.append("text", this.text);
+                await axios.post(
+                    `/api/order/${this.id}/messages`,
+                    formData
+                );
+                this.chats.push({
+                    text: this.text,
+                    user_id: this.currentUser.id,
+                });
+                this.text = "";
+            } catch (error) {
+                console.error("Error submitting message:", error);
+                this.error = "Error submitting message";
+            } finally {
+                this.loading = false;
+            }
+        },
+        async buyOrder(orderId, status) {
+            try {
+                this.buying = true;
+                // Make the PUT request to update the order status
+                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+                window.location.reload();
+            } catch (error) {
+                console.error('Purchase failed:', error);
+            } finally {
+                this.buying = false;
+            }
+        },
+        confirmForceMajeure(orderId) {
+            if (window.confirm("Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован.")) {
+                this.forceMajeure(orderId);
+            }
+        },
+        async forceMajeure(orderId) {
+            try {
+                this.buying = true;
+                // Make the PUT request to update the order status
+                await axios.put(`/api/force-majeure/${orderId}`);
+                window.location.reload();
+            } catch (error) {
+                console.error('forceMajeure failed:', error);
+            } finally {
+                this.buying = false;
+            }
+        },
+        async fetchData() {
+            try {
+                const [
+                    chatsResponse,
+                    currentUserResponse
+                ] = await Promise.all([
+                    axios.get(`/api/order/${this.id}/messages`),
+                    axios.get(`/api/user`)
+                ]);
+
+                this.chats = chatsResponse.data.data;
+                this.currentUser = currentUserResponse.data;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                this.error = "Error fetching data";
+            }
+        },
+
+
+        async fetchOrderData() {
+            try {
+                const response = await axios.get("/api/order/" + this.id);
+                this.order = response.data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        initializePusher() {
+            const orderId = this.id;
+            const channelName = `chat.${orderId}`;
+            window.Echo.private(channelName).listen("NewChat", (e) => {
+                console.log(e.chat);
+                this.chats.push(e.chat);
+            });
+        },
     },
-];
-
-// Fetch categories function
-const fetchCategories = () => {
-    axios
-        .get("/api/categories")
-        .then((response) => {
-            categories.value = response.data;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    mounted() {
+        this.fetchData();
+        this.initializePusher();
+        this.fetchOrderData();
+    },
 };
-
-// Delete category function
-const destroy = (id) => {
-    axios
-        .delete("/api/categories/" + id)
-        .then(() => {
-            success.value = true;
-            setTimeout(() => {
-                success.value = false;
-            }, 2500);
-            fetchCategories(); // Refresh categories after deletion
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-};
-
-onMounted(fetchCategories); // Fetch categories when component is mounted
 </script>
+
+<style scoped>
+/* Add any custom styles for your orders here */
+.order-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.order-page {
+    display: flex;
+}
+
+.order-table {
+    border: 1px solid #ccc;
+}
+
+.order {
+    flex-basis: 26%;
+}
+
+.content {
+    margin-left: 35px;
+
+    flex-basis: 71%;
+}
+
+/* .btn-buy {
+    background-color: #e4606d;
+    border-color: #e4606d
+} */
+
+.btn-p {
+    background-color: #34ce57;
+    border-color: #34ce57;
+}
+
+.chat-online {
+    color: #34ce57
+}
+
+.chat-offline {
+    color: #e4606d
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+    overflow-y: scroll
+}
+
+.chat-message-left,
+.chat-message-right {
+    display: flex;
+    flex-shrink: 0
+}
+
+.chat-message-left {
+    margin-right: auto
+}
+
+.chat-message-right {
+    flex-direction: row-reverse;
+    margin-left: auto
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.px-4 {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.flex-grow-0 {
+    flex-grow: 0 !important;
+}
+
+.border-top {
+    border-top: 1px solid #dee2e6 !important;
+}
+
+@media screen and (max-width: 425px) {
+    .order-page {
+        display: grid;
+
+    }
+
+    .order {
+        flex-basis: none;
+    }
+
+    .content {
+        margin-left: 0px;
+
+        flex-basis: none;
+    }
+}
+</style>
