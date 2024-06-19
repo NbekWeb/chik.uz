@@ -11,12 +11,33 @@
                         src="./images/logo.svg"
                     />
                 </router-link>
-                <a-input-search
-                    placeholder="Что ищем, напишите"
-                    enter-button="Найти"
-                    size="large"
-                    class="w-[360px] max-md:hidden"
-                />
+                <div class="relative w-[360px] max-md:hidden">
+                    <a-input-search
+                        placeholder="Что ищем, напишите"
+                        enter-button="Найти"
+                        size="large"
+                        class="w-full"
+                        v-model:value="searchVal"
+                        @keyup="searchingMenu"
+                    />
+                    <a-card
+                        class="absolute z-10 w-full bg-white top-[50px]"
+                        v-if="searchVal"
+                    >
+                        <template v-if="searchRes.length == 0">
+                            <p>data net</p>
+                        </template>
+                        <template v-else>
+                            <p
+                                v-for="(search, i) of searchRes"
+                                :key="i"
+                                @click="pushToSearch(search.label)"
+                            >
+                                {{ search.label }}
+                            </p>
+                        </template>
+                    </a-card>
+                </div>
                 <div class="flex gap-2">
                     <router-link
                         :to="{ name: 'Login' }"
@@ -58,12 +79,37 @@
                     </a-popover>
                 </div>
             </div>
-            <a-input-search
-                placeholder="Что ищем, напишите"
-                enter-button="Найти"
-                size="large"
-                class="container w-full mt-3 border-none md:hidden max-md:flex"
-            />
+            <div class="container md:hidden max-md:flex">
+                
+                <div class="relative w-full mt-3 ">
+                    <a-input-search
+                    placeholder="Что ищем, напишите"
+                    enter-button="Найти"
+                    size="large"
+                    class="w-full m-0 border-none"
+                    v-model:value="searchVal"
+                    @keyup="searchingMenu"
+                />
+                    <a-card
+                            class="absolute z-10 w-full bg-white top-[50px] border"
+                            v-if="searchVal"
+                        >
+                            <template v-if="searchRes.length == 0">
+                                <p>data net</p>
+                            </template>
+                            <template v-else>
+                                <p
+                                    v-for="(search, i) of searchRes"
+                                    :key="i"
+                                    @click="pushToSearch(search.label)"
+                                >
+                                    {{ search.label }}
+                                </p>
+                            </template>
+                        </a-card>
+                </div>
+            </div>
+        
             <div
                 class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex pt-1"
             >
@@ -232,6 +278,8 @@ const loggedIn = ref(false);
 const editSuccess = ref(false);
 const visible = ref(false);
 const userRole = ref(null);
+const searchVal = ref("");
+const searchRes = ref([]);
 const router = useRouter();
 const route = useRoute();
 
@@ -256,6 +304,15 @@ const hideOverlay = () => {
     overlayVisibility.value = false;
 };
 
+const pushToSearch = (v) => {
+    router.push({
+        path: `/post`,
+        query: {
+            category: v.toLowerCase(),
+        },
+    });
+    searchVal.value = "";
+};
 const showEditSuccess = () => {
     editSuccess.value = true;
 };
@@ -264,12 +321,41 @@ const pushToMenu = (val) => {
     router.push({
         path: `/post`,
         query: {
-            category: val.item.originItemValue.label,
+            category: val.item.originItemValue.label.toLowerCase(),
         },
     });
     openMenu.value = false;
 };
+const searchingMenu = () => {
+    const result = [];
+    items.value.forEach((item) => {
+        if (
+            item.label
+                .toLowerCase()
+                .startsWith(searchVal.value.toLowerCase()) &&
+            searchVal.value !== ""
+        ) {
+            result.push({ key: item.key, label: item.label });
+        }
 
+        if (item.children) {
+            item.children.forEach((child) => {
+                if (
+                    child.label
+                        .toLowerCase()
+                        .startsWith(searchVal.value.toLowerCase()) &&
+                    searchVal.value !== ""
+                ) {
+                    result.push({ key: child.key, label: child.label });
+                }
+            });
+        }
+    });
+
+    searchRes.value = result;
+
+    console.log(result, searchVal.value);
+};
 const setUserRole = (role_id) => {
     userRole.value = role_id;
 };
@@ -319,7 +405,7 @@ onMounted(() => {
                     res.data.data[i].submenu.length > 0
                 ) {
                     item.children.push({
-                        label: "Общий",
+                        label: "Oбщий",
                         key: res.data.data[i].url_link,
                     });
                     for (let j = 0; j < res.data.data[i].submenu.length; j++) {
@@ -384,6 +470,10 @@ onMounted(() => {
 
 .ant-spin-nested-loading {
     width: 100% !important;
+}
+
+.ant-card .ant-card-body {
+    padding: 5px 10px !important;
 }
 
 /* .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{

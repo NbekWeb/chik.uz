@@ -40,7 +40,7 @@
             </div>
             <div class="w-auto ml-2">
                 <div class="max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4">
-                    <div class="flex w-full gap-3 p-3 bg-white">
+                    <div class="flex w-full gap-3 bg-white lg:p-3 max-lg:p-2">
                         <div class="items-center md:flex max-md:hidden">
                             <img
                                 src="../images/garant.svg"
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div
-                        class="p-3 bg-white"
+                        class="bg-white lg:p-3 max-lg:p-2"
                         :class="desc ? 'block' : 'hidden'"
                     >
                         <p class="text-xs">

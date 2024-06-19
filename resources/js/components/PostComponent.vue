@@ -20,7 +20,7 @@ const modul = ref([Navigation, Pagination, Autoplay]);
 watch(
     () => route.query.category,
     () => {
-        current.value = 1; 
+        current.value = 1;
     }
 );
 
@@ -28,7 +28,7 @@ const filterByCategory = (name, page = 1) => {
     loading.value = true;
     axios
         .get("/api/posts", {
-            params: { category: name, page: page },
+            params: { category: name.toLowerCase(), page: page },
         })
         .then((response) => {
             posts.value = response.data.data;
@@ -72,7 +72,7 @@ onMounted(() => {
 <template>
     <div class="container pt-3">
         <div class="">
-            <h2 class="m-0 font-bold text-center">
+            <h2 class="m-0 font-bold text-center capitalize">
                 {{ route.query.category }}
             </h2>
 
@@ -143,14 +143,12 @@ onMounted(() => {
                                             >
                                                 {{
                                                     formatPrice(
-                                                        parseInt(
-                                                            post.price *12000
-                                                        )
+                                                        parseInt(post.price)
                                                     )
                                                 }}
                                                 Uzs
                                             </h6>
-                                            
+
                                             <div
                                                 class="flex items-center pt-1 pb-2 mx-2 border-t"
                                             >
@@ -158,7 +156,9 @@ onMounted(() => {
                                                     src="../images/avatar.png "
                                                     class="object-cover w-10 h-10 rounded-full"
                                                 />
-                                                <h6 class="mb-0 ml-2 text-lg font-semibold text-black ">
+                                                <h6
+                                                    class="mb-0 ml-2 text-lg font-semibold text-black"
+                                                >
                                                     {{
                                                         post.user
                                                             ? post.user
