@@ -1,617 +1,200 @@
-<template>
-    <header class="header">
+<script setup>
+import axios from "axios";
+import { ref, onMounted, watch ,onUnmounted} from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-        <!--<div class="overlay"></div>-->
-    </header>
+const searchVal = ref("");
+const searchingStart = ref(false);
+const searchShow = ref(true);
+const items = ref([]);
+const searchRes = ref([]);
+const current = ref([]);
+const router = useRouter();
+const searchingMenu = () => {
+    searchingStart.value = true;
 
-    <section class="tops">
-        <img class="tops-image" src="../images/larg.jpg" alt="">
-        <h3 class="htitle">Фриланс-услуги в один клик:
-            <br>просто,быстро,эффективно
-        </h3>
-        <div class="searchbar__home">
-            <div class="container search_bar" style="height:45px">
-                <form class="search_form" action="">
-                    <input style="border-radius: 5px 0 0 5px !important;" type="text" placeholder="    Создать сайт" name="search" autocomplete="off"
-                        v-model="title" />
-                    <button class="btn btn-outline-secondary" type="submit"
-                        style="border-radius: 0 5px 5px 0 !important; margin-top: -3px; height:50px">Найти</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    clearTimeout(searchingMenu.timeoutId);
 
-    <section>
-        <div class="rubrics">
-            <h1>Выберите рубрику, чтобы начать</h1>
-            <div class=" rubrics__items">
-                <div class=" rubrics_item">
-                    <a class="rubrics__link"><router-link :to="{ name: 'Design' }">
-                            <img src="../images/des.png" alt=""></router-link>
-                    </a>
-                </div>
-                <div class=" rubrics_item">
-                    <a class="rubrics__link"><router-link :to="{ name: 'Development' }">
-                            <img src="../images/it.png" alt=""></router-link>
-                    </a>
-                </div>
-                <div class=" rubrics_item">
-                    <a class="rubrics__link"><router-link :to="{ name: 'Texts' }">
-                            <img src="../images/tex.png" alt=""></router-link>
-                    </a>
-                </div>
-                <div class=" rubrics_item">
-                    <a class="rubrics__link"><router-link :to="{ name: 'Seo' }">
-                            <img src="../images/seo.png" alt=""></router-link>
-                    </a>
-                </div>
-            </div>
-            <div class=" rubrics__items">
-                <div class=" rubrics_item">
-                    <a class="rubrics__link"><router-link :to="{ name: 'Social' }">
-                            <img src="../images/sic.png" alt=""></router-link>
-                    </a>
-                </div>
+    searchingMenu.timeoutId = setTimeout(() => {
+        const result = [];
 
-            </div>
-        </div>
+        items.value.forEach((item) => {
+            if (
+                item.label
+                    .toLowerCase()
+                    .startsWith(searchVal.value.toLowerCase()) &&
+                searchVal.value !== ""
+            ) {
+                result.push({ key: item.key, label: item.label });
+            }
 
+            if (item.children) {
+                item.children.forEach((child) => {
+                    if (
+                        child.label
+                            .toLowerCase()
+                            .startsWith(searchVal.value.toLowerCase()) &&
+                        searchVal.value !== ""
+                    ) {
+                        result.push({ key: child.key, label: child.label });
+                    }
+                });
+            }
+        });
 
-        <div class="start__panel">
-            <div class="start__bg"></div>
-            <div class="start_inner">
-                <div class="start_txt">
-                    <h2 class="start__banner"> Закажите услуги фрилансеров прямо сейчас</h2>
-                    <div class="start__text">Быстро, просто и безопасно!</div>
-                    <button class="start__btn"><router-link :to="{ name: 'CreatePosts' }" class="start__btn"> Начать
-                        </router-link></button>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="container">
-            <div class="row bottom__items">
-
-                <h2 class="ck-wrapper">Chik — это потрясающе удобная фриланс платформа, которая включает:</h2>
-                <div class="col-md-6">
-                    <h4 class="chik-header--h4 p-o">Магазин фриланс услуг</h4>
-                    <p>Желаете сэкономить финансы, время и избежать лишних стрессов? Эта экономия возможна лишь тогда,
-                        когда фриланс ориентирован на конечный результат. В этом аспекте Chik, как площадка, обладает
-                        значительным преимуществом перед другими ресурсами для поиска исполнителей.</p>
-                    <p>Специалисты фиксируют свои услуги в виде "чиков", которые доступны к приобретению всего в один
-                        клик... Таким образом, работа исполнителей представлена как товар, что сокращает затраты
-                        времени, финансов и энергии. Это идеальное решение для стандартных задач: создание сайтов,
-                        различные IT услуги, Трафик, реклама, SEO и других.</p>
-                    <p>Важно отметить, что каталог и поиск услуг настроены таким образом, что вы видите наилучшие
-                        предложения на основе отзывов, качества работы и ответственности фрилансера. Если специалист
-                        предоставляет некачественные услуги, его Чики падают вниз по списку, и мы не отображаем их перед
-                        заказчиками. Таким образом, на Chik вы взаимодействуете с высококвалифицированными
-                        профессионалами, стремящимися выполнить задачи на высшем уровне.</p>
-                </div>
-                <div class="col-md-6">
-                    <h4 class="chik-header--h4 p-o">Биржа фриланса</h4>
-                    <p>"Создаёте задачу, и она становится доступной для тысяч фрилансеров, готовых отправить вам свои
-                        предложения. Вам лишь остаётся выбрать наилучшее из них и начать сотрудничество. Такой подход к
-                        удалённой работе является идеальным вариантом для решения крупных и уникальных заданий.</p>
-                    <p>Одной из характерных особенностей биржи Chik является качество предложений от фрилансеров. Если
-                        вы когда-либо работали на других площадках фриланса, то знаете, как неудобно получать множество
-                        несвязанных с вашим заданием предложений от исполнителей, которые даже не удосужились прочитать
-                        его текст. На Chik же всё иначе – благодаря особому функционалу каждый фрилансер ценит каждое
-                        своё предложение. Поэтому подавляющее большинство полученных предложений приходит от тех, кто
-                        внимательно изучил суть задачи и предлагает соответствующие решения.</p>
-                    <p>Ещё одним важным моментом на бирже фриланса и в магазине Kwork является безопасная оплата
-                        заказов, проходящая через специальную систему: исполнитель получает деньги только после вашего
-                        одобрения результатов. В случае задержки вы всегда можете вернуть денежные средства на свой счёт
-                        всего в один клик."</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-    <!--<section class="cards-blog latest-blog">
-    <div class="card-blog-content" v-for="post in posts" :key="post.id">
-      <img :src="post.imagePath" alt="" />
-      <p>
-        {{ post.created_at }}
-        <span style="float: right">Written By {{ post.user }}</span>
-      </p>
-      <h4 style="font-weight: bolder">
-        <a href="single-blog.html"></a>
-        <router-link
-          :to="{
-            name: 'SingleBlog',
-            params: { slug: post.slug },
-          }"
-          >{{ post.title }}</router-link
-        >
-      </h4>
-    </div>
-  </section>-->
-
-
-    <router-view></router-view>
-
-
-
-</template>
-<script>
-export default {
-    emits: ["updateSidebar"],
-    data() {
-        return {
-            posts: [],
-        };
-    },
-
-    mounted() {
-        axios
-            .get("/api/home-posts")
-            .then((response) => (this.posts = response.data.data))
-            .catch((error) => {
-                console.log(error);
-            });
-
-    },
-
+        searchRes.value = result;
+        searchingStart.value = false;
+    }, 500);
 };
+
+const pushToSearch = (v, k) => {
+    router.push({
+        path: `/post`,
+        query: {
+            category: v.toLowerCase(),
+        },
+    });
+    searchVal.value = "";
+    current.value = [k];
+};
+
+const handleClickOutside = (event) => {
+    const searchContainer = document.querySelector('.search-container');
+    if (searchContainer && !searchContainer.contains(event.target)) {
+        searchShow.value = false;
+    }
+    else{
+        searchShow.value = true;
+    }
+};
+
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+    axios
+        .get("/api/menu_list")
+        .then((res) => {
+            const menuItems = [];
+            for (let i = 0; i < res.data.data.length; i++) {
+                const item = {
+                    label: res.data.data[i].name,
+                    key: res.data.data[i].url_link,
+                    children: [],
+                };
+                if (
+                    res.data.data[i].submenu &&
+                    res.data.data[i].submenu.length > 0
+                ) {
+                    item.children.push({
+                        label: "Oбщий",
+                        key: res.data.data[i].url_link,
+                    });
+                    for (let j = 0; j < res.data.data[i].submenu.length; j++) {
+                        item.children.push({
+                            label: res.data.data[i].submenu[j].name,
+                            key: res.data.data[i].submenu[j].url_link,
+                        });
+                    }
+                }
+                menuItems.unshift(item);
+            }
+            items.value = menuItems;
+        })
+        .catch((error) => {
+            console.error("Error fetching menu list:", error);
+        });
+});
+
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
+
+
 </script>
-<style>
-.btn {
-    margin-top: -1.5px;
-    background-color: #8c093d;
-}
 
-@media screen and (max-width: 768px) {
-    .tops {
-        backdrop-filter: blur(0px) brightness(1.2);
-        -webkit-backdrop-filter: blur(8px) brightness(1.2);
-    }
-
-    .btn {
-        margin-top: -1px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .tops {
-        /*background-image: url("images/diverse.jpg");*/
-        height: 200px;
-        width: 100vw;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
-
-    .tops-image {
-        height: 200px;
-        visibility: hidden;
-    }
-
-}
-
-.tops-image {
-    /* height: 100vh; */
-    /* width: 100vw; */
+<template>
+    <div
+        class="w-full home__bg xl:h-[400px] md:h-[300px] max-md:h-auto   lg:pt-20 pb-10 max-lg:pt-16"
+    >
+        <div class="container px-5">
+            <h1
+                class="md:text-3xl font-semibold w-[600px] max-md:w-full max-md:text-xl"
+            >
+                Фриланс-услуги в один клик: просто,быстро,эффективно
+            </h1>
+            <div class="relative w-[600px] max-md:w-full search-container">
+                <a-input-search
+                    placeholder="Что ищем, напишите"
+                    enter-button="Найти"
+                    size="large"
+                    class="w-full"
+                    v-model:value="searchVal"
+                    @keyup="searchingMenu"
+                />
+                <a-card
+                    class="absolute z-10 w-full bg-white top-[50px]"
+                    v-if="searchVal && searchShow"
+                >
+                    <template v-if="searchRes.length == 0">
+                        <a-spin size="small" :spinning="searchingStart">
+                            <p
+                                class="px-2 py-2 m-0 rounded-lg"
+                                style="background: #f6f6f6"
+                            >
+                                Не найдено
+                            </p>
+                        </a-spin>
+                    </template>
+                    <template v-else>
+                        <div
+                            class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
+                            style="background: #f6f6f6"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="none"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
+                                    fill="#a5a5a5"
+                                ></path>
+                            </svg>
+                            Услуги
+                        </div>
+                        <div
+                            v-for="(search, i) of searchRes"
+                            :key="i"
+                            @click="pushToSearch(search.label, search.key)"
+                            :class="[
+                                'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
+                                {
+                                    'rounded-b-lg': i === searchRes.length - 1,
+                                },
+                            ]"
+                        >
+                            {{ search.label }}
+                        </div>
+                    </template>
+                </a-card>
+            </div>
+        </div>
+    </div>
+</template>
+<style lang="scss">
+.home__bg {
+    background-image: url("../images/larg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
 }
 
-.tops {
-    /*background-image: url("images/diverse.jpg");*/
-    /* height: 100%; */
-    /* width: 100vw; */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.talentcategory {
-    display: grid;
-}
-
-.freelanceh3 {
-    display: flex;
-    justify-content: center;
-
-}
-
-.rubrics {
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 64px;
-    display: table;
-    /*width: 100%;*/
-    height: 494px;
-}
-
-.rubrics h1 {
-
-    color: #111;
-    font-size: 27px;
-    font-weight: 600;
-    line-height: 32px;
-    margin-top: -2px;
-    padding: 0 0 2px;
-}
-
-.rubrics__items {
-
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    align-items: center;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 13px -6px 0;
-}
-
-.rubrics_item {
-
-    box-sizing: border-box;
-    padding: 6px;
-    width: 50%;
-
-
-}
-
-.start__bg {
-    width: 100%;
-    transform: translateY(-10.596px);
-}
-
-.start_inner {
-    width: 100%;
-    height: 412px;
-    background-image: url(../images/faq4.jpg);
-    padding-bottom: 30px;
-    padding-top: 32px;
-    position: relative;
-}
-
-.start__banner {
-
-    color: #111;
-    font-size: 27px;
-    font-weight: 600;
-    line-height: 32px;
-    margin-top: -2px;
-    padding: 0 0 2px;
-}
-
-.start__text {
-    color: #333;
-    justify-content: center;
-    font-weight: 600;
-
-    margin-top: 16px;
-    font-size: 18px;
-    line-height: 24px;
-}
-
-.htitle {
-    position: absolute;
-    color: black;
-    display: block;
-    left: 70px;
-    justify-content: left;
-    justify-items: left;
-    font-weight: 600;
-    /*align-items: enter;*/
-    padding-bottom: 200px;
-    font-size: 25px;
-    /* padding-top: 64px;*/
-}
-
-.start_txt {
-    display: grid;
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
-    padding-bottom: 30px;
-    padding-top: 64px;
-    height: 312px;
-    position: relative;
-}
-
-.start__btn {
-    margin-top: 64px;
-    width: 333px;
-
-    font-family: Open Sans, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-
-    min-height: 48px;
-    padding: 12px 15px;
-    background-color: #8c093d;
-    border-color: #8c093d;
-    color: #fff;
-    border-radius: 6px;
-    border: 1px solid transparent;
-
-}
-
-.start__panel {
-    margin-top: 120px;
-    margin-bottom: 50px;
-}
-
-.bottom__items {
-    top: 50px;
-    margin-bottom: 10px;
-}
-
-@media (min-width: 768px) {
-    .rubrics_item {
-        width: 25%;
-    }
-}
-
-@media (max-width: 768px) {
-    .tops {
-        /*background-image: url("images/diverse.jpg");*/
-        height: 200px;
-        width: 100vw;
-    }
-
-    .rubrics_item {
-        width: 50%;
-    }
-
-    .start__panel {
-        margin-top: 120px;
-        margin-bottom: 10px;
-    }
-
-    .rubrics {
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-top: 64px;
-        display: block;
-        /*width: 100%;*/
-        height: 660px;
-    }
-
-    .start_inner {
-        width: 100%;
-        height: 412px;
-        background-image: url(../images/faq4.jpg);
-        padding-bottom: 30px;
-        padding-top: 32px;
-        position: relative;
-    }
-
-    .start__banner {
-
-        color: #111;
-        font-size: 23px;
-        font-weight: 600;
-        line-height: 32px;
-        margin-top: -2px;
-        padding: 0 0 2px;
-    }
-
-    .start__text {
-        color: #333;
-        justify-content: center;
-        font-weight: 600;
-
-        margin-top: 16px;
-        font-size: 18px;
-        line-height: 24px;
-    }
-
-    .start_txt {
-        display: grid;
-        justify-content: center;
-        justify-items: center;
-        align-items: center;
-        padding-bottom: 30px;
-        padding-top: 64px;
-        height: 312px;
-        position: relative;
-    }
-
-    .start__btn {
-        margin-top: 64px;
-        width: 333px;
-
-        font-family: Open Sans, Helvetica, sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 20px;
-
-        min-height: 48px;
-        padding: 12px 15px;
-        background-color: #8c093d;
-        border-color: #8c093d;
-        color: #fff;
-        border-radius: 6px;
-        border: 1px solid transparent;
-
-    }
-
-    .htitle {
-        position: absolute;
-        color: black;
-        display: block;
-        left: 120px;
-        justify-content: left;
-        justify-items: left;
-        font-weight: 600;
-        /*align-items: enter;*/
-        padding-bottom: 150px;
-        font-size: 18px;
-        /* padding-top: 64px;*/
-    }
-}
-
-@media (max-width: 480px) {
-    .htitle {
-        position: absolute;
-        color: black;
-        display: block;
-        left: 60px;
-        justify-content: left;
-        justify-items: left;
-        font-weight: 600;
-        /*align-items: enter;*/
-        padding-bottom: 150px;
-        font-size: 12px;
-        /* padding-top: 64px;*/
-    }
-
-    .start__banner {
-
-        color: #111;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 32px;
-        margin-top: -2px;
-        padding: 0 0 2px;
-    }
-
-    .rubrics {
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-top: 64px;
-        display: block;
-        /*width: 100%;*/
-        height: 460px;
-    }
-
-    .rubrics h1 {
-        font-size: 18px;
-    }
-
-    .start__panel {
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 375px) {
-    .tops {
-        /*background-image: url("images/diverse.jpg");*/
-        height: 200px;
-        width: 100vw;
-    }
-
-    .rubrics_item {
-        width: 50%;
-    }
-
-    .start__panel {
-        margin-top: 50px;
-        margin-bottom: 10px;
-    }
-
-    .rubrics {
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-top: 64px;
-        display: block;
-        /*width: 100%;*/
-        height: 400px;
-    }
-
-    .rubrics h1 {
-        font-size: 16px;
-    }
-
-    .start_inner {
-        width: 100%;
-        height: 412px;
-        background-image: url(../images/faq4.jpg);
-        padding-bottom: 30px;
-        padding-top: 32px;
-        position: relative;
-    }
-
-    .start__banner {
-
-        color: #111;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 32px;
-        margin-top: -2px;
-        padding: 0 0 2px;
-    }
-
-    .start__text {
-        color: #333;
-        justify-content: center;
-        font-weight: 600;
-
-        margin-top: 16px;
-        font-size: 14px;
-        line-height: 24px;
-    }
-
-    .start_txt {
-        display: grid;
-        justify-content: center;
-        justify-items: center;
-        align-items: center;
-        padding-bottom: 30px;
-        padding-top: 64px;
-        height: 312px;
-        position: relative;
-    }
-
-    .start__btn {
-        margin-top: 64px;
-        width: 333px;
-
-        font-family: Open Sans, Helvetica, sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 20px;
-
-        min-height: 48px;
-        padding: 12px 15px;
-        background-color: #8c093d;
-        border-color: #8c093d;
-        color: #fff;
-        border-radius: 6px;
-        border: 1px solid transparent;
-
-    }
-
-    .start__panel {
-        margin-top: 10px;
-        margin-bottom: 50px;
-    }
-
-    .htitle {
-        position: absolute;
-        color: black;
-        display: block;
-        /* left: 50px; */
-        justify-content: left;
-        justify-items: left;
-        font-weight: 600;
-        /*align-items: enter;*/
-        padding-bottom: 150px;
-        font-size: 9px;
-        /* padding-top: 64px;*/
+@media (max-width: 767px) {
+    .home__bg {
+        background-image: none;
     }
 }
 </style>

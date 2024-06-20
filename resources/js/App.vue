@@ -11,7 +11,7 @@
                         src="./images/logo.svg"
                     />
                 </router-link>
-                <div class="relative w-[360px] max-md:hidden">
+                <div class="relative w-[360px] max-md:hidden search-container-app">
                     <a-input-search
                         placeholder="Что ищем, напишите"
                         enter-button="Найти"
@@ -22,19 +22,51 @@
                     />
                     <a-card
                         class="absolute z-10 w-full bg-white top-[50px]"
-                        v-if="searchVal"
+                        v-if="searchVal && searchShow"
                     >
                         <template v-if="searchRes.length == 0">
-                            <p>data net</p>
+                            <a-spin size="small" :spinning="searchingStart">
+                                <p
+                                    class="px-2 py-2 m-0 rounded-lg"
+                                    style="background: #f6f6f6"
+                                >
+                                    Не найдено
+                                </p>
+                            </a-spin>
                         </template>
                         <template v-else>
-                            <p
+                            <div
+                                class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
+                                style="background: #f6f6f6"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
+                                        fill="#a5a5a5"
+                                    ></path>
+                                </svg>
+                                Услуги
+                            </div>
+                            <div
                                 v-for="(search, i) of searchRes"
                                 :key="i"
-                                @click="pushToSearch(search.label)"
+                                @click="pushToSearch(search.label, search.key)"
+                                :class="[
+                                    'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
+                                    {
+                                        'rounded-b-lg':
+                                            i === searchRes.length - 1,
+                                    },
+                                ]"
                             >
                                 {{ search.label }}
-                            </p>
+                            </div>
                         </template>
                     </a-card>
                 </div>
@@ -67,9 +99,9 @@
                     >
                         <template #content>
                             <div class="flex flex-col gap-y-2">
-                                <a href="admin/dashboard">
+                                <router-link to="/admin/dashboard">
                                     <a-button type="link"> Профил </a-button>
-                                </a>
+                                </router-link>
                                 <a-button danger @click="logout"
                                     >Выйти</a-button
                                 >
@@ -79,37 +111,68 @@
                     </a-popover>
                 </div>
             </div>
-            <div class="container md:hidden max-md:flex">
-                
-                <div class="relative w-full mt-3 ">
+            <div class="container md:hidden max-md:flex search-container-app" v-if="homePage">
+                <div class="relative w-full mt-3">
                     <a-input-search
-                    placeholder="Что ищем, напишите"
-                    enter-button="Найти"
-                    size="large"
-                    class="w-full m-0 border-none"
-                    v-model:value="searchVal"
-                    @keyup="searchingMenu"
-                />
+                        placeholder="Что ищем, напишите"
+                        enter-button="Найти"
+                        size="large"
+                        class="w-full m-0 border-none"
+                        v-model:value="searchVal"
+                        @keyup="searchingMenu"
+                    />
                     <a-card
-                            class="absolute z-10 w-full bg-white top-[50px] border"
-                            v-if="searchVal"
-                        >
-                            <template v-if="searchRes.length == 0">
-                                <p>data net</p>
-                            </template>
-                            <template v-else>
+                        class="absolute z-10 w-full bg-white top-[50px]"
+                        v-if="searchVal && searchShow"
+                    >
+                        <template v-if="searchRes.length == 0">
+                            <a-spin size="small" :spinning="searchingStart">
                                 <p
-                                    v-for="(search, i) of searchRes"
-                                    :key="i"
-                                    @click="pushToSearch(search.label)"
+                                    class="px-2 py-2 m-0 rounded-lg"
+                                    style="background: #f6f6f6"
                                 >
-                                    {{ search.label }}
+                                    Не найдено
                                 </p>
-                            </template>
-                        </a-card>
+                            </a-spin>
+                        </template>
+                        <template v-else>
+                            <div
+                                class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
+                                style="background: #f6f6f6"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
+                                        fill="#a5a5a5"
+                                    ></path>
+                                </svg>
+                                Услуги
+                            </div>
+                            <div
+                                v-for="(search, i) of searchRes"
+                                :key="i"
+                                @click="pushToSearch(search.label, search.key)"
+                                :class="[
+                                    'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
+                                    {
+                                        'rounded-b-lg':
+                                            i === searchRes.length - 1,
+                                    },
+                                ]"
+                            >
+                                {{ search.label }}
+                            </div>
+                        </template>
+                    </a-card>
                 </div>
             </div>
-        
+
             <div
                 class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex pt-1"
             >
@@ -267,7 +330,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch,onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import ScrollbarComponent from "./components/ScrollbarComponent.vue";
@@ -279,9 +342,13 @@ const editSuccess = ref(false);
 const visible = ref(false);
 const userRole = ref(null);
 const searchVal = ref("");
+const searchingStart = ref(false);
+const searchShow = ref(true);
 const searchRes = ref([]);
 const router = useRouter();
 const route = useRoute();
+
+const homePage = ref(false);
 
 const logout = () => {
     axios
@@ -304,7 +371,7 @@ const hideOverlay = () => {
     overlayVisibility.value = false;
 };
 
-const pushToSearch = (v) => {
+const pushToSearch = (v, k) => {
     router.push({
         path: `/post`,
         query: {
@@ -312,6 +379,7 @@ const pushToSearch = (v) => {
         },
     });
     searchVal.value = "";
+    current.value = [k];
 };
 const showEditSuccess = () => {
     editSuccess.value = true;
@@ -327,34 +395,40 @@ const pushToMenu = (val) => {
     openMenu.value = false;
 };
 const searchingMenu = () => {
-    const result = [];
-    items.value.forEach((item) => {
-        if (
-            item.label
-                .toLowerCase()
-                .startsWith(searchVal.value.toLowerCase()) &&
-            searchVal.value !== ""
-        ) {
-            result.push({ key: item.key, label: item.label });
-        }
+    searchingStart.value = true;
 
-        if (item.children) {
-            item.children.forEach((child) => {
-                if (
-                    child.label
-                        .toLowerCase()
-                        .startsWith(searchVal.value.toLowerCase()) &&
-                    searchVal.value !== ""
-                ) {
-                    result.push({ key: child.key, label: child.label });
-                }
-            });
-        }
-    });
+    clearTimeout(searchingMenu.timeoutId);
 
-    searchRes.value = result;
+    searchingMenu.timeoutId = setTimeout(() => {
+        const result = [];
 
-    console.log(result, searchVal.value);
+        items.value.forEach((item) => {
+            if (
+                item.label
+                    .toLowerCase()
+                    .startsWith(searchVal.value.toLowerCase()) &&
+                searchVal.value !== ""
+            ) {
+                result.push({ key: item.key, label: item.label });
+            }
+
+            if (item.children) {
+                item.children.forEach((child) => {
+                    if (
+                        child.label
+                            .toLowerCase()
+                            .startsWith(searchVal.value.toLowerCase()) &&
+                        searchVal.value !== ""
+                    ) {
+                        result.push({ key: child.key, label: child.label });
+                    }
+                });
+            }
+        });
+
+        searchRes.value = result;
+        searchingStart.value = false;
+    }, 500);
 };
 const setUserRole = (role_id) => {
     userRole.value = role_id;
@@ -371,8 +445,29 @@ watch(
         }
     }
 );
+watch(
+    () => route.name,
+    (newName) => {
+        if (newName == "Home") {
+            homePage.value = false;
+        } else {
+            homePage.value = true;
+        }
+    },
+    { immediate: true }
+);
+
+const handleClickOutsideApp = (event) => {
+    const searchContainer = document.querySelector(".search-container-app");
+    if (searchContainer && !searchContainer.contains(event.target)) {
+        searchShow.value = false;
+    } else {
+        searchShow.value = true;
+    }
+};
 
 onMounted(() => {
+    document.addEventListener("click", handleClickOutsideApp);
     axios
         .get("/api/user")
         .then((response) => {
@@ -418,7 +513,6 @@ onMounted(() => {
                 menuItems.unshift(item);
             }
             items.value = menuItems;
-            console.log(items);
         })
         .catch((error) => {
             console.error("Error fetching menu list:", error);
@@ -426,6 +520,10 @@ onMounted(() => {
         .finally(() => {
             loader.value = false;
         });
+});
+
+onUnmounted(() => {
+    document.removeEventListener("click", handleClickOutsideApp);
 });
 </script>
 
