@@ -99,9 +99,9 @@
                     >
                         <template #content>
                             <div class="flex flex-col gap-y-2">
-                                <router-link to="/admin/dashboard">
+                                <a href="/admin/dashboard">
                                     <a-button type="link"> Профил </a-button>
-                                </router-link>
+                                </a>
                                 <a-button danger @click="logout"
                                     >Выйти</a-button
                                 >
