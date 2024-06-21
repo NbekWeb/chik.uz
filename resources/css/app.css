@@ -299,6 +299,13 @@ footer small {
     height: 50px;
 }
 
+.ant-card .ant-card-body{
+    padding: 0 !important;
+    
+}
+
+
+
 .searchbar__home button {
     /*padding: 11px 10px;*/
     border: none;

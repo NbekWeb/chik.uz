@@ -51,7 +51,7 @@ import Development from "../pages/Development.vue";
 import CreateCategories from "../pages/categories/CreateCategories.vue";
 import CategoriesList from "../pages/categories/CategoriesList.vue";
 import EditCategories from "../pages/categories/EditCategories.vue";
-import CreatePosts from "../pages/posts/CreatePosts.vue";
+// import CreatePosts from "../pages/posts/CreatePosts.vue";
 import Sa1 from "../pages/posts/CreatePost.vue";
 import DashboardPostsList from "../pages/posts/DashboardPostsList.vue";
 import EditPosts from "../pages/posts/EditPosts.vue";
@@ -83,14 +83,15 @@ const routes = [
         component: Blog,
     },
     {
-        path: "/sa1",
+        path: "/posts/create",
         name: "Sa1",
         component: Sa1,
+        meta: { requiresAuth: true },
     },
     {
         path: "/post",
         name: "PostComponent",
-        component: PostComponent
+        component: PostComponent,
     },
     {
         path: "/contact",
@@ -137,12 +138,12 @@ const routes = [
         props: true,
     },
 
-    {
-        path: "/posts/create",
-        name: "CreatePosts",
-        component: CreatePosts,
-        meta: { requiresAuth: true },
-    },
+    // {
+    //     path: "/posts/create",
+    //     name: "CreatePosts",
+    //     component: CreatePosts,
+    //     meta: { requiresAuth: true },
+    // },
 
     {
         path: "/dashboard-posts",
