@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClickController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\PaymeCheck;
 
 /*
@@ -65,7 +66,8 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryC
 // chat
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
-
+//
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('review', [ReviewController::class, 'store']);
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
