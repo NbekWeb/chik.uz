@@ -58,6 +58,15 @@ const pushToSearch = (v, k) => {
     current.value = [k];
 };
 
+const pushToMenu = (val) => {
+    router.push({
+        path: `/post`,
+        query: {
+            category: val.toLowerCase(),
+        },
+    });
+};
+
 const handleClickOutside = (event) => {
     const searchContainer = document.querySelector(".search-container");
     if (searchContainer && !searchContainer.contains(event.target)) {
@@ -67,16 +76,15 @@ const handleClickOutside = (event) => {
     }
 };
 
-const pushToOrder=()=>{
-    if(!localStorage.getItem("authenticated")){
-        router.push({name:"Login"})
-    }
-    else{
-        if(localStorage.getItem("roleId")==3){
-            router.push({name:"Login"})
+const pushToOrder = () => {
+    if (!localStorage.getItem("authenticated")) {
+        router.push({ name: "Login" });
+    } else {
+        if (localStorage.getItem("roleId") == 3) {
+            router.push({ name: "Login" });
         }
     }
-}
+};
 
 onMounted(() => {
     document.addEventListener("click", handleClickOutside);
@@ -113,10 +121,8 @@ onMounted(() => {
         .catch((error) => {
             console.error("Error fetching menu list:", error);
         });
-        console.log(localStorage.getItem("roleId"))
+    console.log(localStorage.getItem("roleId"));
 });
-
-
 
 onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
@@ -206,7 +212,7 @@ onUnmounted(() => {
                     :md="8"
                     :sm="12"
                     :xs="12"
-                    
+                    @click="pushToMenu(item.label)"
                 >
                     <span
                         class="absolute left-0 w-full px-3 text-xs font-bold text-white bottom-3"
@@ -222,12 +228,26 @@ onUnmounted(() => {
             </a-row>
         </div>
 
-        <div class="w-full create_order h-[412px] flex text-center justify-center items-center">
+        <div
+            class="w-full create_order h-[412px] flex text-center justify-center items-center"
+        >
             <div class="text-white">
-                
-                <h2 class="font-bold max-xl:text-3xl xl:text-3xl max-lg:text-2xl">Закажите услуги фрилансеров прямо сейчас</h2>
-                <p class="font-semibold max-xl:text-lg xl:text-lg max-lg:text-base">Быстро, просто и безопасно!</p>
-                <a-button type="primary" class="px-16 lg:mt-10 max-lg:mt-6" @click="pushToOrder">Начать</a-button>
+                <h2
+                    class="font-bold max-xl:text-3xl xl:text-3xl max-lg:text-2xl"
+                >
+                    Закажите услуги фрилансеров прямо сейчас
+                </h2>
+                <p
+                    class="font-semibold max-xl:text-lg xl:text-lg max-lg:text-base"
+                >
+                    Быстро, просто и безопасно!
+                </p>
+                <a-button
+                    type="primary"
+                    class="px-16 lg:mt-10 max-lg:mt-6"
+                    @click="pushToOrder"
+                    >Начать</a-button
+                >
             </div>
         </div>
     </div>
@@ -240,9 +260,8 @@ onUnmounted(() => {
     background-size: cover;
 }
 
-.create_order{
+.create_order {
     background-image: url(../images/faq4.jpg);
-    
 }
 
 @media (max-width: 767px) {

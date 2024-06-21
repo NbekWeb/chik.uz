@@ -38,7 +38,7 @@
                     </div>
                 </a-spin>
             </div>
-            <div class="ml-2 max-lg:w-[332px] xl:w-[420px] max-xl:w-[400px]">
+            <div class="ml-2 max-lg:w-full xl:w-[420px] max-xl:w-[400px]">
                 <div class="max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4">
                     <div class="flex w-full gap-3 bg-white lg:p-3 max-lg:p-2">
                         <div class="items-center md:flex max-md:hidden">

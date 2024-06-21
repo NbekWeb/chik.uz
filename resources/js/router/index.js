@@ -65,6 +65,7 @@ import Deal from "../pages/Deal.vue";
 
 import Footer from "../components/Footer.vue";
 import PostComponent from "../components/PostComponent.vue";
+import AllPostsComponent from "../components/AllPostsComponent.vue";
 
 const routes = [
     {
@@ -92,6 +93,11 @@ const routes = [
         path: "/post",
         name: "PostComponent",
         component: PostComponent,
+    },
+    {
+        path: "/post-all",
+        name: "AllPostsComponent",
+        component: AllPostsComponent,
     },
     {
         path: "/contact",
@@ -411,6 +417,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
+    window.scrollTo(0, 0);
     const authenticated = localStorage.getItem("authenticated");
 
     if (to.meta.requiresGuest && authenticated) {

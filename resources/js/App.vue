@@ -11,7 +11,9 @@
                         src="./images/logo.svg"
                     />
                 </router-link>
-                <div class="relative w-[360px] max-md:hidden search-container-app">
+                <div
+                    class="relative w-[360px] max-md:hidden search-container-app"
+                >
                     <a-input-search
                         placeholder="Что ищем, напишите"
                         enter-button="Найти"
@@ -111,7 +113,10 @@
                     </a-popover>
                 </div>
             </div>
-            <div class="container md:hidden max-md:flex search-container-app" v-if="homePage">
+            <div
+                class="container md:hidden max-md:flex search-container-app"
+                v-if="homePage"
+            >
                 <div class="relative w-full mt-3">
                     <a-input-search
                         placeholder="Что ищем, напишите"
@@ -121,7 +126,6 @@
                         v-model:value="searchVal"
                         @keyup="searchingMenu"
                     />
-
 
                     <a-card
                         class="absolute z-10 w-full bg-white top-[50px]"
@@ -181,7 +185,7 @@
                 <a-spin :spinning="loader">
                     <div class="container">
                         <a-menu
-                            v-model:selectedKeys="current"
+                            v-model:selectedKeys="currentRoute"
                             mode="horizontal"
                             :items="items"
                             @click="pushToMenu"
@@ -206,7 +210,7 @@
                         <template #content>
                             <a-menu
                                 id="menu"
-                                v-model:selectedKeys="current"
+                                v-model:selectedKeys="currentRoute"
                                 mode="inline"
                                 :items="items"
                                 class="w-full"
@@ -332,7 +336,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch,onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import ScrollbarComponent from "./components/ScrollbarComponent.vue";
@@ -349,6 +353,7 @@ const searchShow = ref(true);
 const searchRes = ref([]);
 const router = useRouter();
 const route = useRoute();
+const currentRoute = ref();
 
 const homePage = ref(false);
 
@@ -381,19 +386,29 @@ const pushToSearch = (v, k) => {
         },
     });
     searchVal.value = "";
-    current.value = [k];
+    currentRoute.value = [k];
 };
 const showEditSuccess = () => {
     editSuccess.value = true;
 };
 
 const pushToMenu = (val) => {
-    router.push({
-        path: `/post`,
-        query: {
-            category: val.item.originItemValue.label.toLowerCase(),
-        },
-    });
+    if (val.item.originItemValue.all) {
+        router.push({
+            path: `/post-all`,
+            query: {
+                category: val.item.originItemValue.key.toLowerCase(),
+            },
+        });
+    } else {
+        router.push({
+            path: `/post`,
+            query: {
+                category: val.item.originItemValue.label.toLowerCase(),
+            },
+        });
+        currentRoute.value = [val.label];
+    }
     openMenu.value = false;
 };
 const searchingMenu = () => {
@@ -435,7 +450,6 @@ const searchingMenu = () => {
 const setUserRole = (role_id) => {
     userRole.value = role_id;
 };
-const current = ref(["SMM"]);
 const items = ref([]);
 
 const loader = ref(true);
@@ -443,10 +457,11 @@ watch(
     () => route.path,
     (newPath) => {
         if (newPath !== "/post") {
-            current.value = ["Трафик"];
+            currentRoute.value = [];
         }
     }
 );
+
 watch(
     () => route.name,
     (newName) => {
@@ -463,7 +478,7 @@ const handleClickOutsideApp = (event) => {
     const searchContainers = document.querySelectorAll(".search-container-app");
     let isClickInside = false;
 
-    searchContainers.forEach(container => {
+    searchContainers.forEach((container) => {
         if (container.contains(event.target)) {
             isClickInside = true;
         }
@@ -478,7 +493,7 @@ onMounted(() => {
         .get("/api/user")
         .then((response) => {
             setUserRole(response.data.role_id);
-            localStorage.setItem("roleId",response.data.role_id)
+            localStorage.setItem("roleId", response.data.role_id);
         })
         .catch((error) => {
             if (error.response && error.response.status === 401) {
@@ -499,7 +514,7 @@ onMounted(() => {
             for (let i = 0; i < res.data.data.length; i++) {
                 const item = {
                     label: res.data.data[i].name,
-                    key: res.data.data[i].url_link,
+                    key: i,
                     children: [],
                 };
                 if (
@@ -508,18 +523,20 @@ onMounted(() => {
                 ) {
                     item.children.push({
                         label: "Oбщий",
-                        key: res.data.data[i].url_link,
+                        key: res.data.data[i].name,
+                        all: true,
                     });
                     for (let j = 0; j < res.data.data[i].submenu.length; j++) {
                         item.children.push({
                             label: res.data.data[i].submenu[j].name,
-                            key: res.data.data[i].submenu[j].url_link
+                            key: res.data.data[i].submenu[j].name,
                         });
                     }
                 }
                 menuItems.unshift(item);
             }
             items.value = menuItems;
+            currentRoute.value = [route.query.category];
         })
         .catch((error) => {
             console.error("Error fetching menu list:", error);
@@ -568,7 +585,10 @@ onUnmounted(() => {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9;
 }
-
+html,
+body {
+    scroll-behavior: smooth;
+}
 .ant-menu-horizontal {
     border: none !important;
 }

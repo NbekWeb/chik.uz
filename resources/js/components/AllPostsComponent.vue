@@ -1,46 +1,93 @@
 <script setup>
-import { ref, onMounted, watch, onUnmounted } from "vue";
+import { ref, onMounted,watch } from "vue";
 import axios from "axios";
+import { useRoute,useRouter } from "vue-router";
+
+const items = ref({});
+const loader = ref(true);
+const route = useRoute();
+const router = useRouter();
+
+const pushToMenu=(val)=>{
+    router.push({
+            path: `/post`,
+            query: {
+                category: val.toLowerCase(),
+            },
+        });
+}
+
+const fetchMenuList = async () => {
+    try {
+        const res = await axios.get("/api/menu_list");
+        const menuData = res.data.data;
+        const selectedCategory = menuData.find(
+            (category) => category.name.toLowerCase() === route.query.category
+        );
+
+        if (selectedCategory) {
+            const menuItems = {
+                label: selectedCategory.name,
+                children:
+                    selectedCategory.submenu?.map((sub) => ({
+                        label: sub.name,
+                        key: sub.url_link,
+                        img: sub.photo,
+                    })) || [],
+            };
+            items.value = menuItems;
+        } else {
+            items.value = {}; // If no category matches, set items to an empty object
+        }
+    } catch (error) {
+        console.error("Error fetching menu list:", error);
+    } finally {
+        loader.value = false;
+    }
+};
+
+watch(
+    () => route.query.category,
+    (newCategory) => {
+        fetchMenuList();
+    }
+);
+
 
 onMounted(() => {
-    axios
-        .get("/api/menu_list")
-        .then((res) => {
-            const menuItems = [];
-            for (let i = 0; i < res.data.data.length; i++) {
-                const item = {
-                    label: res.data.data[i].name,
-                    key: res.data.data[i].url_link,
-                    children: [],
-                };
-                if (
-                    res.data.data[i].submenu &&
-                    res.data.data[i].submenu.length > 0
-                ) {
-                    item.children.push({
-                        label: "Oбщий",
-                        key: res.data.data[i].url_link,
-                    });
-                    for (let j = 0; j < res.data.data[i].submenu.length; j++) {
-                        item.children.push({
-                            label: res.data.data[i].submenu[j].name,
-                            key: res.data.data[i].submenu[j].url_link,
-                            img: res.data.data[i].submenu[j].photo,
-
-                        });
-                    }
-                }
-                menuItems.unshift(item);
-            }
-            items.value = menuItems;
-        })
-        .catch((error) => {
-            console.error("Error fetching menu list:", error);
-        });
+    fetchMenuList();
 });
 </script>
 
 <template>
-    <div></div>
+    <div class="container py-4   min-h-[300px] flex items-center">
+        <a-spin :spinning="loader" class="w-full ">
+            <a-row :gutter="[16, 24]" justify="center">
+                <a-col
+                    v-for="(item, i) of items.children"
+                    :key="i"
+                    class="relative cursor-pointer"
+                    :lg="6"
+                    :md="8"
+                    :sm="12"
+                    :xs="12"
+                    @click="pushToMenu(item.label)"
+                    
+                    
+                >
+                    <span
+                        class="absolute left-0 w-full px-4 text-xs font-bold text-white bottom-3"
+                    >
+                        {{ item.label }}
+                    </span>
+                    <img
+                        :src="item.img"
+                        alt="item.label"
+                        class="object-cover w-full xl:h-[300px] max-xl:h-[160px] max-lg:h-[150px] max-md:h-[110px]"
+                    />
+                </a-col>
+            </a-row>
+        </a-spin>
+    </div>
 </template>
 <style lang=""></style>
