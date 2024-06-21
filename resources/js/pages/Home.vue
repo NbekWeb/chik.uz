@@ -60,7 +60,7 @@ const pushToSearch = (v, k) => {
 
 const pushToMenu = (val) => {
     router.push({
-        path: `/post`,
+        path: `/post-all`,
         query: {
             category: val.toLowerCase(),
         },
@@ -81,7 +81,11 @@ const pushToOrder = () => {
         router.push({ name: "Login" });
     } else {
         if (localStorage.getItem("roleId") == 3) {
-            router.push({ name: "Login" });
+            const postAll = document.getElementById('postAll');
+            postAll.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        else{
+            router.push({ name: "CreatePosts" });
         }
     }
 };
@@ -202,8 +206,8 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <div class="container pt-10 pb-5">
-            <a-row :gutter="[16, 24]" justify="center">
+        <div class="container ">
+            <a-row :gutter="[16, 24]" justify="center" id="postAll" class="pt-10 pb-5">
                 <a-col
                     v-for="(item, i) of items"
                     :key="i"

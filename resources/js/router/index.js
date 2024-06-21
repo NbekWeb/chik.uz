@@ -85,7 +85,7 @@ const routes = [
     },
     {
         path: "/posts/create",
-        name: "Sa1",
+        name: "CreatePosts",
         component: Sa1,
         meta: { requiresAuth: true },
     },

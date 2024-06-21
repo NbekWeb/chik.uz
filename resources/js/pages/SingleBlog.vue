@@ -202,10 +202,10 @@ const fetchPostData = async () => {
     try {
         const response = await axios.get(`/api/posts/${props.slug}`);
         post.value = response.data.data;
-        const isCurrentUserPostAuthor = post.value.user.id === Auth.id();
+        // const isCurrentUserPostAuthor = post.value.user.id === Auth.id();
         loading.value = true;
-        shouldHideAboutText.value =
-            Auth.isLoggedIn() && isCurrentUserPostAuthor;
+        // shouldHideAboutText.value =
+        //     Auth.isLoggedIn() && isCurrentUserPostAuthor;
     } catch (err) {
         console.log(err);
     } finally {
@@ -215,7 +215,7 @@ const fetchPostData = async () => {
 
 // Lifecycle hook
 onMounted(() => {
-    fetchData();
+    // fetchData();
     fetchPostData();
 });
 </script>

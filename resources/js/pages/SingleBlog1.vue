@@ -38,7 +38,7 @@
 
                                         </div>
                                         <div class="media-body">
-                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                            <div class="gap-2 mx-auto d-grid col-6">
                                                 <button class="btn btn-primary" @click="buyPost(post.id, post.price)"
                                                     :disabled="buying || postIsPurchased"
                                                     type="button">Связаться</button>

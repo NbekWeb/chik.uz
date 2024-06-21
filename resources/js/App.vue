@@ -585,9 +585,8 @@ onUnmounted(() => {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9;
 }
-html,
-body {
-    scroll-behavior: smooth;
+html,body {
+  scroll-behavior: smooth;
 }
 .ant-menu-horizontal {
     border: none !important;
