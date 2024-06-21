@@ -114,73 +114,84 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div
-        class="w-full home__bg xl:h-[400px] md:h-[300px] max-md:h-auto   lg:pt-20 pb-10 max-lg:pt-16"
-    >
-        <div class="container px-5">
-            <h1
-                class="md:text-3xl font-semibold w-[600px] max-md:w-full max-md:text-xl"
-            >
-                Фриланс-услуги в один клик: просто,быстро,эффективно
-            </h1>
-            <div class="relative w-[600px] max-md:w-full search-container">
-                <a-input-search
-                    placeholder="Что ищем, напишите"
-                    enter-button="Найти"
-                    size="large"
-                    class="w-full"
-                    v-model:value="searchVal"
-                    @keyup="searchingMenu"
-                />
-                <a-card
-                    class="absolute z-10 w-full bg-white top-[50px]"
-                    v-if="searchVal && searchShow"
+    <div>
+        
+        <div
+            class="w-full home__bg xl:h-[400px] md:h-[300px] max-md:h-auto   lg:pt-20 pb-10 max-lg:pt-16"
+        >
+            <div class="container px-5">
+                <h1
+                    class="md:text-3xl font-semibold w-[600px] max-md:w-full max-md:text-xl"
                 >
-                    <template v-if="searchRes.length == 0">
-                        <a-spin size="small" :spinning="searchingStart">
-                            <p
-                                class="px-2 py-2 m-0 rounded-lg"
+                    Фриланс-услуги в один клик: просто,быстро,эффективно
+                </h1>
+                <div class="relative w-[600px] max-md:w-full search-container">
+                    <a-input-search
+                        placeholder="Что ищем, напишите"
+                        enter-button="Найти"
+                        size="large"
+                        class="w-full"
+                        v-model:value="searchVal"
+                        @keyup="searchingMenu"
+                    />
+                    <a-card
+                        class="absolute z-10 w-full bg-white top-[50px]"
+                        v-if="searchVal && searchShow"
+                    >
+                        <template v-if="searchRes.length == 0">
+                            <a-spin size="small" :spinning="searchingStart">
+                                <p
+                                    class="px-2 py-2 m-0 rounded-lg"
+                                    style="background: #f6f6f6"
+                                >
+                                    Не найдено
+                                </p>
+                            </a-spin>
+                        </template>
+                        <template v-else>
+                            <div
+                                class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
                                 style="background: #f6f6f6"
                             >
-                                Не найдено
-                            </p>
-                        </a-spin>
-                    </template>
-                    <template v-else>
-                        <div
-                            class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
-                            style="background: #f6f6f6"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="none"
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
+                                        fill="#a5a5a5"
+                                    ></path>
+                                </svg>
+                                Услуги
+                            </div>
+                            <div
+                                v-for="(search, i) of searchRes"
+                                :key="i"
+                                @click="pushToSearch(search.label, search.key)"
+                                :class="[
+                                    'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
+                                    {
+                                        'rounded-b-lg': i === searchRes.length - 1,
+                                    },
+                                ]"
                             >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
-                                    fill="#a5a5a5"
-                                ></path>
-                            </svg>
-                            Услуги
-                        </div>
-                        <div
-                            v-for="(search, i) of searchRes"
-                            :key="i"
-                            @click="pushToSearch(search.label, search.key)"
-                            :class="[
-                                'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
-                                {
-                                    'rounded-b-lg': i === searchRes.length - 1,
-                                },
-                            ]"
-                        >
-                            {{ search.label }}
-                        </div>
-                    </template>
-                </a-card>
+                                {{ search.label }}
+                            </div>
+                        </template>
+                    </a-card>
+                </div>
             </div>
+        </div>
+        
+        <div>
+             <a-row>
+                <a-col v-for="(item,i) of items" :key="i">
+                    {{ item }}
+                </a-col>
+             </a-row>   
         </div>
     </div>
 </template>

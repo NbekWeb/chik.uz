@@ -143,120 +143,119 @@
 
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import Pusher from "pusher-js";
+import Echo from 'laravel-echo';
 
-export default {
-    props: ["id"],
-    data() {
-        return {
-            order: {},
-            chats: [],
-            text: "",
-            loading: false,
-            error: null,
-            currentUser: null,
-            cash: "",
-            buying: false,
-        };
-    },
-    methods: {
-        formatPrice(price) {
-            return new Intl.NumberFormat('uz-Uz').format(price);
-        },
-        async submit() {
-            try {
-                this.loading = true;
-                const formData = new FormData();
-                formData.append("text", this.text);
-                await axios.post(
-                    `/api/order/${this.id}/messages`,
-                    formData
-                );
-                this.chats.push({
-                    text: this.text,
-                    user_id: this.currentUser.id,
-                });
-                this.text = "";
-            } catch (error) {
-                console.error("Error submitting message:", error);
-                this.error = "Error submitting message";
-            } finally {
-                this.loading = false;
-            }
-        },
-        async buyOrder(orderId, status) {
-            try {
-                this.buying = true;
-                // Make the PUT request to update the order status
-                await axios.put(`/api/update-order-status/${orderId}`, { status: status });
-                window.location.reload();
-            } catch (error) {
-                console.error('Purchase failed:', error);
-            } finally {
-                this.buying = false;
-            }
-        },
-        confirmForceMajeure(orderId) {
-            if (window.confirm("Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован.")) {
-                this.forceMajeure(orderId);
-            }
-        },
-        async forceMajeure(orderId) {
-            try {
-                this.buying = true;
-                // Make the PUT request to update the order status
-                await axios.put(`/api/force-majeure/${orderId}`);
-                window.location.reload();
-            } catch (error) {
-                console.error('forceMajeure failed:', error);
-            } finally {
-                this.buying = false;
-            }
-        },
-        async fetchData() {
-            try {
-                const [
-                    chatsResponse,
-                    currentUserResponse
-                ] = await Promise.all([
-                    axios.get(`/api/order/${this.id}/messages`),
-                    axios.get(`/api/user`)
-                ]);
+const props = defineProps(['id']);
+const order = ref({});
+const chats = ref([]);
+const text = ref("");
+const loading = ref(false);
+const error = ref(null);
+const currentUser = ref(null);
+const cash = ref("");
+const buying = ref(false);
 
-                this.chats = chatsResponse.data.data;
-                this.currentUser = currentUserResponse.data;
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                this.error = "Error fetching data";
-            }
-        },
-
-
-        async fetchOrderData() {
-            try {
-                const response = await axios.get("/api/order/" + this.id);
-                this.order = response.data.data;
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        initializePusher() {
-            const orderId = this.id;
-            const channelName = `chat.${orderId}`;
-            window.Echo.private(channelName).listen("NewChat", (e) => {
-                console.log(e.chat);
-                this.chats.push(e.chat);
-            });
-        },
-    },
-    mounted() {
-        this.fetchData();
-        this.initializePusher();
-        this.fetchOrderData();
-    },
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('uz-Uz').format(price);
 };
+
+const submit = async () => {
+    try {
+        loading.value = true;
+        const formData = new FormData();
+        formData.append("text", text.value);
+        await axios.post(`/api/order/${props.id}/messages`, formData);
+        chats.value.push({
+            text: text.value,
+            user_id: currentUser.value.id,
+        });
+        text.value = "";
+    } catch (error) {
+        console.error("Error submitting message:", error);
+        error.value = "Error submitting message";
+    } finally {
+        loading.value = false;
+    }
+};
+
+const buyOrder = async (orderId, status) => {
+    try {
+        buying.value = true;
+        await axios.put(`/api/update-order-status/${orderId}`, { status: status });
+        window.location.reload();
+    } catch (error) {
+        console.error('Purchase failed:', error);
+    } finally {
+        buying.value = false;
+    }
+};
+
+const confirmForceMajeure = (orderId) => {
+    if (window.confirm("Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован.")) {
+        forceMajeure(orderId);
+        
+    }
+};
+
+const forceMajeure = async (orderId) => {
+    try {
+        buying.value = true;
+        // await axios.put(`/api/force-majeure/${orderId}`);
+        text.value='Stoped'
+        submit()
+        // window.location.reload();   
+    } catch (error) {
+        console.error('forceMajeure failed:', error);
+    } finally {
+        buying.value = false;
+    }
+};
+
+const fetchData = async () => {
+    try {
+        const [chatsResponse, currentUserResponse] = await Promise.all([
+            axios.get(`/api/order/${props.id}/messages`),
+            axios.get(`/api/user`)
+        ]);
+
+        chats.value = chatsResponse.data.data;
+        currentUser.value = currentUserResponse.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        error.value = "Error fetching data";
+    }
+};
+
+const fetchOrderData = async () => {
+    try {
+        const response = await axios.get("/api/order/" + props.id);
+        order.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const initializePusher = () => {
+    const orderId = props.id;
+    const channelName = `chat.${orderId}`;
+    window.Echo.private(channelName).listen("NewChat", (e) => {
+        console.log(e.chat.text);
+        if(e.chat.text === "Stoped"){
+            console.log('sa1')
+        }
+        chats.value.push(e.chat);
+    });
+};
+
+onMounted(() => {
+    fetchData();
+    initializePusher();
+    fetchOrderData();
+});
 </script>
 
 <style scoped>
