@@ -7,25 +7,20 @@
                     <template #bodyCell="{ column, record }">
                         <template v-if="column.dataIndex === 'action'">
                             <div class="flex items-center justify-start gap-3 ">
-                                <router-link
-                                :to="{
+                                <router-link :to="{
                                     name: 'EditCategories',
                                     params: { id: record.id },
-                                }"
-                            >
-                            <a-button type="link p-0">
-                                
-                                Редактировать
-                            </a-button>
-                            </router-link>
-                            <a-popconfirm
-                                title="Удалить эту категорию?"
-                                @confirm="destroy(record.id)"
-                            >
-                                <template #default>
-                                    <a-button danger> Удалить </a-button>
-                                </template>
-                            </a-popconfirm>
+                                }">
+                                    <a-button type="link p-0">
+
+                                        Редактировать
+                                    </a-button>
+                                </router-link>
+                                <a-popconfirm title="Удалить эту категорию?" @confirm="destroy(record.id)">
+                                    <template #default>
+                                        <a-button danger> Удалить </a-button>
+                                    </template>
+                                </a-popconfirm>
                             </div>
                         </template>
                     </template>
@@ -101,12 +96,14 @@ onMounted(fetchCategories); // Fetch categories when component is mounted
 .edit-link {
     margin-right: 10px;
 }
+
 .delete-btn {
     background: none;
     border: none;
     color: #007bff;
     cursor: pointer;
 }
+
 .delete-btn:hover {
     color: #0056b3;
 }

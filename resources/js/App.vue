@@ -25,7 +25,7 @@
                         v-if="searchVal"
                     >
                         <template v-if="searchRes.length == 0">
-                            <p>data net</p>
+                            <p>Не найдено</p>
                         </template>
                         <template v-else>
                             <p
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="container md:hidden max-md:flex">
-                
+
                 <div class="relative w-full mt-3 ">
                     <a-input-search
                     placeholder="Что ищем, напишите"
@@ -95,7 +95,7 @@
                             v-if="searchVal"
                         >
                             <template v-if="searchRes.length == 0">
-                                <p>data net</p>
+                                <p>Не найдено</p>
                             </template>
                             <template v-else>
                                 <p
@@ -109,7 +109,7 @@
                         </a-card>
                 </div>
             </div>
-        
+
             <div
                 class="h-[45px] border-t flex items-center justify-center mb-3 max-md:hidden md:flex pt-1"
             >
