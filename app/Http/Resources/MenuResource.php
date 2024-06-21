@@ -20,7 +20,7 @@ class MenuResource extends JsonResource
             'photo' => url('storage/' .  $this->photo),
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
-            'submenu' => $this->categories,
+            'submenu' => CategoryResource::collection($this->categories),
         ];
     }
 }
