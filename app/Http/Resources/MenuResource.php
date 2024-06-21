@@ -17,11 +17,10 @@ class MenuResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'photo' => $this->photo,
-            'photo_link' => $this->photo_link,
-            'url_link' => $this->url_link,
+            'photo' => url('storage/' .  $this->photo),
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
             'submenu' => $this->categories,
-            'time' => $this->created_at->diffForHumans(),
         ];
     }
 }
