@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreignId('menu_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('photo');
-            $table->string('photo_link');
-            $table->string('url_link');
             $table->timestamps();
         });
     }

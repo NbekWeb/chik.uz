@@ -122,7 +122,7 @@
                         @keyup="searchingMenu"
                     />
 
-                   
+
                     <a-card
                         class="absolute z-10 w-full bg-white top-[50px]"
                         v-if="searchVal && searchShow"
@@ -462,7 +462,7 @@ watch(
 const handleClickOutsideApp = (event) => {
     const searchContainers = document.querySelectorAll(".search-container-app");
     let isClickInside = false;
-    
+
     searchContainers.forEach(container => {
         if (container.contains(event.target)) {
             isClickInside = true;

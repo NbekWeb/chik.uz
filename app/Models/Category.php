@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['menu_id', 'name', 'url_link'];
+    protected $fillable = ['menu_id', 'photo', 'name'];
     public function menu()
     {
         return $this->belongsTo(Menu::class);

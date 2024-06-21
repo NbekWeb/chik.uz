@@ -1,18 +1,18 @@
 <template>
-  
+
     <div class="container">
       <div >
-     
-     
-      
+
+
+
      <div class="page__header">
      <h2 class="diz">Дизайн</h2>
      <h5>Все ваши мечты о дизайне станут реальностью</h5>
    </div>
-   
+
    
      <div class="col-md-12">
-      
+
         <div class="subcategory m-hidden">
         <div class="subcategory-list">
           <p><h3>Дизайн</h3></p>
@@ -67,9 +67,9 @@
             >
         </a>
         </div>
-      </div> 
-      
-      
+      </div>
+
+
         <div class=" rubrics__items">
       <div class=" rubrics_item">
         <a class="rubrics__link"  ><router-link :to="{ name: 'Intejerextejer' }"
@@ -141,26 +141,26 @@
             >
         </a>
       </div>
-    </div> 
-      
-      
-   
+    </div>
+
+
+
  </div>
-   
-   
- 
+
+
+
 </div>
     </div>
-      
-    
-   
- 
-  
+
+
+
+
+
 </template>
 
 <script>
 export default {
-  
+
 
 };
 </script>
@@ -182,12 +182,12 @@ export default {
     margin: 13px -6px 0;
 }
 .rubrics_item{
-  
+
     box-sizing: border-box;
     padding: 6px;
     width: 25%;
 
-  
+
 }
 
 .right_side_menu{
@@ -196,13 +196,13 @@ export default {
 .design_page{
     display: flex;
     margin-top: 40px;
-   
+
 }
 .col-md-8{
     width: 60vw;
 }
 .page__header{
-  
+
   margin: 40px 0 34px;
     text-align: center;
 }
@@ -250,7 +250,7 @@ color: #333;
     display: flex;
   }
   .subcategory-list h3{
-    
+
     color: #111;
     font-size: 22px;
     font-weight: 600;

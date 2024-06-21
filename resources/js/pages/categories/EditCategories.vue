@@ -1,23 +1,23 @@
 <template>
     <div id="create-categories">
         <div id="contact-us">
-            <h1>Edit Category!</h1>
+            <h1>Изменить категорию!</h1>
             <!-- success message -->
             <div class="success-msg" v-if="success">
                 <i class="fa fa-check"></i>
-                Updated successfully
+                Успешно обновлено
             </div>
             <div class="contact-form">
                 <form @submit.prevent="submit">
-                    <label for="name"><span>Name</span></label>
+                    <label for="name"><span>Название категории</span></label>
                     <input type="text" id="name" v-model="field.name" />
                     <span v-if="errors.name" class="error">{{ errors.name[0] }}</span>
 
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Сохранять" />
                 </form>
             </div>
             <div class="create-categories">
-                <router-link :to="{ name: 'CategoriesList' }">Categories List <span>&#8594;</span></router-link>
+                <router-link :to="{ name: 'CategoriesList' }">Список категорий<span>&#8594;</span></router-link>
             </div>
         </div>
     </div>
