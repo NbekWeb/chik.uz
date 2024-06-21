@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { ref, onMounted, watch ,onUnmounted} from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 const searchVal = ref("");
@@ -59,18 +59,27 @@ const pushToSearch = (v, k) => {
 };
 
 const handleClickOutside = (event) => {
-    const searchContainer = document.querySelector('.search-container');
+    const searchContainer = document.querySelector(".search-container");
     if (searchContainer && !searchContainer.contains(event.target)) {
         searchShow.value = false;
-    }
-    else{
+    } else {
         searchShow.value = true;
     }
 };
 
+const pushToOrder=()=>{
+    if(!localStorage.getItem("authenticated")){
+        router.push({name:"Login"})
+    }
+    else{
+        if(localStorage.getItem("roleId")==3){
+            router.push({name:"Login"})
+        }
+    }
+}
 
 onMounted(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     axios
         .get("/api/menu_list")
         .then((res) => {
@@ -78,6 +87,7 @@ onMounted(() => {
             for (let i = 0; i < res.data.data.length; i++) {
                 const item = {
                     label: res.data.data[i].name,
+                    img: res.data.data[i].photo,
                     key: res.data.data[i].url_link,
                     children: [],
                 };
@@ -103,21 +113,20 @@ onMounted(() => {
         .catch((error) => {
             console.error("Error fetching menu list:", error);
         });
+        console.log(localStorage.getItem("roleId"))
 });
+
 
 
 onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener("click", handleClickOutside);
 });
-
-
 </script>
 
 <template>
     <div>
-        
         <div
-            class="w-full home__bg xl:h-[400px] md:h-[300px] max-md:h-auto   lg:pt-20 pb-10 max-lg:pt-16"
+            class="w-full home__bg xl:h-[400px] md:h-[300px] max-md:h-auto lg:pt-20 pb-10 max-lg:pt-16"
         >
             <div class="container px-5">
                 <h1
@@ -174,7 +183,8 @@ onUnmounted(() => {
                                 :class="[
                                     'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
                                     {
-                                        'rounded-b-lg': i === searchRes.length - 1,
+                                        'rounded-b-lg':
+                                            i === searchRes.length - 1,
                                     },
                                 ]"
                             >
@@ -185,13 +195,40 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        
-        <div>
-             <a-row>
-                <a-col v-for="(item,i) of items" :key="i">
-                    {{ item }}
+
+        <div class="container pt-10 pb-5">
+            <a-row :gutter="[16, 24]" justify="center">
+                <a-col
+                    v-for="(item, i) of items"
+                    :key="i"
+                    class="relative"
+                    :lg="6"
+                    :md="8"
+                    :sm="12"
+                    :xs="12"
+                    
+                >
+                    <span
+                        class="absolute left-0 w-full px-3 text-xs font-bold text-white bottom-3"
+                    >
+                        {{ item.label }}
+                    </span>
+                    <img
+                        :src="item.img"
+                        alt="item.label"
+                        class="object-cover w-full xl:h-[300px] max-xl:h-[160px] max-lg:h-[150px] max-md:h-[110px]"
+                    />
                 </a-col>
-             </a-row>   
+            </a-row>
+        </div>
+
+        <div class="w-full create_order h-[412px] flex text-center justify-center items-center">
+            <div class="text-white">
+                
+                <h2 class="font-bold max-xl:text-3xl xl:text-3xl max-lg:text-2xl">Закажите услуги фрилансеров прямо сейчас</h2>
+                <p class="font-semibold max-xl:text-lg xl:text-lg max-lg:text-base">Быстро, просто и безопасно!</p>
+                <a-button type="primary" class="px-16 lg:mt-10 max-lg:mt-6" @click="pushToOrder">Начать</a-button>
+            </div>
         </div>
     </div>
 </template>
@@ -201,6 +238,11 @@ onUnmounted(() => {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.create_order{
+    background-image: url(../images/faq4.jpg);
+    
 }
 
 @media (max-width: 767px) {

@@ -478,6 +478,7 @@ onMounted(() => {
         .get("/api/user")
         .then((response) => {
             setUserRole(response.data.role_id);
+            localStorage.setItem("roleId",response.data.role_id)
         })
         .catch((error) => {
             if (error.response && error.response.status === 401) {
@@ -512,7 +513,7 @@ onMounted(() => {
                     for (let j = 0; j < res.data.data[i].submenu.length; j++) {
                         item.children.push({
                             label: res.data.data[i].submenu[j].name,
-                            key: res.data.data[i].submenu[j].url_link,
+                            key: res.data.data[i].submenu[j].url_link
                         });
                     }
                 }
