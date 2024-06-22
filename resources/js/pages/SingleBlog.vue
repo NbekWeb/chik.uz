@@ -10,11 +10,32 @@
                         <Swiper
                             :slides-per-view="1"
                             spaceBetween="10"
-                            :autoplay="{ delay: 3000 }"
+                            :autoplay="{ delay: 30000 }"
                             :pagination="{ clickable: true }"
                             navigation
+                            :thumbs="{ swiper: thumbsSwiper }"
                             :modules="modul"
                             class="object-cover w-full sm:h-[440px] max-sm:h-[300px]"
+                        >
+                            <SwiperSlide
+                                v-for="(image, index) in post.images"
+                                :key="index"
+                            >
+                                <img
+                                    :src="image.url"
+                                    class="object-cover w-full h-full"
+                                />
+                            </SwiperSlide>
+                        </Swiper>
+                        <Swiper
+                            :slides-per-view="slidesPerView"
+                            spaceBetween="4"
+                            @swiper="setThumbsSwiper"
+                            watch-slides-progress
+                            :modules="[Thumbs]"
+                            :breakpoints="breakpoints"
+                            class="w-full h-[60px] mt-2"
+                            style="background-color: #f6f6f6"
                         >
                             <SwiperSlide
                                 v-for="(image, index) in post.images"
@@ -130,15 +151,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 
+const thumbsSwiper = ref(null);
+const slidesPerView = ref(2);
+
+const breakpoints = ref({
+    320: {
+        slidesPerView: 3,
+        spaceBetween: 5,
+    },
+    480: {
+        slidesPerView: 3,
+        spaceBetween: 5,
+    },
+    768: {
+        slidesPerView: 6,
+        spaceBetween: 10,
+    },
+    1024: {
+        slidesPerView: 6,
+        spaceBetween: 16,
+    },
+});
 // Props
 const props = defineProps({
     slug: {
@@ -147,12 +189,16 @@ const props = defineProps({
     },
 });
 
-const formatPrice=(num)=> {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        }
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+const formatPrice = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
 
 // Reactive state
-const modul = ref([Navigation, Pagination, Autoplay]);
+const modul = ref([Navigation, Pagination, Autoplay, Thumbs]);
 const post = ref({});
 const desc = ref(false);
 const relatedPosts = ref([]);
@@ -224,5 +270,8 @@ onMounted(() => {
 .swiper-button-next:after,
 .swiper-button-prev:after {
     font-size: 20px !important;
+}
+.dabba {
+    padding: 20px !important;
 }
 </style>

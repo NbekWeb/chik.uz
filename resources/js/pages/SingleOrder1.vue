@@ -5,35 +5,32 @@
             <div class="order">
                 <h1 class="mb-3 h3">Заказ</h1>
                 <ul class="list-group">
-                    <li class="list-group-item">Заказ ID: {{ inquiry.id }}</li>
+                    <li class="list-group-item">Заказ ID: {{ order.id }}</li>
                     <li class="list-group-item">
-                        Заказчик: {{ inquiry.user_name }}
-                    </li>
-                    <li class="list-group-item">
-                        Chik: {{ inquiry.post_title }}
+                        Chik: {{ order.post_title }}
                     </li>
                     <li class="list-group-item">
                         Статус:
-                        <span v-if="inquiry.status !== null">
-                            <template v-if="inquiry.status === 200"
+                        <span v-if="order.status !== null">
+                            <template v-if="order.status === 200"
                                 >Под общением</template
                             >
-                            <template v-else-if="inquiry.status === 201"
+                            <template v-else-if="order.status === 201"
                                 >В ожидании...</template
                             >
-                            <template v-else-if="inquiry.status === 202"
+                            <template v-else-if="order.status === 202"
                                 >Принят</template
                             >
-                            <template v-else-if="inquiry.status === 203"
+                            <template v-else-if="order.status === 203"
                                 >Экстренный оператор</template
                             >
-                            <template v-else-if="inquiry.status === 204"
+                            <template v-else-if="order.status === 204"
                                 >Завершен</template
                             >
-                            <template v-else-if="inquiry.status === 205"
+                            <template v-else-if="order.status === 205"
                                 >Представлено на рассмотрение</template
                             >
-                            <template v-else-if="inquiry.status === 206"
+                            <template v-else-if="order.status === 206"
                                 >Заказ отклонен</template
                             >
                             <template v-else>Неизвестный</template>
@@ -41,10 +38,10 @@
                     </li>
 
                     <li class="list-group-item">
-                        Время: {{ inquiry.created_at }}
+                        Время: {{ order.created_at }}
                     </li>
                     <li class="list-group-item">
-                        Цена: {{ formatPrice(inquiry.price) }}
+                        Цена: {{ formatPrice(order.price) }}
                     </li>
                 </ul>
             </div>
@@ -56,6 +53,32 @@
 
                     <div class="card">
                         <div class="row g-0">
+                            <!-- <div class="col-12 col-lg-5 col-xl-3 border-right">
+
+                                <div class="px-4 d-none d-md-block">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <input type="text" class="my-3 form-control" placeholder="Поиск...">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 border-0 list-group-item list-group-item-action">
+                                    <div class="float-right badge bg-success">5</div>
+                                    <div class="d-flex align-items-start align-items-center">
+                                        <img :src="order.post_user_image ? order.post_user_image : '/assets/img/avatar.png'"
+                                            class="mr-1 rounded-circle" alt="Vanessa Tucker" width="40" height="40">
+                                        <div class="ml-3 flex-grow-1">
+                                            <strong> {{ order.post_user_name }}</strong>
+                                            <div class="small">
+                                                <span class="fas fa-circle chat-online"></span> Online
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="mt-1 mb-0 d-block d-lg-none">
+                            </div> -->
                             <div class="col-12">
                                 <div class="px-4 py-2 border-bottom d-lg-block">
                                     <div
@@ -74,8 +97,8 @@
                                         <div class="pl-3 flex-grow-1">
                                             <strong>
                                                 &nbsp; Экстренный оператор
-                                                </strong
-                                            >
+                                            </strong>
+                                            <!-- <div class="text-muted small"><em>Typing...</em></div> -->
                                         </div>
                                         <div>
                                             <button
@@ -84,13 +107,14 @@
                                                 class="btn btn-danger btn-sm"
                                                 @click="
                                                     confirmForceMajeure(
-                                                        inquiry.id
+                                                        order.id
                                                     )
                                                 "
                                                 :disabled="
                                                     buying ||
-                                                    inquiry.status == 203 ||
-                                                    inquiry.status == 204 || !arbitaj
+                                                    order.status == 203 ||
+                                                    order.status == 204 ||
+                                                    !arbitaj
                                                 "
                                             >
                                                 Арбитраж
@@ -105,8 +129,9 @@
                                             v-for="(chat, index) in chats"
                                             :key="index"
                                         >
+                                            <!-- <div class="pb-4 chat-message-left"> -->
                                             <div
-                                            v-if="chat.text !=='Arbitajed'"
+                                                v-if="chat.text !== 'Arbitajed'"
                                                 :class="{
                                                     'chat-message-left pb-4':
                                                         chat.user_id !==
@@ -116,10 +141,7 @@
                                                         currentUser.id,
                                                 }"
                                             >
-                                                <div
-                                                   
-                                                >
-                                                    
+                                                <div>
                                                     <img
                                                         :src="
                                                             chat.userImage
@@ -162,11 +184,11 @@
                                     <div
                                         class="d-flex justify-content-between align-items-center"
                                         v-if="
-                                            inquiry &&
-                                            inquiry.id &&
+                                            order &&
+                                            order.id &&
                                             arbitaj &&
-                                            inquiry.status !== 203 &&
-                                            inquiry.status !== 204
+                                            order.status !== 203 &&
+                                            order.status !== 204
                                         "
                                     >
                                         <form
@@ -200,74 +222,101 @@
         <div class="gap-2 pb-4 d-grid d-md-flex justify-content-md-end">
             <button
                 class="btn btn-success btn-buy me-md-2"
-                @click="updateOrderStatus(inquiry.id, 202)"
-                :disabled="buying || inquiry.status !== 201"
+                @click="buyOrder(order.id, 201)"
+                :disabled="buying || order.status !== 200"
+                type="button"
             >
-                {{ inquiry.status === 202 ? "Заказ принят" : "Принять заказ" }}
+                Покупать
             </button>
             <button
                 class="btn btn-danger"
-                @click="updateOrderStatus(inquiry.id, 206)"
-                :disabled="buying || inquiry.status !== 201"
+                type="button"
+                @click="buyOrder(order.id, 206)"
+                :disabled="buying || order.status !== 201"
             >
-                {{
-                    inquiry.status === 206 ? "Заказ отклонен" : "Отказать заказ"
-                }}
+                {{ order.status === 206 ? "Заказ отклонен" : "Отказать заказ" }}
             </button>
             <button
                 class="btn btn-primary btn-p"
-                @click="updateOrderStatus(inquiry.id, 205)"
-                :disabled="buying || inquiry.status !== 202"
+                type="button"
+                @click="buyOrder(order.id, 204)"
+                :disabled="buying || order.status !== 205"
             >
-                {{
-                    inquiry.status === 204
-                        ? "Подверден"
-                        : inquiry.status === 205
-                        ? "Поданный"
-                        : "Представлять на рассмотрение"
-                }}
+                {{ order.status === 204 ? "Подверден" : "Подвердите заказ" }}
             </button>
         </div>
     </div>
+   
 </template>
 
 <script setup>
-import { ref, onMounted, toRefs } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 
 const props = defineProps(["id"]);
-const emit = defineEmits(["updateSidebar"]);
-
-const buying = ref(false);
+const order = ref({});
 const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
 const arbitaj = ref(true);
 const error = ref(null);
 const currentUser = ref(null);
-const inquiry = ref({});
+const cash = ref("");
+const buying = ref(false);
 
-function formatPrice(price) {
+const formatPrice = (price) => {
     return new Intl.NumberFormat("uz-Uz").format(price);
-}
+};
 
-async function confirmForceMajeure(orderId) {
+const submit = async () => {
+    try {
+        loading.value = true;
+        const formData = new FormData();
+        formData.append("text", text.value);
+        await axios.post(`/api/order/${props.id}/messages`, formData);
+        chats.value.push({
+            text: text.value,
+            user_id: currentUser.value.id,
+        });
+        text.value = "";
+    } catch (error) {
+        console.error("Error submitting message:", error);
+        error.value = "Error submitting message";
+    } finally {
+        loading.value = false;
+    }
+};
+
+const buyOrder = async (orderId, status) => {
+    try {
+        buying.value = true;
+        await axios.put(`/api/update-order-status/${orderId}`, {
+            status: status,
+        });
+        // window.location.reload();
+    } catch (error) {
+        console.error("Purchase failed:", error);
+    } finally {
+        buying.value = false;
+    }
+};
+
+const confirmForceMajeure = (orderId) => {
     if (
         window.confirm(
             "Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
         )
     ) {
-        await forceMajeure(orderId);
+        forceMajeure(orderId);
     }
-}
+};
 
-async function forceMajeure(orderId) {
+const forceMajeure = async (orderId) => {
     try {
         buying.value = true;
-        // text.value = "Arbitajed";
-        arbitajFunc()
+        arbitajFunc();
         await axios.put(`/api/force-majeure/${orderId}`);
         window.location.reload();
     } catch (error) {
@@ -275,7 +324,43 @@ async function forceMajeure(orderId) {
     } finally {
         buying.value = false;
     }
-}
+};
+
+const fetchData = async () => {
+    try {
+        const [chatsResponse, currentUserResponse] = await Promise.all([
+            axios.get(`/api/order/${props.id}/messages`),
+            axios.get(`/api/user`),
+        ]);
+
+        chats.value = chatsResponse.data.data;
+        currentUser.value = currentUserResponse.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        error.value = "Error fetching data";
+    }
+};
+
+const fetchOrderData = async () => {
+    try {
+        const response = await axios.get("/api/order/" + props.id);
+        order.value = response.data.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const initializePusher = () => {
+    const orderId = props.id;
+    const channelName = `chat.${orderId}`;
+    window.Echo.private(channelName).listen("NewChat", (e) => {
+        // console.log(e.chat.text);
+        if (e.chat.text === "Arbitajed") {
+            arbitaj.value = false;
+        }
+        chats.value.push(e.chat);
+    });
+};
 
 async function arbitajFunc() {
     try {
@@ -294,80 +379,10 @@ async function arbitajFunc() {
     }
 }
 
-async function submit() {
-    try {
-        loading.value = true;
-        const formData = new FormData();
-        formData.append("text", text.value);
-        await axios.post(`/api/order/${props.id}/messages`, formData);
-        chats.value.push({
-            text: text.value,
-            user_id: currentUser.value.id,
-        });
-        text.value = "";
-    } catch (error) {
-        console.error("Error submitting message:", error);
-        error.value = "Error submitting message";
-    } finally {
-        loading.value = false;
-    }
-}
-
-async function fetchData() {
-    try {
-        const [chatsResponse, currentUserResponse] = await Promise.all([
-            axios.get(`/api/order/${props.id}/messages`),
-            axios.get(`/api/user`),
-        ]);
-        chats.value = chatsResponse.data.data;
-        currentUser.value = currentUserResponse.data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        error.value = "Error fetching data";
-    }
-}
-
-async function fetchInquiry() {
-    try {
-        const response = await axios.get("/api/inquiry/" + props.id);
-        inquiry.value = response.data.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-async function updateOrderStatus(orderId, status) {
-    try {
-        buying.value = true;
-        await axios.put(`/api/update-order-status/${orderId}`, {
-            status: status,
-        });
-        window.location.reload();
-    } catch (error) {
-        console.error(error);
-    } finally {
-        buying.value = false;
-    }
-}
-
-function initializePusher() {
-    const route = useRoute();
-    const inquiryId = route.params.id;
-    const channelName = `chat.${inquiryId}`;
-
-    window.Echo.private(channelName).listen("NewChat", (e) => {
-        console.log(e.chat);
-        if (e.chat.text === "Arbitajed") {
-            arbitaj.value = false;
-        }
-        chats.value.push(e.chat);
-    });
-}
-
 onMounted(() => {
     fetchData();
     initializePusher();
-    fetchInquiry();
+    fetchOrderData();
 });
 </script>
 
