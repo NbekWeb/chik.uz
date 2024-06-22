@@ -14,8 +14,7 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        $firstImage = $this->images->first();
-        $imagePath = $firstImage ? "storage/" . $firstImage->path : null;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -25,12 +24,13 @@ class PostResource extends JsonResource
             'userImage' => $this->user->image ? url('storage/' . $this->user->image) : null,
             'body' => $this->body,
             'price' => $this->price,
-            'imagePath' => $imagePath,
             'images' => $this->images->map(function ($image) {
                 return [
                     'url' => $image->url,
                 ];
             }),
+            'reviews'=> $this->approvedReviews,
+            'overalReview' => $this->overalReview(),
             'category_id' => $this->category_id,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),

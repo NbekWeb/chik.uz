@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\VerificationNoticeController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth', 'veri
     Route::get('/posts', [PostsController::class, 'index'])->name('posts');
     Route::get('/post/{id}', [PostsController::class, 'show'])->name('post.id');
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
+    Route::put('/review/{id}', [ReviewController::class, 'update'])->name('review-update');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.id');
 });
 

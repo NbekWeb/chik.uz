@@ -66,7 +66,7 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryC
 // chat
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
-//
+//review
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('review', [ReviewController::class, 'store']);
 
 

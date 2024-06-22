@@ -10,7 +10,8 @@ class ReviewController extends Controller
 
     public function index()
     {
-        //
+        $reviews = Review::orderBy('created_at', 'desc')->paginate(15);
+        return view('pages.superUser.review', ['reviews' => $reviews]);
     }
 
     public function store(Request $request)
@@ -41,14 +42,11 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'star' => 'required|integer|between:1,5',
-            'comment' => 'required|string|max:255',
             'status' => 'required|integer|between:0,3',
         ]);
 
         $rating = Review::findOrFail($id);
-        $rating->star = $request->star;
-        $rating->comment = $request->comment;
+        $rating->status = $request->status;
         $rating->save();
 
         return response()->json(['message' => 'Rating updated successfully'], 200);
