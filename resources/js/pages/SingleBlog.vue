@@ -1,6 +1,6 @@
 <template>
     <div class="container min-h-screen px-0">
-        <div class="flex justify-between py-4 lg:flex-row max-lg:flex-col">
+        <div class="flex justify-between py-4 lg:flex-row max-lg:flex-col gap-x-2">
             <div class="lg:w-[660px] max-lg:w-full">
                 <a-spin :spinning="loading" class="flex">
                     <div class="bg-white">
@@ -34,7 +34,7 @@
                             watch-slides-progress
                             :modules="[Thumbs]"
                             :breakpoints="breakpoints"
-                            class="w-full h-[60px] mt-2"
+                            class="w-full h-[60px] mt-2 bg-white"
                             style="background-color: #f6f6f6"
                         >
                             <SwiperSlide
@@ -59,7 +59,7 @@
                     </div>
                 </a-spin>
             </div>
-            <div class="ml-2 max-lg:w-full xl:w-[420px] max-xl:w-[400px]">
+            <div class="max-lg:w-full xl:w-[420px] max-xl:w-[400px] ">
                 <div class="max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4">
                     <div class="flex w-full gap-3 bg-white lg:p-3 max-lg:p-2">
                         <div class="items-center md:flex max-md:hidden">
@@ -125,10 +125,10 @@
                                             ? post.userImage
                                             : '/assets/img/avatar.png'
                                     "
-                                    class="w-[60px] h-[60px] rounded-full"
+                                    class="md:w-[60px] md:h-[60px] rounded-full max-md:w-[30px] max-md:h-[30px]"
                                 />
 
-                                <p class="text-xl font-semibold">
+                                <p class="text-xl font-semibold mb-0">
                                     {{ post.user }}
                                 </p>
                             </div>
@@ -230,20 +230,24 @@ const fetchData = async () => {
 };
 
 const buyPost = async (postId) => {
-    try {
-        buying.value = true;
-        const response = await axios.post(`/api/buy-order/${postId}`);
-        const orderId = response.data.order_id;
-        router.push(`/order/${orderId}`);
-        loading.value = true;
-    } catch (err) {
-        console.error("Purchase failed:", err);
-    } finally {
-        loading.value = false;
-        buying.value = false;
+    if (localStorage.getItem("authenticated")) {
+        try {
+            buying.value = true;
+            const response = await axios.post(`/api/buy-order/${postId}`);
+            const orderId = response.data.order_id;
+            router.push(`/order/${orderId}`);
+            loading.value = true;
+        } catch (err) {
+            console.error("Purchase failed:", err);
+        } finally {
+            loading.value = false;
+            buying.value = false;
+        }
+    } else {
+        router.push({ name: "Login" });
+        console.log(localStorage.getItem("authenticated"));
     }
 };
-
 const fetchPostData = async () => {
     try {
         const response = await axios.get(`/api/posts/${props.slug}`);

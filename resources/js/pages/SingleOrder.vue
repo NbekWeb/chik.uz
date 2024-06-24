@@ -4,6 +4,7 @@ import axios from "axios";
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 import ScrollbarComponent from "../components/ScrollbarComponent.vue";
+import { message } from "ant-design-vue";
 
 const props = defineProps(["id"]);
 const order = ref({});
@@ -31,9 +32,8 @@ const submit = async () => {
             user_id: currentUser.value.id,
         });
         text.value = "";
-    } catch (error) {
-        console.error("Error submitting message:", error);
-        error.value = "Error submitting message";
+    } catch (e) {
+        message.error(e.message);
     } finally {
         loading.value = false;
     }
@@ -50,16 +50,6 @@ const buyOrder = async (orderId, status) => {
         console.error("Purchase failed:", error);
     } finally {
         buying.value = false;
-    }
-};
-
-const confirmForceMajeure = (orderId) => {
-    if (
-        window.confirm(
-            "Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
-        )
-    ) {
-        forceMajeure(orderId);
     }
 };
 
@@ -102,10 +92,10 @@ const fetchOrderData = async () => {
 
 const open = ref(false);
 const showModal = () => {
-  open.value = true;
+    open.value = true;
 };
-const handleOk = e => {
-  open.value = false;
+const handleOk = (e) => {
+    open.value = false;
 };
 
 const initializePusher = () => {
@@ -146,56 +136,54 @@ onMounted(() => {
 
 <template>
     <div class="container flex flex-wrap justify-between py-4 singleOrder">
-       
         <a-modal v-model:open="open" @ok="handleOk" title="Заказ">
-           
-                <div class="px-2">
-                    <p>
-                        Заказ ID:
-                        <span class="ml-1">
-                            {{ order.id }}
-                        </span>
-                    </p>
-                    <p>
-                        Chik: <span class="ml-1">{{ order.post_title }}</span>
-                    </p>
-                    <p>
-                        Статус:
-                        <span v-if="order.status !== null" class="ml-1">
-                            <template v-if="order.status === 200"
-                                >Под общением</template
-                            >
-                            <template v-else-if="order.status === 201"
-                                >В ожидании...</template
-                            >
-                            <template v-else-if="order.status === 202"
-                                >Принят</template
-                            >
-                            <template v-else-if="order.status === 203"
-                                >Экстренный оператор</template
-                            >
-                            <template v-else-if="order.status === 204"
-                                >Завершен</template
-                            >
-                            <template v-else-if="order.status === 205"
-                                >Представлено на рассмотрение</template
-                            >
-                            <template v-else-if="order.status === 206"
-                                >Заказ отклонен</template
-                            >
-                            <template v-else>Неизвестный</template>
-                        </span>
-                    </p>
-                    <p>
-                        Время:<span class="ml-1">{{ order.created_at }}</span>
-                    </p>
-                    <p>
-                        Цена:<span class="ml-1">
-                            {{ formatPrice(parseInt(order.price)) }}</span
+            <div class="px-2">
+                <p>
+                    Заказ ID:
+                    <span class="ml-1">
+                        {{ order.id }}
+                    </span>
+                </p>
+                <p>
+                    Chik: <span class="ml-1">{{ order.post_title }}</span>
+                </p>
+                <p>
+                    Статус:
+                    <span v-if="order.status !== null" class="ml-1">
+                        <template v-if="order.status === 200"
+                            >Под общением</template
                         >
-                    </p>
-                </div>
-    </a-modal>
+                        <template v-else-if="order.status === 201"
+                            >В ожидании...</template
+                        >
+                        <template v-else-if="order.status === 202"
+                            >Принят</template
+                        >
+                        <template v-else-if="order.status === 203"
+                            >Экстренный оператор</template
+                        >
+                        <template v-else-if="order.status === 204"
+                            >Завершен</template
+                        >
+                        <template v-else-if="order.status === 205"
+                            >Представлено на рассмотрение</template
+                        >
+                        <template v-else-if="order.status === 206"
+                            >Заказ отклонен</template
+                        >
+                        <template v-else>Неизвестный</template>
+                    </span>
+                </p>
+                <p>
+                    Время:<span class="ml-1">{{ order.created_at }}</span>
+                </p>
+                <p>
+                    Цена:<span class="ml-1">
+                        {{ formatPrice(parseInt(order.price)) }}</span
+                    >
+                </p>
+            </div>
+        </a-modal>
         <div class="w-full chat">
             <div class="bg-white rounded-md chat__wrapper">
                 <div
@@ -211,23 +199,53 @@ onMounted(() => {
                             Экстренный оператор
                         </p>
                     </div>
-                 <div class="flex gap-2">
-                    <a-button  @click="showModal"  type="link" >Более...</a-button>
-                    <a-button
-                        type="primary"
-                        danger
-                        @click="confirmForceMajeure(order.id)"
-                        :disabled="
-                            buying ||
-                            order.status == 203 ||
-                            order.status == 204 ||
-                            !arbitaj
-                        "
-                        >Арбитраж</a-button
-                    >
-                    
-           
-                 </div>
+                    <div class="flex gap-2">
+                        <a-button @click="showModal" type="link"
+                            >Более...</a-button
+                        >
+                        <div class="border ">
+                            <a-popconfirm
+                                title="Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
+                                ok-text="Да"
+                                cancel-text="Нет"
+                                @confirm="forceMajeure(order.id)"
+                                placement="bottomRight"
+                            >
+                                <a-button
+                                    type="primary"
+                                    class="flex max-md:px-2"
+                                    danger
+                                    :disabled="
+                                        buying ||
+                                        order.status == 203 ||
+                                        order.status == 204 ||
+                                        !arbitaj
+                                    "
+                                >
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="md:hidden max-md:flex"
+                                    >
+                                        <path
+                                            d="M11.9998 8.99999V13M11.9998 17H12.0098M10.6151 3.89171L2.39019 18.0983C1.93398 18.8863 1.70588 19.2803 1.73959 19.6037C1.769 19.8857 1.91677 20.142 2.14613 20.3088C2.40908 20.5 2.86435 20.5 3.77487 20.5H20.2246C21.1352 20.5 21.5904 20.5 21.8534 20.3088C22.0827 20.142 22.2305 19.8857 22.2599 19.6037C22.2936 19.2803 22.0655 18.8863 21.6093 18.0983L13.3844 3.89171C12.9299 3.10654 12.7026 2.71396 12.4061 2.58211C12.1474 2.4671 11.8521 2.4671 11.5935 2.58211C11.2969 2.71396 11.0696 3.10655 10.6151 3.89171Z"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+
+                                    <p class="md:flex max-md:hidden">
+                                        Арбитраж
+                                    </p>
+                                </a-button>
+                            </a-popconfirm>
+                        </div>
+                    </div>
                 </div>
                 <scrollbar-component height="300px">
                     <template #content>
@@ -274,7 +292,7 @@ onMounted(() => {
                                         <div
                                             class="text-[8px] text-muted text-end mt-1"
                                         >
-                                            {{ chat.time }}
+                                            {{ chat.time || "Cейчас" }}
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +302,7 @@ onMounted(() => {
                 </scrollbar-component>
                 <div class="px-4 py-3 border-t border-['#f6f6f6']">
                     <div
-                        class="flex justify-content-between align-items-center"
+                        class="flex justify-content-between align-items-center send__msg"
                         v-if="
                             order &&
                             order.id &&
@@ -297,18 +315,41 @@ onMounted(() => {
                             @submit.prevent="submit"
                             class="flex justify-between w-full mr-2"
                         >
-                            <input
+                            <a-input
                                 v-model="text"
                                 type="text"
                                 id="textAreaExample"
-                                class="pr-2 form-control"
+                                class="md:pr-2 form-control max-md:pr-0"
                                 placeholder="Напишите сообщение"
                                 autocomplete="off"
-                                style="width: calc(100% - 100px);"
                             />
-                            <button type="submit" class="ml-4 btn btn-primary">
-                                Отправить
-                            </button>
+                            <div class="max-w-[140px] max-md:ml-2 md:ml-4">
+                                <!-- :spinning="loading" -->
+                                <a-button
+                                    :disabled="loading"
+                                    @click="submit"
+                                    class="items-center w-full gap-1 btn btn-primary"
+                                    style="display: flex"
+                                >
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M10.4995 13.5001L20.9995 3.00005M10.6271 13.8281L13.2552 20.5861C13.4867 21.1815 13.6025 21.4791 13.7693 21.566C13.9139 21.6414 14.0862 21.6415 14.2308 21.5663C14.3977 21.4796 14.5139 21.1821 14.7461 20.587L21.3364 3.69925C21.5461 3.16207 21.6509 2.89348 21.5935 2.72185C21.5437 2.5728 21.4268 2.45583 21.2777 2.40604C21.1061 2.34871 20.8375 2.45352 20.3003 2.66315L3.41258 9.25349C2.8175 9.48572 2.51997 9.60183 2.43326 9.76873C2.35809 9.91342 2.35819 10.0857 2.43353 10.2303C2.52043 10.3971 2.81811 10.5128 3.41345 10.7444L10.1715 13.3725C10.2923 13.4195 10.3527 13.443 10.4036 13.4793C10.4487 13.5114 10.4881 13.5509 10.5203 13.596C10.5566 13.6468 10.5801 13.7073 10.6271 13.8281Z"
+                                            stroke="#fff"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+
+                                    <p class="mb-0 max-md:hidden">Отправить</p>
+                                </a-button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -356,13 +397,23 @@ onMounted(() => {
     width: 300px !important;
 }
 
-
-
 .singleOrder .ant-card .ant-card-head-title {
     text-align: center !important;
 }
 
+.send__msg .ant-btn-default:hover {
+    border: #1677ff !important;
+    color: #fff !important;
+}
+
+.send__msg .ant-spin .ant-spin-dot-item {
+    background-color: #1677ff !important;
+}
 /* .singleOrder .chat {
     width: calc(100% - 320px) !important;
 } */
+
+.ant-popover .ant-popover-inner {
+    margin-left: 30px !important;
+}
 </style>
