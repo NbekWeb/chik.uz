@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Events\NewChat;
 use App\Http\Resources\ChatResource;
+use App\Models\Chat;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatService
 {
@@ -49,5 +51,20 @@ class ChatService
             return ChatResource::collection($id->chats);
         }
         return response()->json(['chat' => 'Post not found!'], 404);
+    }
+    public function update($id)
+    {
+        if (!$auth = auth()->user()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+        $chat = Chat::findOrFail($id);
+        if ($auth->id !== $chat->user_id) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        Chat::where('order_id', $chat->order_id)
+            ->where('user_id', $chat->user_id)
+            ->where('id', '<=', $chat->id)
+            ->where('status', 0)
+            ->update(['status' => 1]);
     }
 }

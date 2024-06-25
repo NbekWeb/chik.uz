@@ -40,4 +40,16 @@ class Post extends Model
     {
         return $this->hasMany(Order::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function approvedReviews()
+    {
+        return $this->reviews()->where('status', 1);
+    }
+    public function overalReview()
+    {
+        return $this->approvedReviews()->avg('star');
+    }
 }

@@ -15,10 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use App\Facades\Payme;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClickController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\PaymeCheck;
 
 /*
@@ -64,8 +63,10 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/inquiries', [InquiryCont
 Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryController::class, 'show']);
 // chat
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/message/{id}', [ChatController::class, 'update']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
-
+//review
+Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('review', [ReviewController::class, 'store']);
 
 
 //////////////////////////////////////////////// PUBLIC ROUTES ////////////////////////////////////////////////
