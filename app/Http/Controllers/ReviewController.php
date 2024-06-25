@@ -27,6 +27,7 @@ class ReviewController extends Controller
 
         $rating = new Review();
         $rating->post_id = $request->post_id;
+        $rating->order_id = $request->order_id;
         $rating->user_id = auth()->user->id;
         $rating->star = $request->star;
         $rating->comment = $request->comment;
