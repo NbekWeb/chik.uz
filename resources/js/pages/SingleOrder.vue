@@ -17,11 +17,16 @@ const currentUser = ref(null);
 const cash = ref("");
 const buying = ref(false);
 const scrollbar = ref(null);
+const lastChat=ref(null)
 const formatPrice = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
 const submit = async () => {
+    if (!text.value.trim()) {
+        message.error("Текст не может быть пустым!");
+        return;
+    }
     try {
         loading.value = true;
         const formData = new FormData();
@@ -102,13 +107,20 @@ const initializePusher = () => {
     const orderId = props.id;
     const channelName = `chat.${orderId}`;
     window.Echo.private(channelName).listen("NewChat", (e) => {
-        // console.log(e.chat.text);
+        console.log(e.chat.id);
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
         }
-        chats.value.push(e.chat);
+        else{
+            lastChat.value=e.chat.id
+            chats.value.push(e.chat);
+        }
     });
 };
+
+// const unread=()=>{
+
+// }
 
 async function arbitajFunc() {
     try {
@@ -203,7 +215,7 @@ onMounted(() => {
                         <a-button @click="showModal" type="link"
                             >Более...</a-button
                         >
-                        <div class="border ">
+                        <div class="border">
                             <a-popconfirm
                                 title="Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
                                 ok-text="Да"
@@ -316,7 +328,7 @@ onMounted(() => {
                             class="flex justify-between w-full mr-2"
                         >
                             <a-input
-                                v-model="text"
+                                v-model:value="text"
                                 type="text"
                                 id="textAreaExample"
                                 class="md:pr-2 form-control max-md:pr-0"
@@ -324,7 +336,6 @@ onMounted(() => {
                                 autocomplete="off"
                             />
                             <div class="max-w-[140px] max-md:ml-2 md:ml-4">
-                                <!-- :spinning="loading" -->
                                 <a-button
                                     :disabled="loading"
                                     @click="submit"
@@ -354,6 +365,8 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
+            <a-button type="primary" >sa</a-button>
+            <!-- @click="unread" -->
             <div
                 class="gap-2 pb-4 mt-4 d-grid d-md-flex justify-content-md-end"
             >

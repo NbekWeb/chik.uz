@@ -74,8 +74,7 @@
                                         <div class="pl-3 flex-grow-1">
                                             <strong>
                                                 &nbsp; Экстренный оператор
-                                                </strong
-                                            >
+                                            </strong>
                                         </div>
                                         <div>
                                             <button
@@ -90,7 +89,8 @@
                                                 :disabled="
                                                     buying ||
                                                     inquiry.status == 203 ||
-                                                    inquiry.status == 204 || !arbitaj
+                                                    inquiry.status == 204 ||
+                                                    !arbitaj
                                                 "
                                             >
                                                 Арбитраж
@@ -106,7 +106,7 @@
                                             :key="index"
                                         >
                                             <div
-                                            v-if="chat.text !=='Arbitajed'"
+                                                v-if="chat.text !== 'Arbitajed'"
                                                 :class="{
                                                     'chat-message-left pb-4':
                                                         chat.user_id !==
@@ -116,10 +116,7 @@
                                                         currentUser.id,
                                                 }"
                                             >
-                                                <div
-                                                   
-                                                >
-                                                    
+                                                <div>
                                                     <img
                                                         :src="
                                                             chat.userImage
@@ -267,7 +264,7 @@ async function forceMajeure(orderId) {
     try {
         buying.value = true;
         // text.value = "Arbitajed";
-        arbitajFunc()
+        arbitajFunc();
         await axios.put(`/api/force-majeure/${orderId}`);
         window.location.reload();
     } catch (error) {

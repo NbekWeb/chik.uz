@@ -23,7 +23,7 @@
                                 <SwiperSlide
                                     v-for="(image, index) in post.images"
                                     :key="index"
-                                    @click="()=>openSwip=true"
+                                    @click="() => (openSwip = true)"
                                 >
                                     <img
                                         :src="image.url"
@@ -31,13 +31,17 @@
                                     />
                                 </SwiperSlide>
                             </Swiper>
-                            <a-modal v-model:open="openSwip" width="100%" height="900px">
+                            <a-modal
+                                v-model:open="openSwip"
+                                width="100%"
+                                wrapClassName="responsive-modal "
+                            >
                                 <Swiper
                                     :slides-per-view="1"
                                     spaceBetween="10"
                                     :autoplay="{ delay: 3000 }"
                                     :modules="modul"
-                                    class="object-cover lg:w-[90%] lg:h-[600px] max-lg:h-[500px] max-lg:w-[95%] max-md:h-[400px]"
+                                    class="object-cover lg:w-[90%] h-full overflow-hidden"
                                 >
                                     <SwiperSlide
                                         v-for="(image, index) in post.images"
@@ -212,7 +216,7 @@ import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 
 const thumbsSwiper = ref(null);
-const openSwip = ref(true);
+const openSwip = ref(false);
 const slidesPerView = ref(2);
 
 const breakpoints = ref({
@@ -332,16 +336,18 @@ onMounted(() => {
     padding: 20px !important;
 }
 
+.responsive-modal {
+    height: 500px !important;
+}
 
-
-.ant-modal .ant-modal-close{
-    top:10px !important;
-    inset-inline-end:20px !important;
+.ant-modal .ant-modal-close {
+    top: 10px !important;
+    inset-inline-end: 20px !important;
 }
 @media (max-width: 768px) {
-    .ant-modal .ant-modal-close{
-    top:5px !important;
-    inset-inline-end:5px !important;
-}
+    .ant-modal .ant-modal-close {
+        top: 5px !important;
+        inset-inline-end: 5px !important;
+    }
 }
 </style>
