@@ -63,7 +63,7 @@ Route::middleware(['auth:sanctum', 'verified',])->get('/inquiries', [InquiryCont
 Route::middleware(['auth:sanctum', 'verified',])->get('/inquiry/{id}', [InquiryController::class, 'show']);
 // chat
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('/order/{id}/messages', [ChatController::class, 'store']);
-Route::middleware(['auth:sanctum', 'verified'])->put('/message/{id}', [ChatController::class, 'update']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/message/{id}', [ChatController::class, 'update']);
 Route::middleware(['auth:sanctum', 'verified',])->get('/order/{id}/messages', [ChatController::class, 'getMessages']);
 //review
 Route::middleware(['auth:sanctum', 'verified', 'isActive'])->post('review', [ReviewController::class, 'store']);
