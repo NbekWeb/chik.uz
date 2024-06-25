@@ -63,7 +63,7 @@ class ChatService
         }
         Chat::where('order_id', $chat->order_id)
             ->where('user_id', $chat->user_id)
-            ->where('id', '<', $chat->id)
+            ->where('id', '<=', $chat->id)
             ->where('status', 0)
             ->update(['status' => 1]);
     }
