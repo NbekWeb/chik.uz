@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Events\NewChat;
 use App\Http\Resources\ChatResource;
+use App\Models\Chat;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatService
 {
@@ -49,5 +51,12 @@ class ChatService
             return ChatResource::collection($id->chats);
         }
         return response()->json(['chat' => 'Post not found!'], 404);
+    }
+    public function update($id)
+    {
+        $chat = Chat::findOrFail($id);
+        Log::info($chat);
+        $chat->status = 1;
+        $chat->save();
     }
 }

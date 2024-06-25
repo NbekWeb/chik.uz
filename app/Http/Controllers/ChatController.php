@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
 use App\Models\Order;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -23,5 +25,9 @@ class ChatController extends Controller
         $user = $request->user();
 
         return $this->chatService->getMessages($user, $id);
+    }
+    public function update($id)
+    {
+        return $this->chatService->update($id);
     }
 }
