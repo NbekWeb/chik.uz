@@ -1,65 +1,116 @@
 <template>
     <div class="container min-h-screen px-0">
-        <div class="flex justify-between py-4 lg:flex-row max-lg:flex-col gap-x-2">
+        <div
+            class="flex justify-between py-4 lg:flex-row max-lg:flex-col gap-x-2"
+        >
             <div class="lg:w-[660px] max-lg:w-full">
-                <a-spin :spinning="loading" class="flex">
-                    <div class="bg-white">
-                        <h3 class="px-4 py-3 text-2xl font-semibold text-black">
-                            {{ post.title }}
-                        </h3>
-                        <Swiper
-                            :slides-per-view="1"
-                            spaceBetween="10"
-                            :autoplay="{ delay: 30000 }"
-                            :pagination="{ clickable: true }"
-                            navigation
-                            :thumbs="{ swiper: thumbsSwiper }"
-                            :modules="modul"
-                            class="object-cover w-full sm:h-[440px] max-sm:h-[300px]"
-                        >
-                            <SwiperSlide
-                                v-for="(image, index) in post.images"
-                                :key="index"
+                <div class="">
+                    <a-spin :spinning="loading" class="flex">
+                        <div class="bg-white">
+                            <h3 class="p-3 text-2xl font-semibold text-black">
+                                {{ post.title }}
+                            </h3>
+                            <Swiper
+                                :slides-per-view="1"
+                                spaceBetween="10"
+                                :autoplay="{ delay: 3000 }"
+                                :pagination="{ clickable: true }"
+                                navigation
+                                :thumbs="{ swiper: thumbsSwiper }"
+                                :modules="modul"
+                                class="object-cover w-full sm:h-[440px] max-sm:h-[300px]"
                             >
-                                <img
-                                    :src="image.url"
-                                    class="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
-                        </Swiper>
-                        <Swiper
-                            :slides-per-view="slidesPerView"
-                            spaceBetween="4"
-                            @swiper="setThumbsSwiper"
-                            watch-slides-progress
-                            :modules="[Thumbs]"
-                            :breakpoints="breakpoints"
-                            class="w-full h-[60px] mt-2 bg-white"
-                            style="background-color: #f6f6f6"
-                        >
-                            <SwiperSlide
-                                v-for="(image, index) in post.images"
-                                :key="index"
+                                <SwiperSlide
+                                    v-for="(image, index) in post.images"
+                                    :key="index"
+                                    @click="()=>openSwip=true"
+                                >
+                                    <img
+                                        :src="image.url"
+                                        class="object-cover w-full h-full"
+                                    />
+                                </SwiperSlide>
+                            </Swiper>
+                            <a-modal v-model:open="openSwip" width="100%" height="900px">
+                                <Swiper
+                                    :slides-per-view="1"
+                                    spaceBetween="10"
+                                    :autoplay="{ delay: 3000 }"
+                                    :modules="modul"
+                                    class="object-cover lg:w-[90%] lg:h-[600px] max-lg:h-[500px] max-lg:w-[95%] max-md:h-[400px]"
+                                >
+                                    <SwiperSlide
+                                        v-for="(image, index) in post.images"
+                                        :key="index"
+                                    >
+                                        <img
+                                            :src="image.url"
+                                            class="object-cover w-full h-full"
+                                        />
+                                    </SwiperSlide>
+                                </Swiper>
+                            </a-modal>
+
+                            <Swiper
+                                :slides-per-view="slidesPerView"
+                                spaceBetween="4"
+                                @swiper="setThumbsSwiper"
+                                watch-slides-progress
+                                :modules="[Thumbs]"
+                                :breakpoints="breakpoints"
+                                class="w-full h-[60px] mt-2 bg-white"
+                                style="background-color: #f6f6f6"
                             >
-                                <img
-                                    :src="image.url"
-                                    class="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
-                        </Swiper>
-                        <div v-html="post.body" class="px-4 py-2"></div>
-                        <div class="flex justify-between px-4 pb-3">
-                            <p class="text-xl font-bold text-black">
-                                Цена: {{ formatPrice(parseInt(post.price)) }}
-                            </p>
-                            <a-button @click="buyPost(post.id)" type="primary">
-                                Связаться
-                            </a-button>
+                                <SwiperSlide
+                                    v-for="(image, index) in post.images"
+                                    :key="index"
+                                    class="opacity-30 hover:opacity-100"
+                                >
+                                    <img
+                                        :src="image.url"
+                                        class="object-cover w-full h-full"
+                                    />
+                                </SwiperSlide>
+                            </Swiper>
+
+                            <div v-html="post.body" class="px-3 py-2"></div>
+                            <div class="flex justify-between px-3 pb-3">
+                                <p class="text-xl font-bold text-black">
+                                    Цена:
+                                    {{ formatPrice(parseInt(post.price)) }}
+                                </p>
+                                <a-button
+                                    @click="buyPost(post.id)"
+                                    type="primary"
+                                >
+                                    Связаться
+                                </a-button>
+                            </div>
                         </div>
+                    </a-spin>
+                </div>
+
+                <div class="mt-4 bg-white px-3">
+                    <div
+                        class="flex justify-between w-full border-b items-center py-3"
+                        :class="openComment ? 'border-b' : 'border-b-0'"
+                    >
+                        <h4 class="text-xl mb-0 font-semibold">
+                            Отзывы по кворку
+                        </h4>
+                        <DownOutlined
+                            class="text-[10px] ml-1 ease-linear p-1"
+                            @click="() => (openComment = !openComment)"
+                            :class="openComment ? 'rotate-0' : 'rotate-180'"
+                        />
                     </div>
-                </a-spin>
+                    <div v-show="openComment">
+                        <div>sa1</div>
+                    </div>
+                </div>
             </div>
-            <div class="max-lg:w-full xl:w-[420px] max-xl:w-[400px] ">
+
+            <div class="max-lg:w-full xl:w-[420px] max-xl:w-[400px]">
                 <div class="max-h-[600px] max-lg:w-full lg:mt-0 max-lg:mt-4">
                     <div class="flex w-full gap-3 bg-white lg:p-3 max-lg:p-2">
                         <div class="items-center md:flex max-md:hidden">
@@ -68,7 +119,7 @@
                                 class="w-[100px] h-[100px]"
                             />
                         </div>
-                        <div class="lg:w-[200px] max-lg:w-full">
+                        <div class="lg:w-[200px] max-lg:w-full max-lg:p-2">
                             <h4 class="text-xl">Гарантия возврата</h4>
                             <p class="text-xs text-text__grey">
                                 Средства моментально вернутся на счет, если
@@ -161,6 +212,7 @@ import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 
 const thumbsSwiper = ref(null);
+const openSwip = ref(true);
 const slidesPerView = ref(2);
 
 const breakpoints = ref({
@@ -201,6 +253,7 @@ const formatPrice = (num) => {
 const modul = ref([Navigation, Pagination, Autoplay, Thumbs]);
 const post = ref({});
 const desc = ref(false);
+const openComment = ref(false);
 const relatedPosts = ref([]);
 const error = ref(null);
 const currentUser = ref(null);

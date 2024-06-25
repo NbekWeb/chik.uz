@@ -481,6 +481,15 @@ footer {
     /*margin: 2rem 0;
   }*/
 
+  .swiper-slide-thumb-active {
+    opacity: 1 !important;
+  }
+
+  /* .thumb-slider {
+    cursor: pointer !important;
+    border: 1px solid red !important;
+  } */
+
 @media (max-width: 768px) {
     .footer .content {
         display: flex;
