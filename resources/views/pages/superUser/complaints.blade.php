@@ -1,8 +1,8 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
-    <x-navbars.sidebar activePage="reviews"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="complaints"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Reviews"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Жалобы"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -10,7 +10,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-success shadow-success border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Reviews table</h6>
+                                <h6 class="text-white text-capitalize ps-3">complaints table</h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -20,7 +20,7 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Order</th>
+                                                Post</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Rate</th>
@@ -35,116 +35,98 @@
                                                 Date</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                                Open Order</th>
+                                                Open Post</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                 Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($reviews as $review)
-                                            <tr class="{{ $review->status == 0 ? 'bg-warning' : '' }}">
+                                        @foreach ($complaints as $complaint)
+                                            <tr>
                                                 <td>
                                                     <div class="d-flex px-2">
                                                         <div>
                                                             @php
-                                                                $reviewImage = $review->post->images->first();
+                                                                $complaintImage = $complaint->post->images->first();
                                                             @endphp
-                                                            @if ($reviewImage)
-                                                                <img src="{{ asset('storage') . '/' . $reviewImage->path }}"
-                                                                    alt="{{ $reviewImage->title }}" width="60px">
+                                                            @if ($complaintImage)
+                                                                <img src="{{ asset('storage') . '/' . $complaintImage->path }}"
+                                                                    alt="{{ $complaintImage->title }}" width="60px">
                                                             @endif
                                                         </div>
                                                         <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $review->post->title }}
+                                                            <h6 class="mb-0 text-sm">{{ $complaint->post->title }}
                                                             </h6>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">
-                                                        {{ number_format($review->star, 0) }}</p>
+                                                        {{ number_format($complaint->star, 0) }}</p>
                                                 </td>
                                                 <td>
-
                                                     <span class="text-xs font-weight-bold">
-                                                        @switch($review->status)
+                                                        @switch($complaint->post->is_active)
                                                             @case(0)
-                                                                Pending
+                                                                Deactive
                                                             @break
 
                                                             @case(1)
-                                                                Published
-                                                            @break
-
-                                                            @case(2)
-                                                                Rejected
+                                                                Active
                                                             @break
                                                         @endswitch
                                                     </span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <div class="d-flex align-items-center justify-content-center">
-                                                        {{ $review->comment }}
+                                                        {{ $complaint->comment }}
 
                                                     </div>
                                                 </td>
 
                                                 <td>
                                                     <span class="text-xs font-weight-bold">
-                                                        {{ date('M-d-Y / H:i', strtotime($review->created_at)) }}
+                                                        {{ date('M-d-Y / H:i', strtotime($complaint->created_at)) }}
                                                     </span>
                                                 </td>
 
-                                                <td class="align-middle">
-                                                    <a href="{{ URL::to('/order') . '/' . $review->id }}">
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ URL::to('/blog') . '/' . $complaint->post->slug }}">
                                                         <button class="btn btn-link text-secondary mb-0">
                                                             <i class="fa fa-ellipsis-v text-xs"></i>
                                                         </button>
                                                     </a>
                                                 </td>
                                                 <td class="align-middle">
-                                                    @if ($review->status == 0)
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="2">
-                                                            <i class="material-icons">block</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
+                                                    @if ($complaint->post->status == 1)
                                                         <button type="button"
                                                             class="btn btn-success btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="1">
-                                                            <i class="material-icons">published_with_changes</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                    @elseif ($review->status == 1)
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="2">
-                                                            <i class="material-icons">block</i>
+                                                            data-user-id="{{ $complaint->id }}" data-status="0">
+                                                            <i class="material-icons">lock_open</i>
                                                             <div class="ripple-container"></div>
                                                         </button>
                                                     @else
                                                         <button type="button"
-                                                            class="btn btn-success btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="1">
-                                                            <i class="material-icons">published_with_changes</i>
+                                                            class="btn btn-danger btn-link update-status-btn"
+                                                            data-user-id="{{ $complaint->id }}" data-status="1">
+                                                            <i class="material-icons">lock</i>
                                                             <div class="ripple-container"></div>
                                                         </button>
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    {{ $reviews->links() }}
+                    {{ $complaints->links() }}
                 </div>
             </div>
-            Showing {{ $reviews->firstItem() }} to {{ $reviews->lastItem() }} of {{ $reviews->total() }} reviews.
+            Showing {{ $complaints->firstItem() }} to {{ $complaints->lastItem() }} of {{ $complaints->total() }}
+            complaints.
 
             <x-footers.auth></x-footers.auth>
         </div>
@@ -157,11 +139,11 @@
         // When a button with class 'update-status-btn' is clicked
         $('.update-status-btn').on('click', function() {
             var self = $(this);
-            var reviewId = self.data('review-id');
+            var complaintId = self.data('complaint-id');
             var status = self.data('status');
 
             $.ajax({
-                url: '/admin/review/' + reviewId,
+                url: '/admin/complaint/' + complaintId,
                 type: 'PUT',
                 dataType: 'json',
                 data: {
