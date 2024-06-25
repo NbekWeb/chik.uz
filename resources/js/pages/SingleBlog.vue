@@ -331,4 +331,17 @@ onMounted(() => {
 .dabba {
     padding: 20px !important;
 }
+
+
+
+.ant-modal .ant-modal-close{
+    top:10px !important;
+    inset-inline-end:20px !important;
+}
+@media (max-width: 768px) {
+    .ant-modal .ant-modal-close{
+    top:5px !important;
+    inset-inline-end:5px !important;
+}
+}
 </style>
