@@ -3,7 +3,7 @@ const props = defineProps({
   totalPages: Number,
   page: Number,
   loading: Boolean,
-  height: String,
+  // height: String,
 });
 const emits = defineEmits(["getData"]);
 const scroll = (e) => {
@@ -23,11 +23,12 @@ const scroll = (e) => {
 
 <template>
   <div
-    class="scrollbar-content p-1"
-    :style="{ height: height }"
+    class="p-1 scrollbar-conten t"
+    
     id="scrollbar-content"
     @scroll="scroll"
   >
+  <!-- :style="{ height: height }" -->
     <slot name="content"></slot>
   </div>
 </template>
@@ -35,8 +36,8 @@ const scroll = (e) => {
 <style scoped lang="scss">
 
 .scrollbar-content {
-  height: 100vh;
-  overflow-y: auto;
+  height: 100%;
+  /* overflow-y: hidden; */
   overflow-x: hidden;
   transition: all 0.5s;
   &::-webkit-scrollbar {

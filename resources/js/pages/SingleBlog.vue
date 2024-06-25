@@ -1,3 +1,129 @@
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
+
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
+import "swiper/swiper-bundle.css";
+
+const thumbsSwiper = ref(null);
+const openSwip = ref(false);
+const slidesPerView = ref(2);
+
+const breakpoints = ref({
+    320: {
+        slidesPerView: 3,
+        spaceBetween: 5,
+    },
+    480: {
+        slidesPerView: 3,
+        spaceBetween: 5,
+    },
+    768: {
+        slidesPerView: 6,
+        spaceBetween: 10,
+    },
+    1024: {
+        slidesPerView: 6,
+        spaceBetween: 16,
+    },
+});
+// Props
+const props = defineProps({
+    slug: {
+        type: String,
+        required: true,
+    },
+});
+
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+const formatPrice = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
+// Reactive state
+const modul = ref([Navigation, Pagination, Thumbs, Autoplay]);
+// Autoplay
+const post = ref({});
+const desc = ref(false);
+const openComment = ref(false);
+const relatedPosts = ref([]);
+const error = ref(null);
+const currentUser = ref(null);
+const cash = ref("");
+const buying = ref(false);
+const loading = ref(true);
+const shouldHideAboutText = ref(false);
+
+// Router instance
+const router = useRouter();
+
+// Methods
+const fetchData = async () => {
+    try {
+        const [postResponse, relatedPostsResponse, currentUserResponse] =
+            await Promise.all([
+                axios.get(`/api/posts/${props.slug}`),
+                axios.get(`/api/related-posts/${props.slug}`),
+            ]);
+        post.value = postResponse.data.data;
+        relatedPosts.value = relatedPostsResponse.data.data;
+        currentUser.value = currentUserResponse.data;
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        error.value = "Error fetching data";
+    }
+};
+
+const buyPost = async (postId) => {
+    if (localStorage.getItem("authenticated")) {
+        try {
+            buying.value = true;
+            const response = await axios.post(`/api/buy-order/${postId}`);
+            const orderId = response.data.order_id;
+            router.push(`/order/${orderId}`);
+            loading.value = true;
+        } catch (err) {
+            console.error("Purchase failed:", err);
+        } finally {
+            loading.value = false;
+            buying.value = false;
+        }
+    } else {
+        router.push({ name: "Login" });
+        console.log(localStorage.getItem("authenticated"));
+    }
+};
+const fetchPostData = async () => {
+    try {
+        const response = await axios.get(`/api/posts/${props.slug}`);
+
+        post.value = response.data.data;
+        // const isCurrentUserPostAuthor = post.value.user.id === Auth.id();
+        loading.value = true;
+        // shouldHideAboutText.value =
+        //     Auth.isLoggedIn() && isCurrentUserPostAuthor;
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
+    } finally {
+        loading.value = false;
+    }
+};
+
+// Lifecycle hook
+onMounted(() => {
+    // fetchData();
+    fetchPostData();
+});
+</script>
+
 <template>
     <div class="container min-h-screen px-0">
         <div
@@ -13,7 +139,7 @@
                             <Swiper
                                 :slides-per-view="1"
                                 spaceBetween="10"
-                                :autoplay="{ delay: 3000 }"
+                                :autoplay="{ delay: 2000 }"
                                 :pagination="{ clickable: true }"
                                 navigation
                                 :thumbs="{ swiper: thumbsSwiper }"
@@ -33,24 +159,45 @@
                             </Swiper>
                             <a-modal
                                 v-model:open="openSwip"
-                                width="100%"
-                                wrapClassName="responsive-modal "
+                                width="90%"
+                                wrapClassName="chats__modal"
                             >
+                                <template #closeIcon>
+                                    <svg
+                                        fill="#333"
+                                        height="20px"
+                                        width="20px"
+                                        version="1.1"
+                                        id="Layer_1"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        viewBox="0 0 1792 1792"
+                                        xml:space="preserve"
+                                    >
+                                        <path
+                                            d="M1082.2,896.6l410.2-410c51.5-51.5,51.5-134.6,0-186.1s-134.6-51.5-186.1,0l-410.2,410L486,300.4
+	c-51.5-51.5-134.6-51.5-186.1,0s-51.5,134.6,0,186.1l410.2,410l-410.2,410c-51.5,51.5-51.5,134.6,0,186.1
+	c51.6,51.5,135,51.5,186.1,0l410.2-410l410.2,410c51.5,51.5,134.6,51.5,186.1,0c51.1-51.5,51.1-134.6-0.5-186.2L1082.2,896.6z"
+                                        />
+                                    </svg>
+                                </template>
                                 <Swiper
                                     :slides-per-view="1"
                                     spaceBetween="10"
-                                    :autoplay="{ delay: 3000 }"
-                                    :modules="modul"
-                                    class="object-cover lg:w-[90%] h-full overflow-hidden"
+                                    :modules="[Navigation]"
+                                    navigation
+                                    class="object-cover w-full lg:h-[500px] max-lg:h-[400px]"
                                 >
                                     <SwiperSlide
                                         v-for="(image, index) in post.images"
                                         :key="index"
+                                        class="h-full"
                                     >
                                         <img
                                             :src="image.url"
                                             class="object-cover w-full h-full"
                                         />
+                                        <!-- style="border:10px solid red;" -->
                                     </SwiperSlide>
                                 </Swiper>
                             </a-modal>
@@ -94,12 +241,12 @@
                     </a-spin>
                 </div>
 
-                <div class="mt-4 bg-white px-3">
+                <div class="px-3 mt-4 bg-white">
                     <div
-                        class="flex justify-between w-full border-b items-center py-3"
+                        class="flex items-center justify-between w-full py-3 border-b"
                         :class="openComment ? 'border-b' : 'border-b-0'"
                     >
-                        <h4 class="text-xl mb-0 font-semibold">
+                        <h4 class="mb-0 text-xl font-semibold">
                             Отзывы по кворку
                         </h4>
                         <DownOutlined
@@ -183,7 +330,7 @@
                                     class="md:w-[60px] md:h-[60px] rounded-full max-md:w-[30px] max-md:h-[30px]"
                                 />
 
-                                <p class="text-xl font-semibold mb-0">
+                                <p class="mb-0 text-xl font-semibold">
                                     {{ post.user }}
                                 </p>
                             </div>
@@ -205,128 +352,6 @@
     </div>
 </template>
 
-<script setup>
-import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
-import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
-
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
-import "swiper/swiper-bundle.css";
-
-const thumbsSwiper = ref(null);
-const openSwip = ref(false);
-const slidesPerView = ref(2);
-
-const breakpoints = ref({
-    320: {
-        slidesPerView: 3,
-        spaceBetween: 5,
-    },
-    480: {
-        slidesPerView: 3,
-        spaceBetween: 5,
-    },
-    768: {
-        slidesPerView: 6,
-        spaceBetween: 10,
-    },
-    1024: {
-        slidesPerView: 6,
-        spaceBetween: 16,
-    },
-});
-// Props
-const props = defineProps({
-    slug: {
-        type: String,
-        required: true,
-    },
-});
-
-const setThumbsSwiper = (swiper) => {
-    thumbsSwiper.value = swiper;
-};
-
-const formatPrice = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-};
-
-// Reactive state
-const modul = ref([Navigation, Pagination, Autoplay, Thumbs]);
-const post = ref({});
-const desc = ref(false);
-const openComment = ref(false);
-const relatedPosts = ref([]);
-const error = ref(null);
-const currentUser = ref(null);
-const cash = ref("");
-const buying = ref(false);
-const loading = ref(true);
-const shouldHideAboutText = ref(false);
-
-// Router instance
-const router = useRouter();
-
-// Methods
-const fetchData = async () => {
-    try {
-        const [postResponse, relatedPostsResponse, currentUserResponse] =
-            await Promise.all([
-                axios.get(`/api/posts/${props.slug}`),
-                axios.get(`/api/related-posts/${props.slug}`),
-            ]);
-        post.value = postResponse.data.data;
-        relatedPosts.value = relatedPostsResponse.data.data;
-        currentUser.value = currentUserResponse.data;
-    } catch (err) {
-        console.error("Error fetching data:", err);
-        error.value = "Error fetching data";
-    }
-};
-
-const buyPost = async (postId) => {
-    if (localStorage.getItem("authenticated")) {
-        try {
-            buying.value = true;
-            const response = await axios.post(`/api/buy-order/${postId}`);
-            const orderId = response.data.order_id;
-            router.push(`/order/${orderId}`);
-            loading.value = true;
-        } catch (err) {
-            console.error("Purchase failed:", err);
-        } finally {
-            loading.value = false;
-            buying.value = false;
-        }
-    } else {
-        router.push({ name: "Login" });
-        console.log(localStorage.getItem("authenticated"));
-    }
-};
-const fetchPostData = async () => {
-    try {
-        const response = await axios.get(`/api/posts/${props.slug}`);
-        post.value = response.data.data;
-        // const isCurrentUserPostAuthor = post.value.user.id === Auth.id();
-        loading.value = true;
-        // shouldHideAboutText.value =
-        //     Auth.isLoggedIn() && isCurrentUserPostAuthor;
-    } catch (err) {
-        console.log(err);
-    } finally {
-        loading.value = false;
-    }
-};
-
-// Lifecycle hook
-onMounted(() => {
-    // fetchData();
-    fetchPostData();
-});
-</script>
-
 <style>
 .swiper-button-next:after,
 .swiper-button-prev:after {
@@ -335,19 +360,42 @@ onMounted(() => {
 .dabba {
     padding: 20px !important;
 }
-
-.responsive-modal {
-    height: 500px !important;
+.chats__modal .ant-modal .ant-modal-content {
+    padding: 0 !important;
+    /* background:transparent !important; */
+    box-shadow: none !important;
 }
 
-.ant-modal .ant-modal-close {
-    top: 10px !important;
-    inset-inline-end: 20px !important;
+.swiper-slide-thumb-active {
+    opacity: 1 !important;
+}
+
+/* .ant-modal-content{
+    height: 500px !important;
+    border:1px solid red !important; 
+} */
+/* .ant-modal-root .ant-modal-wrap{
+    overflow:hidden !important;
+} */
+
+.chats__modal .ant-modal .ant-modal-close {
+    top: -40px !important;
+    inset-inline-end: -40px !important;
+    color: #000 !important;
+}
+@media (max-width: 1024px) {
+    .chats__modal .ant-modal .ant-modal-close {
+        inset-inline-end: -30px !important;
+    }
 }
 @media (max-width: 768px) {
-    .ant-modal .ant-modal-close {
-        top: 5px !important;
-        inset-inline-end: 5px !important;
+    .chats__modal .ant-modal .ant-modal-close {
+        inset-inline-end: -25px !important;
+    }
+}
+@media (max-width: 640px) {
+    .chats__modal .ant-modal .ant-modal-close {
+        inset-inline-end: -18px !important;
     }
 }
 </style>

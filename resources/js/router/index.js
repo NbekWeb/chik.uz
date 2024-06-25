@@ -62,6 +62,7 @@ import Orders from "../pages/Orders.vue";
 import SingleOrder from "../pages/SingleOrder.vue";
 import Privacy from "../pages/Privacy.vue";
 import Deal from "../pages/Deal.vue";
+import NotFound from "../pages/NotFound.vue";
 
 import Footer from "../components/Footer.vue";
 import PostComponent from "../components/PostComponent.vue";
@@ -409,6 +410,11 @@ const routes = [
         name: "Deal",
         component: Deal,
     },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound,
+    }
 ];
 
 const router = createRouter({

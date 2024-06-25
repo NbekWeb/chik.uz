@@ -37,10 +37,12 @@ const fetchMenuList = async () => {
             };
             items.value = menuItems;
         } else {
-            items.value = {}; // If no category matches, set items to an empty object
+            items.value = {}; 
+                router.push({name:"NotFound"})
+        
         }
     } catch (error) {
-        console.error("Error fetching menu list:", error);
+        console.log("Error fetching menu list:", error);
     } finally {
         loader.value = false;
     }

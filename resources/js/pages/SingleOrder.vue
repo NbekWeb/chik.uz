@@ -12,14 +12,22 @@ const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
 const arbitaj = ref(true);
+const itemsChat = ref();
 const error = ref(null);
 const currentUser = ref(null);
 const cash = ref("");
 const buying = ref(false);
 const scrollbar = ref(null);
-const lastChat=ref(null)
+const lastChat = ref(null);
 const formatPrice = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
+const scrollItem = () => {
+    if (itemsChat.value !== null) {
+        console.log("itemsChat1", itemsChat.value.scrollHeight);
+        itemsChat.value.scrollTop = itemsChat.value.scrollHeight;
+    }
 };
 
 const submit = async () => {
@@ -27,20 +35,26 @@ const submit = async () => {
         message.error("Текст не может быть пустым!");
         return;
     }
+    chats.value.push({
+        text: text.value,
+        user_id: currentUser.value.id,
+        sended:1
+    });
+
     try {
         loading.value = true;
+       
         const formData = new FormData();
         formData.append("text", text.value);
         await axios.post(`/api/order/${props.id}/messages`, formData);
-        chats.value.push({
-            text: text.value,
-            user_id: currentUser.value.id,
-        });
         text.value = "";
+        chats.value[chats.value.length-1].sended=3
     } catch (e) {
+        chats.value[chats.value.length-1].sended=2
         message.error(e.message);
     } finally {
         loading.value = false;
+        scrollItem();
     }
 };
 
@@ -110,10 +124,10 @@ const initializePusher = () => {
         console.log(e.chat.id);
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
-        }
-        else{
-            lastChat.value=e.chat.id
+        } else {
+            lastChat.value = e.chat.id;
             chats.value.push(e.chat);
+            scrollItem();
         }
     });
 };
@@ -130,6 +144,7 @@ async function arbitajFunc() {
         chats.value.push({
             text: "Arbitajed",
             user_id: currentUser.value.id,
+            sended:3
         });
     } catch (error) {
         console.error("Error submitting message:", error);
@@ -139,10 +154,11 @@ async function arbitajFunc() {
     }
 }
 
-onMounted(() => {
-    fetchData();
-    initializePusher();
-    fetchOrderData();
+onMounted(async () => {
+    await fetchData();
+    await initializePusher();
+    await fetchOrderData();
+    scrollItem();
 });
 </script>
 
@@ -259,59 +275,61 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <scrollbar-component height="300px">
-                    <template #content>
-                        <div class="mx-4 mt-4">
+                <div ref="itemsChat" class="overflow-auto h-[300px]">
+                    <div class="mx-4 mt-4">
+                        <div v-for="(chat, index) in chats" :key="index">
                             <div
-                                v-for="(chat, index) in chats"
-                                :key="index"
-                                class=""
+                                v-if="chat.text !== 'Arbitajed'"
+                                class="flex w-full mb-3"
+                                :class="{
+                                    'justify-start ':
+                                        chat.user_id !== currentUser.id,
+                                    'justify-end ':
+                                        chat.user_id === currentUser.id,
+                                }"
                             >
+                                <div class="flex items-end">
+                                    <img
+                                        :src="
+                                            chat.userImage
+                                                ? chat.userImage
+                                                : '/assets/img/avatar.png'
+                                        "
+                                        class="h-[30px] w-[30px] rounded-full"
+                                    />
+                                </div>
                                 <div
-                                    v-if="chat.text !== 'Arbitajed'"
-                                    class="flex w-full mb-3"
-                                    :class="{
-                                        'justify-start ':
-                                            chat.user_id !== currentUser.id,
-                                        'justify-end ':
-                                            chat.user_id === currentUser.id,
-                                    }"
+                                    class="p-2 rounded bg-light min-w-[100px]"
+                                    style="max-width: calc(100% - 50px)"
                                 >
-                                    <div class="flex items-end">
-                                        <img
-                                            :src="
-                                                chat.userImage
-                                                    ? chat.userImage
-                                                    : '/assets/img/avatar.png'
-                                            "
-                                            class="h-[30px] w-[30px] rounded-full"
-                                        />
-                                    </div>
+                                    <p class="m-0 text-base">
+                                        {{ chat.text }}
+                                        <!-- {{
+                                                                     chat.user_id ===
+                                                                     currentUser.id
+                                                                         ? "Вы"
+                                                                         : chat.user
+                                                                         ? `${chat.user.name}`
+                                                                         : "Unknown"
+                                                                 }} -->
+                                    </p>
                                     <div
-                                        class="p-2 rounded bg-light min-w-[100px]"
+                                        class="text-[8px] text-muted text-end mt-1"
                                     >
-                                        <p class="m-0 text-base">
-                                            {{ chat.text }}
-                                            <!-- {{
-                                                                chat.user_id ===
-                                                                currentUser.id
-                                                                    ? "Вы"
-                                                                    : chat.user
-                                                                    ? `${chat.user.name}`
-                                                                    : "Unknown"
-                                                            }} -->
-                                        </p>
-                                        <div
-                                            class="text-[8px] text-muted text-end mt-1"
-                                        >
-                                            {{ chat.time || "Cейчас" }}
-                                        </div>
+                                    <template v-if="chat.sended==1">
+                                        
+                                        yuborilyabdi
+                                    </template>
+                                    <template v-else>
+                                      
+                                        {{ chat.time || "Cейчас" }}
+                                    </template>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </template>
-                </scrollbar-component>
+                    </div>
+                </div>
                 <div class="px-4 py-3 border-t border-['#f6f6f6']">
                     <div
                         class="flex justify-content-between align-items-center send__msg"
@@ -365,7 +383,6 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <a-button type="primary" >sa</a-button>
             <!-- @click="unread" -->
             <div
                 class="gap-2 pb-4 mt-4 d-grid d-md-flex justify-content-md-end"

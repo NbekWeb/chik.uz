@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute ,useRouter} from "vue-router";
 import axios from "axios";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -14,6 +14,7 @@ const pagination = ref({});
 const categories = ref([]);
 const loading = ref();
 const route = useRoute();
+const router = useRouter();
 
 const modul = ref([Navigation, Pagination, Autoplay]);
 
@@ -37,7 +38,9 @@ const filterByCategory = (name, page = 1) => {
             replaceLabels();
         })
         .catch((error) => {
-            console.log(error);
+            if(error.response.status == 404) {
+                router.push({name:"NotFound"})
+            };
         })
         .finally(() => {
             loading.value = false;
