@@ -50,6 +50,7 @@ const formatPrice = (num) => {
 const modul = ref([Navigation, Pagination, Thumbs, Autoplay]);
 // Autoplay
 const post = ref({});
+const formApply = ref(null);
 const desc = ref(false);
 const apply = ref(false);
 const openComment = ref(false);
@@ -63,6 +64,16 @@ const shouldHideAboutText = ref(false);
 
 const formState = reactive({
     msg: "",
+});
+
+const rules = reactive({
+    msg: [
+        {
+            required: true,
+            message: "Пожалуйста, введите сообщение",
+            trigger: "blur",
+        },
+    ],
 });
 
 // Router instance
@@ -122,6 +133,27 @@ const fetchPostData = async () => {
     }
 };
 
+const submit = () => {
+    formApply.value
+        .validate()
+        .then(() => {
+            axios
+                .post(`/api/complaint`, {
+                    post_id: post.value.id,
+                    comment: formState.msg,
+                })
+                .then(() => {
+                    formState.msg = "";
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
 // Lifecycle hook
 onMounted(() => {
     // fetchData();
@@ -167,9 +199,16 @@ onMounted(() => {
                                     </a-popover>
                                     <a-modal
                                         v-model:open="apply"
+                                        title="Сообщить о некорректном контенте"
                                         @ok="handleOk"
                                     >
-                                        <div class="mx-2 mt-5">
+                                        <div class="">
+                                            <p class="p-3 m-0">
+                                                Пожалуйста, укажите подробности,
+                                                почему вы считаете этот контент
+                                                некорректным или нарушающим наши
+                                                правила.
+                                            </p>
                                             <a-form
                                                 ref="formApply"
                                                 :model="formState"
@@ -187,8 +226,18 @@ onMounted(() => {
                                                         "
                                                         type="text"
                                                         autocomplete="off"
+                                                        placeholder="Пожалуйста, введите вашу жалобу здесь"
                                                     />
                                                 </a-form-item>
+                                                <div
+                                                    class="flex justify-end w-full"
+                                                >
+                                                    <a-button
+                                                        type="primary"
+                                                        @click="submit"
+                                                        >Отправлять</a-button
+                                                    >
+                                                </div>
                                             </a-form>
                                         </div>
                                     </a-modal>
@@ -412,6 +461,10 @@ onMounted(() => {
 </template>
 
 <style>
+.ant-modal .ant-modal-close:hover,
+.ant-modal-close-x:hover {
+    background: transparent !important;
+}
 .swiper-button-next:after,
 .swiper-button-prev:after {
     font-size: 20px !important;
@@ -427,6 +480,10 @@ onMounted(() => {
 
 .swiper-slide-thumb-active {
     opacity: 1 !important;
+}
+
+.ant-popover{
+    z-index:10 !important;
 }
 
 /* .ant-modal-content{

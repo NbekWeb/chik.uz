@@ -67,7 +67,7 @@
                         editorStyle="height: 320px;"
                     />
                 </a-form-item>
-                <a-button type="primary" @click="submit">Создать</a-button>
+                <a-button type="primary" @click="submit">Изменить</a-button>
             </a-form>
         </div>
         <a-modal v-model:open="previewVisible">
@@ -83,7 +83,7 @@ import Editor from "primevue/editor";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 import MoneyInput from "@/components/MoneyInput.vue";
-import { useRoute,useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const success = ref(false);
 const route = useRoute();
@@ -215,11 +215,9 @@ const dummyRequest = ({ file, onSuccess }) => {
 };
 
 const submit = () => {
-    console.log(images)
     formRef.value
         .validate()
         .then(() => {
-            
             const formData = new FormData();
             formData.append("category_id", fields.value.category_id);
             formData.append("body", fields.value.body);
@@ -228,6 +226,7 @@ const submit = () => {
             images.value.forEach((image, index) => {
                 formData.append(`images[${index}]`, image);
             });
+            formData.append("_method", "PUT");
 
             axios
                 .post(`/api/posts/${route.params.slug}`, formData)
@@ -241,7 +240,7 @@ const submit = () => {
                     success.value = true;
                     errors.value = {};
                     fileList.value = [];
-                    router.push({ name: DashboardPostsList });
+                    router.push({ name: "DashboardPostsList" });
                 })
                 .catch((e) => {
                     console.log(e);
@@ -289,6 +288,8 @@ onMounted(() => {
     background-color: #fff;
     padding: 0 3vw;
 }
+
+
 
 .ant-modal-footer {
     display: none !important;
