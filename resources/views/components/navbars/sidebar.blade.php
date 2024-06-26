@@ -11,7 +11,7 @@
                 class="navbar-brand-img rounded-circle" style="width:30px; height:30px; object-fit: cover; "> --}}
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i style="font-size: 1rem;" class="fas fa-lg fa-home ps-2 pe-2 text-center"></i>
-                <span class="ms-2 font-weight-bold text-white">Go Home</span>
+                <span class="ms-2 font-weight-bold text-white">Home</span>
             </div>
         </a>
     </div>
@@ -20,52 +20,52 @@
         style="height: 100% !important">
         <ul class="navbar-nav">
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Pages</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Страницы</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-success' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-primary' : '' }} "
                     href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
-                    <span class="nav-link-text ms-1">Dashboard</span>
+                    <span class="nav-link-text ms-1">Основной</span>
                 </a>
             </li>
             @if (auth()->user()->role_id == 1)
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activePage == 'user-management' ? ' active bg-gradient-success' : '' }} "
+                    <a class="nav-link text-white {{ $activePage == 'user-management' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('user-management') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center"></i>
                         </div>
-                        <span class="nav-link-text ms-1">User Management</span>
+                        <span class="nav-link-text ms-1">Управление польз.ми</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activePage == 'posts' ? ' active bg-gradient-success' : '' }} "
+                    <a class="nav-link text-white {{ $activePage == 'posts' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('posts') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">table_view</i>
                         </div>
-                        <span class="nav-link-text ms-1">Posts</span>
+                        <span class="nav-link-text ms-1">Чики</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activePage == 'orders' ? ' active bg-gradient-success' : '' }} "
+                    <a class="nav-link text-white {{ $activePage == 'orders' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('orders') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">shopping_cart</i>
                         </div>
-                        <span class="nav-link-text ms-1">Orders</span>
+                        <span class="nav-link-text ms-1">Заказы</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activePage == 'reviews' ? ' active bg-gradient-success' : '' }} "
+                    <a class="nav-link text-white {{ $activePage == 'reviews' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('reviews') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">thumbs_up_down</i>
                         </div>
-                        <span class="nav-link-text ms-1">Reviews</span>
+                        <span class="nav-link-text ms-1">Отзывы</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -85,7 +85,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activePage == 'complaints' ? ' active bg-gradient-success' : '' }} "
+                    <a class="nav-link text-white {{ $activePage == 'complaints' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('complaints') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">report</i>
@@ -132,21 +132,21 @@
             @endif
 
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'billing' ? ' active bg-gradient-success' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'billing' ? ' active bg-gradient-primary' : '' }}  "
                     href="{{ route('billing') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
-                    <span class="nav-link-text ms-1">Billing</span>
+                    <span class="nav-link-text ms-1">Транзакции</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active bg-gradient-success' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active bg-gradient-primary' : '' }}  "
                     href="{{ route('profile') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Профиль</span>
                 </a>
             </li>
         </ul>

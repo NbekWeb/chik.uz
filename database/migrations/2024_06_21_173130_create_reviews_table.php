@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('star')->unsigned();
             $table->integer('status')->unsigned()->default(0);
-            $table->string('comment');
+            $table->text('comment');
             $table->timestamps();
         });
     }

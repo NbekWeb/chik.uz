@@ -42,100 +42,105 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($reviews as $review)
-                                            <tr class="{{ $review->status == 0 ? 'bg-warning' : '' }}">
-                                                <td>
-                                                    <div class="d-flex px-2">
-                                                        <div>
-                                                            @php
-                                                                $reviewImage = $review->post->images->first();
-                                                            @endphp
-                                                            @if ($reviewImage)
-                                                                <img src="{{ asset('storage') . '/' . $reviewImage->path }}"
-                                                                    alt="{{ $reviewImage->title }}" width="60px">
-                                                            @endif
-                                                        </div>
-                                                        <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $review->post->title }}
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm font-weight-bold mb-0">
-                                                        {{ number_format($review->star, 0) }}</p>
-                                                </td>
-                                                <td>
-
-                                                    <span class="text-xs font-weight-bold">
-                                                        @switch($review->status)
-                                                            @case(0)
-                                                                Pending
-                                                            @break
-
-                                                            @case(1)
-                                                                Published
-                                                            @break
-
-                                                            @case(2)
-                                                                Rejected
-                                                            @break
-                                                        @endswitch
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        {{ $review->comment }}
-
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <span class="text-xs font-weight-bold">
-                                                        {{ date('M-d-Y / H:i', strtotime($review->created_at)) }}
-                                                    </span>
-                                                </td>
-
-                                                <td class="align-middle">
-                                                    <a href="{{ URL::to('/order') . '/' . $review->id }}">
-                                                        <button class="btn btn-link text-secondary mb-0">
-                                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle">
-                                                    @if ($review->status == 0)
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="2">
-                                                            <i class="material-icons">block</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                        <button type="button"
-                                                            class="btn btn-success btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="1">
-                                                            <i class="material-icons">published_with_changes</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                    @elseif ($review->status == 1)
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="2">
-                                                            <i class="material-icons">block</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                    @else
-                                                        <button type="button"
-                                                            class="btn btn-success btn-link update-status-btn"
-                                                            data-review-id="{{ $review->id }}" data-status="1">
-                                                            <i class="material-icons">published_with_changes</i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                    @endif
-                                                </td>
+                                        @if ($reviews->isEmpty())
+                                            <tr>
+                                                <td colspan="7" class="text-center">Нет отзывов.</td>
                                             </tr>
-                                        @endforeach
+                                        @else
+                                            @foreach ($reviews as $review)
+                                                <tr class="{{ $review->status == 0 ? 'bg-warning' : '' }}">
+                                                    <td>
+                                                        <div class="d-flex px-2">
+                                                            <div>
+                                                                @php
+                                                                    $reviewImage = $review->post->images->first();
+                                                                @endphp
+                                                                @if ($reviewImage)
+                                                                    <img src="{{ asset('storage') . '/' . $reviewImage->path }}"
+                                                                        alt="{{ $reviewImage->title }}" width="60px">
+                                                                @endif
+                                                            </div>
+                                                            <div class="my-auto">
+                                                                <h6 class="mb-0 text-sm">{{ $review->post->title }}
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <p class="text-sm font-weight-bold mb-0">
+                                                            {{ number_format($review->star, 0) }}</p>
+                                                    </td>
+                                                    <td>
 
+                                                        <span class="text-xs font-weight-bold">
+                                                            @switch($review->status)
+                                                                @case(0)
+                                                                    Pending
+                                                                @break
+
+                                                                @case(1)
+                                                                    Published
+                                                                @break
+
+                                                                @case(2)
+                                                                    Rejected
+                                                                @break
+                                                            @endswitch
+                                                        </span>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <div class="d-flex align-items-center justify-content-center">
+                                                            {{ $review->comment }}
+
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <span class="text-xs font-weight-bold">
+                                                            {{ date('M-d-Y / H:i', strtotime($review->created_at)) }}
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="align-middle">
+                                                        <a href="{{ URL::to('/order') . '/' . $review->id }}">
+                                                            <button class="btn btn-link text-secondary mb-0">
+                                                                <i class="fa fa-ellipsis-v text-xs"></i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        @if ($review->status == 0)
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-link update-status-btn"
+                                                                data-review-id="{{ $review->id }}" data-status="2">
+                                                                <i class="material-icons">block</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn btn-success btn-link update-status-btn"
+                                                                data-review-id="{{ $review->id }}" data-status="1">
+                                                                <i class="material-icons">published_with_changes</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                        @elseif ($review->status == 1)
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-link update-status-btn"
+                                                                data-review-id="{{ $review->id }}" data-status="2">
+                                                                <i class="material-icons">block</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                        @else
+                                                            <button type="button"
+                                                                class="btn btn-success btn-link update-status-btn"
+                                                                data-review-id="{{ $review->id }}" data-status="1">
+                                                                <i class="material-icons">published_with_changes</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

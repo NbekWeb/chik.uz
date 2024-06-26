@@ -23,7 +23,7 @@
                                                 Post</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Rate</th>
+                                                Post status</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Status</th>
@@ -42,81 +42,93 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($complaints as $complaint)
+                                        @if ($complaints->isEmpty())
                                             <tr>
-                                                <td>
-                                                    <div class="d-flex px-2">
-                                                        <div>
-                                                            @php
-                                                                $complaintImage = $complaint->post->images->first();
-                                                            @endphp
-                                                            @if ($complaintImage)
-                                                                <img src="{{ asset('storage') . '/' . $complaintImage->path }}"
-                                                                    alt="{{ $complaintImage->title }}" width="60px">
-                                                            @endif
+                                                <td colspan="7" class="text-center">Жалоб нет.</td>
+                                            </tr>
+                                        @else
+                                            @foreach ($complaints as $complaint)
+                                                <tr class="{{ $complaint->status == 0 ? 'bg-warning' : '' }}">
+                                                    <td>
+                                                        <div class="d-flex px-2">
+                                                            <div>
+                                                                @php
+                                                                    $complaintImage = $complaint->post->images->first();
+                                                                @endphp
+                                                                @if ($complaintImage)
+                                                                    <img src="{{ asset('storage') . '/' . $complaintImage->path }}"
+                                                                        alt="{{ $complaintImage->title }}"
+                                                                        width="60px">
+                                                                @endif
+                                                            </div>
+                                                            <div class="my-auto">
+                                                                <h6 class="mb-0 text-sm">{{ $complaint->post->title }}
+                                                                </h6>
+                                                            </div>
                                                         </div>
-                                                        <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $complaint->post->title }}
-                                                            </h6>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-xs font-weight-bold">
+                                                            @switch($complaint->post->is_active)
+                                                                @case(0)
+                                                                    Deactive
+                                                                @break
+
+                                                                @case(1)
+                                                                    Active
+                                                                @break
+                                                            @endswitch
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-xs font-weight-bold">
+                                                            @switch($complaint->status)
+                                                                @case(0)
+                                                                    Не прочитано
+                                                                @break
+
+                                                                @case(1)
+                                                                    Прочитано
+                                                                @break
+                                                            @endswitch
+                                                        </span>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <div class="d-flex align-items-center justify-content-center">
+                                                            {{ $complaint->comment }}
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm font-weight-bold mb-0">
-                                                        {{ number_format($complaint->star, 0) }}</p>
-                                                </td>
-                                                <td>
-                                                    <span class="text-xs font-weight-bold">
-                                                        @switch($complaint->post->is_active)
-                                                            @case(0)
-                                                                Deactive
-                                                            @break
+                                                    </td>
 
-                                                            @case(1)
-                                                                Active
-                                                            @break
-                                                        @endswitch
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        {{ $complaint->comment }}
+                                                    <td>
+                                                        <span class="text-xs font-weight-bold">
+                                                            {{ date('M-d-Y / H:i', strtotime($complaint->created_at)) }}
+                                                        </span>
+                                                    </td>
 
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <span class="text-xs font-weight-bold">
-                                                        {{ date('M-d-Y / H:i', strtotime($complaint->created_at)) }}
-                                                    </span>
-                                                </td>
-
-                                                <td class="align-middle text-center">
-                                                    <a href="{{ URL::to('/blog') . '/' . $complaint->post->slug }}">
-                                                        <button class="btn btn-link text-secondary mb-0">
-                                                            <i class="fa fa-ellipsis-v text-xs"></i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle">
-                                                    @if ($complaint->post->status == 1)
+                                                    <td class="align-middle text-center">
+                                                        <a href="{{ URL::to('/blog') . '/' . $complaint->post->slug }}">
+                                                            <button class="btn btn-link text-secondary mb-0">
+                                                                <i class="fa fa-ellipsis-v text-xs"></i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle">
                                                         <button type="button"
                                                             class="btn btn-success btn-link update-status-btn"
-                                                            data-user-id="{{ $complaint->id }}" data-status="0">
+                                                            data-complaint-id="{{ $complaint->id }}" data-status="1">
                                                             <i class="material-icons">lock_open</i>
                                                             <div class="ripple-container"></div>
                                                         </button>
-                                                    @else
                                                         <button type="button"
                                                             class="btn btn-danger btn-link update-status-btn"
-                                                            data-user-id="{{ $complaint->id }}" data-status="1">
+                                                            data-complaint-id="{{ $complaint->id }}" data-status="0">
                                                             <i class="material-icons">lock</i>
                                                             <div class="ripple-container"></div>
                                                         </button>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -136,7 +148,6 @@
 </x-layout>
 <script type="text/javascript">
     $(document).ready(function() {
-        // When a button with class 'update-status-btn' is clicked
         $('.update-status-btn').on('click', function() {
             var self = $(this);
             var complaintId = self.data('complaint-id');
@@ -147,10 +158,9 @@
                 type: 'PUT',
                 dataType: 'json',
                 data: {
-                    status: status
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    status: status,
+                    _method: 'PUT',
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     window.location.reload();

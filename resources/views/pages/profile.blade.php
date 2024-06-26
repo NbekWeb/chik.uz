@@ -46,18 +46,18 @@
                         <div class="col-12 col-xl-4">
                             <div class="card card-plain h-100">
                                 <div class="card-header pb-0 p-3">
-                                    <h6 class="mb-0">Platform Settings</h6>
+                                    <h6 class="mb-0">Пользовательские настройки</h6>
                                 </div>
                                 <div class="card-body p-3">
-                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder">Account</h6>
+                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder">Настройки
+                                        электронной почты</h6>
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 px-0">
                                             <div class="form-check form-switch ps-0">
                                                 <input class="form-check-input ms-auto" type="checkbox"
                                                     id="flexSwitchCheckDefault" checked>
                                                 <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault">Email me when someone follows
-                                                    me</label>
+                                                    for="flexSwitchCheckDefault">Когда в заказе есть новости</label>
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">
@@ -65,45 +65,7 @@
                                                 <input class="form-check-input ms-auto" type="checkbox"
                                                     id="flexSwitchCheckDefault1">
                                                 <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault1">Email me when someone answers on
-                                                    my post</label>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item border-0 px-0">
-                                            <div class="form-check form-switch ps-0">
-                                                <input class="form-check-input ms-auto" type="checkbox"
-                                                    id="flexSwitchCheckDefault2" checked>
-                                                <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault2">Email me when someone mentions
-                                                    me</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">Application
-                                    </h6>
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 px-0">
-                                            <div class="form-check form-switch ps-0">
-                                                <input class="form-check-input ms-auto" type="checkbox"
-                                                    id="flexSwitchCheckDefault3">
-                                                <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault3">New launches and projects</label>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item border-0 px-0">
-                                            <div class="form-check form-switch ps-0">
-                                                <input class="form-check-input ms-auto" type="checkbox"
-                                                    id="flexSwitchCheckDefault4" checked>
-                                                <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault4">Monthly product updates</label>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item border-0 px-0 pb-0">
-                                            <div class="form-check form-switch ps-0">
-                                                <input class="form-check-input ms-auto" type="checkbox"
-                                                    id="flexSwitchCheckDefault5">
-                                                <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                    for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
+                                                    for="flexSwitchCheckDefault1">Когда будет новый заказ</label>
                                             </div>
                                         </li>
                                     </ul>
@@ -115,7 +77,7 @@
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-md-8 d-flex align-items-center">
-                                            <h6 class="mb-0">Profile Information</h6>
+                                            <h6 class="mb-0">Информация о пользователе</h6>
                                         </div>
                                         <div class="col-md-4 text-end">
                                             <a href="{{ route('user-profile') }}">
@@ -133,17 +95,20 @@
                                     <hr class="horizontal gray-light my-4">
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
-                                                class="text-dark">Balance:</strong> &nbsp;
+                                                class="text-dark">Баланс:</strong> &nbsp;
                                             {{ number_format(auth()->user()->cash, 2) . ' ' . 'sum' }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 ps-0 text-sm"><strong
-                                                class="text-dark">Full Name:</strong> &nbsp; {{ auth()->user()->name }}
+                                                class="text-dark">Имя пользователя:</strong> &nbsp;
+                                            {{ auth()->user()->name }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                class="text-dark">Mobile:</strong> &nbsp; {{ auth()->user()->phone }}
+                                                class="text-dark">Номер телефона:</strong> &nbsp;
+                                            {{ auth()->user()->phone }}
                                         </li>
                                         <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                class="text-dark">Email:</strong> &nbsp; {{ auth()->user()->email }}
+                                                class="text-dark">Электронная почта:</strong> &nbsp;
+                                            {{ auth()->user()->email }}
                                         </li>
                                     </ul>
                                 </div>

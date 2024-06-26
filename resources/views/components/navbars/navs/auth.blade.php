@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <div class="input-group input-group-outline">
-                    <label class="form-label">Type here...</label>
+                    <label class="form-label">Введите здесь...</label>
                     <input type="text" class="form-control">
                 </div>
             </div>
@@ -22,9 +22,9 @@
             </form>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                        <i class="fa fa-user me-sm-1" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                           </i> <span class="d-sm-inline d-none">Sign Out</span>
+                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <i class="fa fa-user me-sm-1">
+                        </i> <span class="d-sm-inline d-none">Выйти</span>
                     </a>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
