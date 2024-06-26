@@ -5,13 +5,16 @@ import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 import ScrollbarComponent from "../components/ScrollbarComponent.vue";
 import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
+const router = useRouter();
 const order = ref({});
 const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
 const arbitaj = ref(true);
+const buyed = ref(false);
 const itemsChat = ref();
 const error = ref(null);
 const currentUser = ref(null);
@@ -38,22 +41,23 @@ const submit = async () => {
     chats.value.push({
         text: text.value,
         user_id: currentUser.value.id,
-        sended:1
+        sended: 1,
     });
 
     try {
         loading.value = true;
-       
+
         const formData = new FormData();
         formData.append("text", text.value);
         await axios.post(`/api/order/${props.id}/messages`, formData);
-        text.value = "";
-        chats.value[chats.value.length-1].sended=3
+
+        chats.value[chats.value.length - 1].sended = 3;
     } catch (e) {
-        chats.value[chats.value.length-1].sended=2
+        chats.value[chats.value.length - 1].sended = 2;
         message.error(e.message);
     } finally {
         loading.value = false;
+        text.value = "";
         scrollItem();
     }
 };
@@ -61,9 +65,20 @@ const submit = async () => {
 const buyOrder = async (orderId, status) => {
     try {
         buying.value = true;
-        await axios.put(`/api/update-order-status/${orderId}`, {
-            status: status,
-        });
+        if (status == 201) {
+            buyed.value=true
+            const formData = new FormData();
+            formData.append("text", "Buyed");
+            await axios.post(`/api/order/${props.id}/messages`, formData);
+            // await axios.put(`/api/update-order-status/${orderId}`, {
+            //     status: status,
+            // });
+            chats.value.push({
+                text: "Buyed",
+                user_id: currentUser.value.id,
+            });
+        }
+
         // window.location.reload();
     } catch (error) {
         console.error("Purchase failed:", error);
@@ -104,8 +119,10 @@ const fetchOrderData = async () => {
     try {
         const response = await axios.get("/api/order/" + props.id);
         order.value = response.data.data;
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
     }
 };
 
@@ -124,6 +141,8 @@ const initializePusher = () => {
         console.log(e.chat.id);
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
+        } else if (e.chat.text === "Buyed") {
+            buyed.value = false;
         } else {
             lastChat.value = e.chat.id;
             chats.value.push(e.chat);
@@ -144,7 +163,6 @@ async function arbitajFunc() {
         chats.value.push({
             text: "Arbitajed",
             user_id: currentUser.value.id,
-            sended:3
         });
     } catch (error) {
         console.error("Error submitting message:", error);
@@ -212,6 +230,7 @@ onMounted(async () => {
                 </p>
             </div>
         </a-modal>
+        
         <div class="w-full chat">
             <div class="bg-white rounded-md chat__wrapper">
                 <div
@@ -231,7 +250,7 @@ onMounted(async () => {
                         <a-button @click="showModal" type="link"
                             >Более...</a-button
                         >
-                        <div class="border">
+                        <div class="">
                             <a-popconfirm
                                 title="Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
                                 ok-text="Да"
@@ -279,7 +298,10 @@ onMounted(async () => {
                     <div class="mx-4 mt-4">
                         <div v-for="(chat, index) in chats" :key="index">
                             <div
-                                v-if="chat.text !== 'Arbitajed'"
+                                v-if="
+                                    chat.text !== 'Arbitajed' &&
+                                    chat.text !== 'Buyed'
+                                "
                                 class="flex w-full mb-3"
                                 :class="{
                                     'justify-start ':
@@ -314,22 +336,26 @@ onMounted(async () => {
                                                                  }} -->
                                     </p>
                                     <div
-                                        class="text-[8px] text-muted text-end mt-1"
+                                        class="mt-1 text-xs text-muted text-end"
                                     >
-                                    <template v-if="chat.sended==1">
-                                        
-                                        yuborilyabdi
-                                    </template>
-                                    <template v-else>
-                                      
-                                        {{ chat.time || "Cейчас" }}
-                                    </template>
+                                        <template v-if="chat.sended == 1">
+                                            Отправка
+                                        </template>
+                                        <template v-else-if="chat.sended == 2">
+                                            <span class="text-red-500">
+                                                Не отправлено
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            {{ chat.time || "Cейчас" }}
+                                        </template>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="px-4 py-3 border-t border-['#f6f6f6']">
                     <div
                         class="flex justify-content-between align-items-center send__msg"
@@ -386,11 +412,12 @@ onMounted(async () => {
             <!-- @click="unread" -->
             <div
                 class="gap-2 pb-4 mt-4 d-grid d-md-flex justify-content-md-end"
+                v-if="arbitaj"
             >
                 <button
                     class="btn btn-success btn-buy me-md-2"
                     @click="buyOrder(order.id, 201)"
-                    :disabled="buying || order.status !== 200"
+                    :disabled="buying || order.status !== 200 || buyed"
                     type="button"
                 >
                     Покупать

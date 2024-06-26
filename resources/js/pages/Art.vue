@@ -17,7 +17,7 @@
                         </h5>
 
                         <br>
-                        <h6 class="card-subtitle mb-2 text-end">{{ post.price }} Uzs</h6>
+                        <h6 class="mb-2 card-subtitle text-end">{{ post.price }} Uzs</h6>
                         <hr>
                         <div class="card-user">
                             <img :src="post.userImage ? post.userImage : '/assets/img/avatar.png'"

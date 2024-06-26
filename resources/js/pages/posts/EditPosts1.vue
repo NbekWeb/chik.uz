@@ -1,11 +1,11 @@
 <template>
     <main class="create-post">
         <div class="container">
-            <h1>Создать Chik!</h1>
+            <h1>Изменить Chik!</h1>
             <!-- success message -->
             <div class="success-msg" v-if="success">
                 <i class="fa fa-check"></i>
-                Chik создано успешно !
+                Chik изменён успешно !
             </div>
             <!-- Contact Form -->
             <div class="contact-form">
@@ -17,7 +17,6 @@
                         errors.title[0]
                     }}</span>
                     <br />
-
 
                     <!-- Image -->
                     <label for="image"><span>Фото</span></label>
@@ -45,7 +44,7 @@
                     }}</span>
                     <br />
 
-                    <!--Price-->
+                    <!-- Price -->
                     <label for="price"><span>Цена</span></label>
                     <input type="text" id="price" v-model="fields.price" />
                     <span v-if="errors.price" class="error">{{ errors.price[0] }}</span>
@@ -58,7 +57,7 @@
                         errors.body[0]
                     }}</span>
                     <!-- Button -->
-                    <input class="add-post-btn" type="submit" value="Создать" />
+                    <input class="add-post-btn" type="submit" value="Изменить" />
                 </form>
             </div>
         </div>
@@ -67,6 +66,7 @@
 
 <script>
 export default {
+    props: ["slug"],
     data() {
         return {
             success: false,
@@ -94,61 +94,45 @@ export default {
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
+                this.images.push(file);
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement("canvas");
-                        const ctx = canvas.getContext("2d");
-                        canvas.width = 690;
-                        canvas.height = 348;
-                        ctx.drawImage(img, 0, 0, 690, 348);
-                        canvas.toBlob((blob) => {
-                            const resizedFile = new File([blob], file.name, {
-                                type: "image/jpeg",
-                                lastModified: Date.now(),
-                            });
-                            this.images.push(resizedFile);
-                            this.urls.push(URL.createObjectURL(resizedFile));
-                        }, "image/jpeg", 1);
-                    };
+                    const url = e.target.result;
+                    this.urls.push(url);
                 };
                 reader.readAsDataURL(file);
             }
         },
 
         submit() {
-            const formData = new FormData();
-
-            formData.append("category_id", this.fields.category_id);
-            formData.append("body", this.fields.body);
-            formData.append("price", this.fields.price);
-            formData.append("title", this.fields.title);
-
+            const fd = new FormData();
+            fd.append("title", this.fields.title);
+            fd.append("category_id", this.fields.category_id);
+            if (this.fields.file) {
+                fd.append("file", this.fields.file);
+            }
             this.images.forEach((image, index) => {
-                formData.append(`images[${index}]`, image);
+                fd.append(`images[${index}]`, image);
             });
+            fd.append("body", this.fields.body);
 
+            fd.append("_method", "PUT");
             axios
-                .post("/api/posts", formData, {
-                    headers: { "content-type": "multipart/form-data" },
+                .post(`/api/posts/${this.slug}`, fd, {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                    },
                 })
-                .then(() => {
-                    this.fields = {};
-                    this.urls = [];
-                    this.images = [];
-                    this.fields.category_id = "";
-                    this.success = true;
-                    this.errors = {};
+                .then((res) => {
+                    this.$emit("showEditSuccess");
 
-                    setTimeout(() => {
-                        this.success = false;
-                    }, 2500);
+                    this.$router.push({ name: "DashboardPostsList" });
                 })
                 .catch((error) => {
                     this.errors = error.response.data.errors;
-                    this.success = false;
+                    if (error.response.status === 403) {
+                        this.$router.push({ name: "DashboardPostsList" });
+                    }
                 });
         },
     },
@@ -159,6 +143,18 @@ export default {
             .then((response) => (this.categories = response.data))
             .catch((error) => {
                 console.log(error);
+            });
+
+        axios
+            .get("/api/posts/" + this.slug)
+            .then((response) => {
+                this.fields = response.data.data;
+                this.url = "/" + response.data.data.imagePath;
+            })
+            .catch((error) => {
+                if (error.response.status === 403) {
+                    this.$router.push({ name: "DashboardPostsList" });
+                }
             });
     },
 };

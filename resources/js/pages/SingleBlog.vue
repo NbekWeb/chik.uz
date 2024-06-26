@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
@@ -51,6 +51,7 @@ const modul = ref([Navigation, Pagination, Thumbs, Autoplay]);
 // Autoplay
 const post = ref({});
 const desc = ref(false);
+const apply = ref(false);
 const openComment = ref(false);
 const relatedPosts = ref([]);
 const error = ref(null);
@@ -59,6 +60,10 @@ const cash = ref("");
 const buying = ref(false);
 const loading = ref(true);
 const shouldHideAboutText = ref(false);
+
+const formState = reactive({
+    msg: "",
+});
 
 // Router instance
 const router = useRouter();
@@ -133,9 +138,63 @@ onMounted(() => {
                 <div class="">
                     <a-spin :spinning="loading" class="flex">
                         <div class="bg-white">
-                            <h3 class="p-3 text-2xl font-semibold text-black">
-                                {{ post.title }}
-                            </h3>
+                            <div class="flex items-center justify-between p-3">
+                                <h3 class="text-2xl font-semibold text-black">
+                                    {{ post.title }}
+                                </h3>
+
+                                <div class="">
+                                    <a-popover>
+                                        <template #content>
+                                            <p class="m-0">Пожалаватся</p>
+                                        </template>
+                                        <span @click="() => (apply = true)">
+                                            <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    clip-rule="evenodd"
+                                                    d="M12.8123 1.66837C12.295 1.43834 11.7044 1.43834 11.1871 1.66837C10.7876 1.84602 10.5281 2.15894 10.3475 2.41391C10.1699 2.66461 9.9798 2.99303 9.77072 3.35422L1.50357 17.6339C1.29366 17.9964 1.1029 18.3258 0.973562 18.6054C0.842112 18.8895 0.699508 19.2714 0.744957 19.7074C0.803767 20.2715 1.09931 20.7841 1.55802 21.1176C1.91252 21.3753 2.31451 21.4433 2.62627 21.4719C2.93302 21.5 3.31368 21.5 3.73257 21.5H20.2669C20.6857 21.5 21.0664 21.5 21.3732 21.4719C21.6849 21.4433 22.0869 21.3753 22.4414 21.1176C22.9001 20.7841 23.1957 20.2715 23.2545 19.7074C23.2999 19.2714 23.1573 18.8895 23.0259 18.6054C22.8966 18.3258 22.7058 17.9964 22.4959 17.6339L14.2287 3.35419C14.0197 2.99301 13.8295 2.66459 13.652 2.41391C13.4714 2.15894 13.2119 1.84602 12.8123 1.66837ZM12.9998 9C12.9998 8.44772 12.552 8 11.9998 8C11.4475 8 10.9998 8.44772 10.9998 9V13C10.9998 13.5523 11.4475 14 11.9998 14C12.552 14 12.9998 13.5523 12.9998 13V9ZM11.9998 16C11.4475 16 10.9998 16.4477 10.9998 17C10.9998 17.5523 11.4475 18 11.9998 18H12.0098C12.562 18 13.0098 17.5523 13.0098 17C13.0098 16.4477 12.562 16 12.0098 16H11.9998Z"
+                                                    fill="#8c093d"
+                                                />
+                                            </svg>
+                                        </span>
+                                    </a-popover>
+                                    <a-modal
+                                        v-model:open="apply"
+                                        @ok="handleOk"
+                                    >
+                                        <div class="mx-2 mt-5">
+                                            <a-form
+                                                ref="formApply"
+                                                :model="formState"
+                                                :rules="rules"
+                                                @submit="submit"
+                                            >
+                                                <a-form-item
+                                                    has-feedback
+                                                    label="Жалоба"
+                                                    name="msg"
+                                                >
+                                                    <a-input
+                                                        v-model:value="
+                                                            formState.msg
+                                                        "
+                                                        type="text"
+                                                        autocomplete="off"
+                                                    />
+                                                </a-form-item>
+                                            </a-form>
+                                        </div>
+                                    </a-modal>
+                                </div>
+                            </div>
+
                             <Swiper
                                 :slides-per-view="1"
                                 spaceBetween="10"
