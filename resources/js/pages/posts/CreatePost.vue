@@ -3,15 +3,35 @@
         <div>
             <h1 class="py-3 text-center">Создать Chik!</h1>
             <div class="contact-form">
-                <a-form ref="formRef" @submit="submit" class="w-full" layout="vertical" :model="fields" :rules="rules">
-                    <a-form-item label="Заголовок" class="w-full max-w-[400px]" name="title">
+                <a-form
+                    ref="formRef"
+                    @submit="submit"
+                    class="w-full"
+                    layout="vertical"
+                    :model="fields"
+                    :rules="rules"
+                >
+                    <a-form-item
+                        label="Заголовок"
+                        class="w-full max-w-[400px]"
+                        name="title"
+                    >
                         <a-input v-model:value="fields.title" />
                     </a-form-item>
 
                     <a-form-item label="Фото" name="photos">
-                        <a-upload v-model:file-list="fileList" list-type="picture-card"
-                            class="avatar-uploader w-[200px]" :show-upload-list="true" :before-upload="beforeUpload"
-                            @change="handleChange" @preview="handlePreview" :customRequest="dummyRequest" multiple>
+                        <a-upload
+                            v-model:file-list="fileList"
+                            list-type="picture-card"
+                            accept=".jpg,.jpeg,.png"
+                            class="avatar-uploader w-[200px]"
+                            :show-upload-list="true"
+                            :before-upload="beforeUpload"
+                            @change="handleChange"
+                            @preview="handlePreview"
+                            :customRequest="dummyRequest"
+                            multiple
+                        >
                             <div v-if="fileList.length < 10">
                                 <PlusOutlined />
                                 <div class="ant-upload-text">Upload</div>
@@ -19,20 +39,38 @@
                         </a-upload>
                     </a-form-item>
 
-                    <a-form-item label="Выберите категорию" class="w-full max-w-[400px]" name="category_id">
-                        <a-select ref="select" v-model:value="fields.category_id">
-                            <a-select-option :value="category.id" v-for="category in categories" :key="category.id">
+                    <a-form-item
+                        label="Выберите категорию"
+                        class="w-full max-w-[400px]"
+                        name="category_id"
+                    >
+                        <a-select
+                            ref="select"
+                            v-model:value="fields.category_id"
+                        >
+                            <a-select-option
+                                :value="category.id"
+                                v-for="category in categories"
+                                :key="category.id"
+                            >
                                 {{ category.name }}
                             </a-select-option>
                         </a-select>
                     </a-form-item>
 
-                    <a-form-item class="w-full max-w-[400px]" label="Цена" name="price">
+                    <a-form-item
+                        class="w-full max-w-[400px]"
+                        label="Цена"
+                        name="price"
+                    >
                         <MoneyInput v-model:value="fields.price" />
                     </a-form-item>
 
                     <a-form-item label="Контент" name="body">
-                        <Editor v-model="fields.body" editorStyle="height: 320px;" />
+                        <Editor
+                            v-model="fields.body"
+                            editorStyle="height: 320px;"
+                        />
                     </a-form-item>
                     <a-button type="primary" @click="submit">Создать</a-button>
                 </a-form>
@@ -87,10 +125,18 @@ const rules = reactive({
         },
     ],
     price: [
-        { required: true, message: "Пожалуйста, введите цену", trigger: "blur" },
+        {
+            required: true,
+            message: "Пожалуйста, введите цену",
+            trigger: "blur",
+        },
     ],
     body: [
-        { required: true, message: "Пожалуйста, введите контент", trigger: "blur" },
+        {
+            required: true,
+            message: "Пожалуйста, введите контент",
+            trigger: "blur",
+        },
     ],
     photos: [{ validator: checkFileList, trigger: "change" }],
 });

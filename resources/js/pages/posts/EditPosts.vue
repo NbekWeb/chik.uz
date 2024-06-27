@@ -21,6 +21,7 @@
                 <a-form-item label="Фото" name="photos">
                     <a-upload
                         v-model:file-list="fileList"
+                        accept=".jpg,.jpeg,.png"
                         list-type="picture-card"
                         class="avatar-uploader w-[200px]"
                         :show-upload-list="true"

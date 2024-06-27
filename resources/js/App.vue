@@ -5,72 +5,77 @@
                 <span class="max-md:flex md:hidden">
                     <MenuOutlined @click="() => (openMenu = true)" />
                 </span>
-                <router-link :to="{ name: 'Home' }">
-                    <img
-                        class="w-auto h-10 max-md:h-8"
-                        src="./images/logo.svg"
-                    />
-                </router-link>
-                <div
-                    class="relative w-[360px] max-md:hidden search-container-app"
-                >
-                    <a-input-search
-                        placeholder="Что ищем, напишите"
-                        enter-button="Найти"
-                        size="large"
-                        class="w-full"
-                        v-model:value="searchVal"
-                        @keyup="searchingMenu"
-                    />
-                    <a-card
-                        class="absolute z-10 w-full bg-white top-[50px]"
-                        v-if="searchVal && searchShow"
+                <div class="flex lg:gap-10 max-lg:gap-4">
+                    <router-link :to="{ name: 'Home' }">
+                        <img
+                            class="w-auto h-10 max-md:h-8"
+                            src="./images/logo.svg"
+                        />
+                    </router-link>
+
+                    <div
+                        class="relative w-[360px] max-md:hidden search-container-app"
                     >
-                        <template v-if="searchRes.length == 0">
-                            <a-spin size="small" :spinning="searchingStart">
-                                <p
-                                    class="px-2 py-2 m-0 rounded-lg"
+                        <a-input-search
+                            placeholder="Что ищем, напишите"
+                            enter-button="Найти"
+                            size="large"
+                            class="w-full"
+                            v-model:value="searchVal"
+                            @keyup="searchingMenu"
+                        />
+                        <a-card
+                            class="absolute z-10 w-full bg-white top-[50px]"
+                            v-if="searchVal && searchShow"
+                        >
+                            <template v-if="searchRes.length == 0">
+                                <a-spin size="small" :spinning="searchingStart">
+                                    <p
+                                        class="px-2 py-2 m-0 rounded-lg"
+                                        style="background: #f6f6f6"
+                                    >
+                                        Не найдено
+                                    </p>
+                                </a-spin>
+                            </template>
+                            <template v-else>
+                                <div
+                                    class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
                                     style="background: #f6f6f6"
                                 >
-                                    Не найдено
-                                </p>
-                            </a-spin>
-                        </template>
-                        <template v-else>
-                            <div
-                                class="flex gap-2 px-2 py-1 m-0 rounded-t-lg"
-                                style="background: #f6f6f6"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="20"
-                                    height="20"
-                                    fill="none"
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        fill="none"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
+                                            fill="#a5a5a5"
+                                        ></path>
+                                    </svg>
+                                    Услуги
+                                </div>
+                                <div
+                                    v-for="(search, i) of searchRes"
+                                    :key="i"
+                                    @click="
+                                        pushToSearch(search.label, search.key)
+                                    "
+                                    :class="[
+                                        'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
+                                        {
+                                            'rounded-b-lg':
+                                                i === searchRes.length - 1,
+                                        },
+                                    ]"
                                 >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M12.5 10.625c0 .345.28.625.625.625s.625-.28.625-.625V5a3.75 3.75 0 1 0-7.5 0v1.25H5A1.25 1.25 0 0 0 3.75 7.5v10A1.25 1.25 0 0 0 5 18.75h10a1.25 1.25 0 0 0 1.25-1.25v-10A1.25 1.25 0 0 0 15 6.25h-.375v4.625a1.25 1.25 0 0 1-1.25 1.25H12.5v-1.5zm0-4.375V5a2.5 2.5 0 1 0-5 0v5.625c0 .345-.28.625-.625.625s-.625-.28-.625-.625v1.5h.875a1.25 1.25 0 0 0 1.25-1.25V6.25H12.5z"
-                                        fill="#a5a5a5"
-                                    ></path>
-                                </svg>
-                                Услуги
-                            </div>
-                            <div
-                                v-for="(search, i) of searchRes"
-                                :key="i"
-                                @click="pushToSearch(search.label, search.key)"
-                                :class="[
-                                    'px-2 py-1 m-0 cursor-pointer hover:text-red-900 hover:bg-red-50',
-                                    {
-                                        'rounded-b-lg':
-                                            i === searchRes.length - 1,
-                                    },
-                                ]"
-                            >
-                                {{ search.label }}
-                            </div>
-                        </template>
-                    </a-card>
+                                    {{ search.label }}
+                                </div>
+                            </template>
+                        </a-card>
+                    </div>
                 </div>
                 <div class="flex gap-2">
                     <router-link
@@ -561,6 +566,11 @@ onUnmounted(() => {
     display: none !important;
 }
 
+.ant-menu .ant-menu-title-content{
+    font-weight:600 ;
+    font-size: 16px ;
+}
+
 .menu-container {
     position: fixed;
     top: 0;
@@ -585,8 +595,9 @@ onUnmounted(() => {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9;
 }
-html,body {
-  scroll-behavior: smooth;
+html,
+body {
+    scroll-behavior: smooth;
 }
 .ant-menu-horizontal {
     border: none !important;
@@ -598,6 +609,13 @@ html,body {
 
 .ant-card .ant-card-body {
     padding: 5px 10px !important;
+}
+
+@media (max-width: 768px) {
+    .ant-menu .ant-menu-title-content{
+    font-weight:500 ;
+    font-size: 14px ;
+}
 }
 
 /* .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{

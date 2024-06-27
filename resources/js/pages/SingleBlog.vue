@@ -358,9 +358,9 @@ onMounted(() => {
                             Отзывы по кворку
                         </h4>
                         <DownOutlined
-                            class="text-[10px] ml-1 ease-linear p-1"
+                            class="text-[10px] ml-1 ease-linear p-1 text-red-400"
                             @click="() => (openComment = !openComment)"
-                            :class="openComment ? 'rotate-0' : 'rotate-180'"
+                            :class="openComment ? 'rotate-180' : 'rotate-0'"
                         />
                     </div>
                     <div v-show="openComment">
