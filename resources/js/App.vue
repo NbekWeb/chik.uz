@@ -566,9 +566,9 @@ onUnmounted(() => {
     display: none !important;
 }
 
-.ant-menu .ant-menu-title-content{
-    font-weight:600 ;
-    font-size: 16px ;
+.ant-menu .ant-menu-title-content {
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .menu-container {
@@ -612,16 +612,9 @@ body {
 }
 
 @media (max-width: 768px) {
-    .ant-menu .ant-menu-title-content{
-    font-weight:500 ;
-    font-size: 14px ;
+    .ant-menu .ant-menu-title-content {
+        font-weight: 500;
+        font-size: 14px;
+    }
 }
-}
-
-/* .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
-    color:#000e00 !important;
-} */
-/* .ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected::after{
-    border-bottom-color:transparent !important;
-} */
 </style>
