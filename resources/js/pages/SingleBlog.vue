@@ -3,7 +3,7 @@ import { ref, onMounted, computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
-
+import { message } from "ant-design-vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
 import "swiper/swiper-bundle.css";
@@ -144,8 +144,14 @@ const submit = () => {
                 })
                 .then(() => {
                     formState.msg = "";
+                    apply.value=false
+                    message.success("Отправил");
+                    
                 })
                 .catch((e) => {
+                    apply.value=false
+                    formState.msg = "";
+                    message.error("Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.");
                     console.log(e);
                 });
         })
