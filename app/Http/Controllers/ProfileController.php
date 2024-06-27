@@ -13,7 +13,7 @@ class ProfileController extends Controller
 
     public function update()
     {
-            
+
         $user = request()->user();
         $attributes = request()->validate([
             'email' => 'required|email|unique:users,email,'.$user->id,
@@ -24,7 +24,7 @@ class ProfileController extends Controller
         ]);
 
         auth()->user()->update($attributes);
-        return back()->withStatus('Profile successfully updated.');
-    
+        return back()->withStatus('Профиль успешно обновлен.');
+
 }
 }

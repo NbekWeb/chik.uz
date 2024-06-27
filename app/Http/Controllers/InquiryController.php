@@ -30,6 +30,6 @@ class InquiryController extends Controller
         if ($requestedOrder) {
             return new OrderResource($requestedOrder);
         }
-        return response()->json(['error' => 'Inquiry not found'], 404);
+        return response()->json(['error' => 'Запрос не найден'], 404);
     }
 }

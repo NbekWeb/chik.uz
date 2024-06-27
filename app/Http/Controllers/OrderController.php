@@ -27,7 +27,7 @@ class OrderController extends Controller
         if ($user->orders->contains('id', $order->id) || $user->role_id == 1) {
             return new OrderResource($order->load('chats'));
         }
-        return response()->json(['error' => 'Order not found'], 404);
+        return response()->json(['error' => 'Заказ не найден'], 404);
     }
 
     public function buyOrder($postId)
@@ -44,19 +44,19 @@ class OrderController extends Controller
                 try {
                     // Create an order
                     $orderId = $this->setOrder($buyer->id, $post->id);
-                    return response()->json(['message' => 'Invitation successfully delivered', 'order_id' => $orderId]);
+                    return response()->json(['message' => 'Приглашение успешно доставлено', 'order_id' => $orderId]);
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Failed'], 500);
+                    return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
                 }
             } elseif ($orderStatus['existing_order_id']) {
                 // User already has an existing order
                 return response()->json([
-                    'message' => 'You already successfully delivered invitation for this order',
+                    'message' => 'Вы уже успешно доставили приглашение для этого заказа.',
                     'order_id' => $orderStatus['existing_order_id']
                 ]);
             } else {
                 // User is not allowed to create a new order
-                return response()->json(['error' => 'Failed'], 403);
+                return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 403);
             }
         } else {
             return response()->json(['error' => 'Unauthorized'], 403);

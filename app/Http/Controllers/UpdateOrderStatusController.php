@@ -46,16 +46,16 @@ class UpdateOrderStatusController extends Controller
                         $order->save();
                         $userTransaction->save();
                         DB::commit();
-                        return response()->json(['message' => 'Order status updated successfully'], 200);
+                        return response()->json(['message' => 'Статус заказа успешно обновлен'], 200);
                     } catch (\Exception $e) {
                         DB::rollback();
-                        return response()->json(['error' => 'Transaction failed'], 500);
+                        return response()->json(['error' => 'Транзакция не удалась'], 500);
                     }
                 } else {
-                    return response()->json(['error' => 'Insufficient funds'], 422);
+                    return response()->json(['error' => 'Недостаточно средств'], 422);
                 }
             } else {
-                return response()->json(['error' => 'Unauthorized or unsuitable order status'], 403);
+                return response()->json(['error' => 'Unauthorized или неподходящий статус заказа'], 403);
             }
         }
         // order stating acceptance from freelancer
@@ -63,9 +63,9 @@ class UpdateOrderStatusController extends Controller
             if ($seller->id == $user->id && $order->status == 201) {
                 $order->status = 202;
                 $order->save();
-                return response()->json(['message' => "Order accepted by seller"], 200);
+                return response()->json(['message' => "Заказ принят фрилансером"], 200);
             } else {
-                return response()->json(['error' => 'Failed'], 500);
+                return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
             }
         }
         // order completeion approvemnt from client
@@ -91,10 +91,10 @@ class UpdateOrderStatusController extends Controller
                     $sellerTransaction->save();
                     $seller->increment('cash', $netAmountToTransfer);
                     DB::commit();
-                    return response()->json(['message' => 'Order status completion approved'], 200);
+                    return response()->json(['message' => 'Статус заказа: завершение подтверждено'], 200);
                 } catch (\Exception $e) {
                     DB::rollback();
-                    return response()->json(['error' => 'Failed'], 500);
+                    return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
                 }
             }
         }
@@ -103,9 +103,9 @@ class UpdateOrderStatusController extends Controller
             if ($seller->id == $user->id && $order->status == 202) {
                 $order->status = 205;
                 $order->save();
-                return response()->json(['message' => "Order submitted to the customer before the review"], 200);
+                return response()->json(['message' => "Заказ отправлен клиенту до рассмотрения"], 200);
             } else {
-                return response()->json(['error' => 'Failed'], 500);
+                return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
             }
         }
         // cancellation of order in either buyer or seller
@@ -125,10 +125,10 @@ class UpdateOrderStatusController extends Controller
                     $cancelledTransaction->save();
                     $order->user->increment('cash', $postPrice);
                     DB::commit();
-                    return response()->json(['message' => 'Order status completion approved'], 200);
+                    return response()->json(['message' => 'Статус заказа: завершение подтверждено'], 200);
                 } catch (\Exception $e) {
                     DB::rollback();
-                    return response()->json(['error' => 'Failed'], 500);
+                    return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
                 }
             }
         }
@@ -140,6 +140,6 @@ class UpdateOrderStatusController extends Controller
         $order->status = 203;
         $order->save();
 
-        return response()->json(['message' => 'Order status changed to force major.']);
+        return response()->json(['message' => 'Статус заказа изменен на форс-мажор.']);
     }
 }
