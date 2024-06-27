@@ -20,13 +20,14 @@ class ReviewController extends Controller
             'order_id' => 'required|exists:orders,id',
             'post_id' => 'required|exists:posts,id',
             'star' => 'required|integer|between:1,5',
-            'comment' => 'required|string|max:255',
+            'comment' => 'required|string|max:65535',
         ]);
         $orderId = $request->order_id;
         $this->hasOrder($orderId);
 
         $rating = new Review();
         $rating->post_id = $request->post_id;
+        $rating->order_id = $request->order_id;
         $rating->user_id = auth()->user->id;
         $rating->star = $request->star;
         $rating->comment = $request->comment;

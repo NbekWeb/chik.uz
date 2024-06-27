@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('star')->unsigned();
             $table->integer('status')->unsigned()->default(0);
-            $table->string('comment');
+            $table->text('comment');
             $table->timestamps();
         });
     }

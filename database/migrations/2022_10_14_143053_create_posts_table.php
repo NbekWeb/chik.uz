@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->text('body');
-            $table->decimal('price');
+            $table->decimal('price', 15, 2);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });

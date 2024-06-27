@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardControllers\OrdersController;
 use App\Http\Controllers\AdminDashboardControllers\PostsController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserManagementController;
@@ -51,7 +52,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth', 'veri
     Route::get('/user-management', [UserManagementController::class, 'index'])->name('user-management');
     Route::put('/user-edit/{id}', [UserManagementController::class, 'update'])->name('user-edit');
     Route::get('/posts', [PostsController::class, 'index'])->name('posts');
+    Route::get('/complaints', [ComplaintController::class, 'index'])->name('complaints');
+    Route::put('/complaint/{id}', [ComplaintController::class, 'update'])->name('complaint-update');
     Route::get('/post/{id}', [PostsController::class, 'show'])->name('post.id');
+    Route::put('/post/{id}', [PostsController::class, 'update'])->name('post.id');
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
     Route::put('/review/{id}', [ReviewController::class, 'update'])->name('review-update');

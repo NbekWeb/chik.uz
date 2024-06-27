@@ -38,7 +38,13 @@
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                                     Description
                                                 </th>
-                                                <th></th>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                    More</th>
+                                                <th
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
+                                                    Action
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -102,6 +108,23 @@
                                                             </button>
                                                         </a>
                                                     </td>
+                                                    <td class="align-middle">
+                                                        @if ($post->is_active == 0)
+                                                            <button type="button"
+                                                                class="btn btn-success btn-link update-status-btn"
+                                                                data-post-id="{{ $post->id }}" data-status="1">
+                                                                <i class="material-icons">lock_open</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                        @else
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-link update-status-btn"
+                                                                data-post-id="{{ $post->id }}" data-status="0">
+                                                                <i class="material-icons">lock</i>
+                                                                <div class="ripple-container"></div>
+                                                            </button>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
 
@@ -121,3 +144,31 @@
     <x-plugins></x-plugins>
 
 </x-layout>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.update-status-btn').on('click', function() {
+            var self = $(this);
+            var postId = self.data('post-id');
+            var status = self.data('status');
+
+            $.ajax({
+                url: '/admin/post/' + postId,
+                type: 'PUT',
+                dataType: 'json',
+                data: {
+                    status: status,
+                    _method: 'PUT',
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        });
+    });
+</script>

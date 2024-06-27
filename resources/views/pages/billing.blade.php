@@ -83,9 +83,8 @@
                                 <div class="card-header pb-0 p-3">
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
-                                            <h6 class="m-2">Make New Payment</h6>
+                                            <h6 class="m-2">Производить оплату</h6>
                                         </div>
-
                                         {{-- ===================================================== --}}
                                         <form id="paymentForm" method="POST" action="{{ config('payme.payme_url') }}"
                                             target="_blank">
@@ -230,7 +229,7 @@
                 <div class="col-md-7 mt-4">
                     <div class="card">
                         <div class="card-header pb-0 px-3" style="border-radius: 0.75rem" >
-                            <h6 class="mb-0">Billing Information</h6>
+                            <h6 class="mb-0">Платежная информация</h6>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active text-info text-bold" id="payme-tab"
@@ -295,7 +294,7 @@
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <p class="p-2 pt-3 text-danger text-bold">Payments not found</p>
+                                            <p class="p-2 pt-3 text-danger text-bold">Платежи не найдены</p>
                                         @endif
                                     </div>
                                 </div>
@@ -352,7 +351,7 @@
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <p class="p-2 pt-3 text-danger text-bold">Payments not found</p>
+                                            <p class="p-2 pt-3 text-danger text-bold">Платежи не найдены</p>
                                         @endif
                                     </div>
 
@@ -367,7 +366,7 @@
                         <div class="card-header pb-0 px-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h6 class="mb-0">Your Transaction's</h6>
+                                    <h6 class="mb-0">Ваша транзакция</h6>
                                 </div>
                                 <div
                                     class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
@@ -421,7 +420,7 @@
 
                                 </ul>
                             @else
-                                <p class="p-2 pt-5 text-danger text-bold">Transactions not found</p>
+                                <p class="p-2 pt-5 text-danger text-bold">Транзакции не найдены</p>
                             @endif
 
                         </div>

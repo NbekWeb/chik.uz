@@ -15,7 +15,7 @@
                                     <i class="material-icons opacity-10">price_check</i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                                    <p class="text-sm mb-0 text-capitalize">Сегодняшние деньги</p>
                                     <h4 class="mb-0">{{ $todaysCache }}</h4>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                     <i class="material-icons opacity-10">archive</i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Today's inqueries</p>
+                                    <p class="text-sm mb-0 text-capitalize">Сегодняшние запросы</p>
                                     <h4 class="mb-0">{{ $inqueriesToday }}</h4>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <i class="material-icons opacity-10">person</i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Today's Orders</p>
+                                    <p class="text-sm mb-0 text-capitalize">Сегодняшние заказы</p>
                                     <h4 class="mb-0">{{ $ordersToday }}</h4>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                 <i class="material-icons opacity-10">payments</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">In budget</p>
+                                <p class="text-sm mb-0 text-capitalize">Баланс</p>
                                 <h4 class="mb-0">{{ number_format(auth()->user()->cash, 2) }}</h4>
                             </div>
                         </div>

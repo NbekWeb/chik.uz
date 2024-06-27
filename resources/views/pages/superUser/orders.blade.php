@@ -146,7 +146,7 @@
 
                                                 <td>
                                                     <span class="text-xs font-weight-bold">
-                                                        {{ date('M-d-Y / H:m', strtotime($order->created_at)) }}
+                                                        {{ date('M-d-Y / H:i', strtotime($order->created_at)) }}
                                                     </span>
                                                 </td>
 

@@ -40,6 +40,10 @@ class Post extends Model
     {
         return $this->hasMany(Order::class);
     }
+    public function complaint()
+    {
+        return $this->hasMany(Complaint::class);
+    }
     public function reviews()
     {
         return $this->hasMany(Review::class);
