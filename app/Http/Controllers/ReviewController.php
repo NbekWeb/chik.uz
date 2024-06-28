@@ -22,19 +22,25 @@ class ReviewController extends Controller
             'star' => 'required|integer|between:1,5',
             'comment' => 'required|string|max:65535',
         ]);
-        $orderId = $request->order_id;
-        $this->hasOrder($orderId);
 
-        $rating = new Review();
-        $rating->post_id = $request->post_id;
-        $rating->order_id = $request->order_id;
-        $rating->user_id = auth()->user->id;
-        $rating->star = $request->star;
-        $rating->comment = $request->comment;
-        $rating->save();
+        try {
+            $orderId = $request->order_id;
+            $this->hasOrder($orderId);
 
-        return response()->json(['message' => 'Rating created successfully'], 201);
+            $rating = new Review();
+            $rating->post_id = $request->post_id;
+            $rating->order_id = $request->order_id;
+            $rating->user_id = auth()->user()->id;
+            $rating->star = $request->star;
+            $rating->comment = $request->comment;
+            $rating->save();
+
+            return response()->json(['message' => 'Rating created successfully'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
     }
+
 
     public function show(Review $review)
     {
@@ -61,19 +67,15 @@ class ReviewController extends Controller
     private function hasOrder($orderId)
     {
         $user = auth()->user();
-
         $order = $user->orders()->where('id', $orderId)->where('status', 204)->first();
 
         if (!$order) {
-            return response()->json(['message' => 'У вас нет доступа'], 403);
+            throw new \Exception('У вас нет доступа', 403);
         }
-
         $existingReview = $order->reviews()->where('user_id', $user->id)->first();
-
         if ($existingReview) {
-            return response()->json(['message' => 'Вы уже прокомментировали этот заказ'], 403);
+            throw new \Exception('Вы уже прокомментировали этот заказ', 403);
         }
-
         return true;
     }
 }
