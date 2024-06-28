@@ -26,6 +26,6 @@ class UserManagementController extends Controller
 
             return response()->json(['message' => '200'], 200);
         }
-        return response()->json(['message' => 'Something went wrong!'], 400);
+        return response()->json(['message' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 400);
     }
 }

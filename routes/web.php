@@ -12,6 +12,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\VerificationNoticeController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 've
 
 // here started all admin Routes
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    // routes/web.php
+    Route::get('/search', [SearchController::class, 'search'])->name('admin.search');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user-profile', [UserController::class, 'edit'])->name('user-profile');

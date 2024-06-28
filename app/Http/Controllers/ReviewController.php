@@ -50,13 +50,13 @@ class ReviewController extends Controller
         $rating->status = $request->status;
         $rating->save();
 
-        return response()->json(['message' => 'Rating updated successfully'], 200);
+        return response()->json(['message' => 'Отзыв успешно создан'], 200);
     }
 
     public function destroy(Review $review)
     {
         $review->delete();
-        return response()->json(['message' => 'Review deleted successfully'], 200);
+        return response()->json(['message' => 'Отзыв успешно удален'], 200);
     }
     private function hasOrder($orderId)
     {
@@ -65,13 +65,13 @@ class ReviewController extends Controller
         $order = $user->orders()->where('id', $orderId)->where('status', 204)->first();
 
         if (!$order) {
-            return response()->json(['message' => 'You don\'t have access'], 403);
+            return response()->json(['message' => 'У вас нет доступа'], 403);
         }
 
         $existingReview = $order->reviews()->where('user_id', $user->id)->first();
 
         if ($existingReview) {
-            return response()->json(['message' => 'You have already reviewed this order'], 403);
+            return response()->json(['message' => 'Вы уже прокомментировали этот заказ'], 403);
         }
 
         return true;

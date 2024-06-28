@@ -54,7 +54,7 @@ class UserController extends Controller
         }
 
         // Return success message
-        return back()->with('success', 'Profile updated successfully!');
+        return back()->with('success', 'Профиль успешно обновлен!');
     }
 
 

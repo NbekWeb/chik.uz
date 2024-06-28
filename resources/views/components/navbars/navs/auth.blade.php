@@ -14,7 +14,7 @@
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <div class="input-group input-group-outline">
                     <label class="form-label">Введите здесь...</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="search-input">
                 </div>
             </div>
             <form method="POST" action="{{ route('logout') }}" class="d-none" id="logout-form">
@@ -22,7 +22,8 @@
             </form>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0"
+                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="fa fa-user me-sm-1">
                         </i> <span class="d-sm-inline d-none">Выйти</span>
                     </a>
@@ -128,3 +129,25 @@
         </div>
     </div>
 </nav>
+<script>
+    $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+            var query = $(this).val();
+            if (query.length > 2) { // Start searching after 3 characters
+                $.ajax({
+                    url: '/admin/search',
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function(data) {
+                        // Process and display the search results
+                        $('#search-results').html(data);
+                    }
+                });
+            } else {
+                $('#search-results').html('');
+            }
+        });
+    });
+</script>
