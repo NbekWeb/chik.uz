@@ -20,6 +20,7 @@ class ChatResource extends JsonResource
             'text' => $this->text,
             'order' => new OrderResource($this->order),
             'user' => $this->user,
+            'status' => $this->status,
             'user_id' => $this->user_id,
             'userImage' => $this->user->image ? url('storage/' . $this->user->image) : null,
             'time' => $this->created_at->diffForHumans(),
