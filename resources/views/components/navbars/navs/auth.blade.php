@@ -48,7 +48,10 @@
                         <i class="fa fa-bell cursor-pointer"></i>
                     </a>
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                        aria-labelledby="dropdownMenuButton" style="filter: blur(2px)">
+                        aria-labelledby="dropdownMenuButton">
+                        @foreach ($notifications as $notification)
+                            {{ $notification->created_at }}
+                        @endforeach
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
