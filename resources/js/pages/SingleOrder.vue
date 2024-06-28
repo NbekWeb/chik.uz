@@ -1,14 +1,38 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, reactive } from "vue";
 import axios from "axios";
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 import ScrollbarComponent from "../components/ScrollbarComponent.vue";
 import { message } from "ant-design-vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const props = defineProps(["id"]);
+const formRef = ref();
+const formState = reactive({ msg: "", rate: 0 });
+const rules = {
+    msg: [
+        {
+            required: true,
+            message: "Пожалуйста, введите комментарий",
+            trigger: "blur",
+        },
+    ],
+    rate: [
+        {
+            validator: (rule, value, callback) => {
+                if (value < 1 || value > 5) {
+                    callback(new Error("Оценка должна быть от 1 до 5"));
+                } else {
+                    callback();
+                }
+            },
+            trigger: "blur",
+        },
+    ],
+};
 const router = useRouter();
+const route = useRoute();
 const order = ref({});
 const chats = ref([]);
 const text = ref("");
@@ -65,19 +89,19 @@ const submit = async () => {
 const buyOrder = async (orderId, status) => {
     try {
         buying.value = true;
-        if (status == 201) {
-            buyed.value=true
-            const formData = new FormData();
-            formData.append("text", "Buyed");
-            await axios.post(`/api/order/${props.id}/messages`, formData);
-            // await axios.put(`/api/update-order-status/${orderId}`, {
-            //     status: status,
-            // });
-            chats.value.push({
-                text: "Buyed",
-                user_id: currentUser.value.id,
-            });
-        }
+        // if (status == 201) {
+        buyed.value = true;
+        const formData = new FormData();
+        formData.append("text", "Buyed");
+        await axios.post(`/api/order/${props.id}/messages`, formData);
+        await axios.put(`/api/update-order-status/${orderId}`, {
+            status: status,
+        });
+        chats.value.push({
+            text: "Buyed",
+            user_id: currentUser.value.id,
+        });
+        // }
 
         // window.location.reload();
     } catch (error) {
@@ -119,6 +143,21 @@ const fetchOrderData = async () => {
     try {
         const response = await axios.get("/api/order/" + props.id);
         order.value = response.data.data;
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
+    }
+};
+
+const pushComment = async () => {
+    try {
+        await axios.post("/api/review", {
+            post_id: order.value.post_id,
+            comment: formState.msg,
+            star: formState.rate,
+            order_id: route.params.id,
+        });
     } catch (err) {
         if (err.response.status == 404) {
             router.push({ name: "NotFound" });
@@ -182,7 +221,7 @@ onMounted(async () => {
 
 <template>
     <div class="container flex flex-wrap justify-between py-4 singleOrder">
-        <a-modal v-model:open="open" @ok="handleOk" title="Заказ">
+        <a-modal v-model:open="open" title="Заказ">
             <div class="px-2">
                 <p>
                     Заказ ID:
@@ -230,7 +269,26 @@ onMounted(async () => {
                 </p>
             </div>
         </a-modal>
-        
+
+        <a-modal :open="true" title="otziv">
+            <a-form
+                ref="formRef"
+                :model="formState"
+                :rules="rules"
+                class="pt-3"
+            >
+                <a-form-item ref="msg" label="Комментарий" name="msg">
+                    <a-input v-model:value="formState.msg" autocomplete="off" />
+                </a-form-item>
+                <a-form-item ref="rate" label="Оценка" name="rate">
+                    <a-rate v-model:value="formState.rate" />
+                </a-form-item>
+                <a-button type="primary" @click.prevent="pushComment"
+                    >Create</a-button
+                >
+            </a-form>
+        </a-modal>
+
         <div class="w-full chat">
             <div class="bg-white rounded-md chat__wrapper">
                 <div
@@ -355,7 +413,7 @@ onMounted(async () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="px-4 py-3 border-t border-['#f6f6f6']">
                     <div
                         class="flex justify-content-between align-items-center send__msg"
@@ -421,6 +479,10 @@ onMounted(async () => {
                     type="button"
                 >
                     Покупать
+                </button>
+                <button class="btn btn-success btn-buy me-md-2" type="button">
+                    <!-- @click="comment" -->
+                    Отзив
                 </button>
                 <button
                     class="btn btn-danger"
