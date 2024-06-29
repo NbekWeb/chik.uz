@@ -12,9 +12,12 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group input-group-outline">
+                <div class="input-group input-group-outline" style="border-radius: 5px">
                     <label class="form-label">Введите здесь...</label>
                     <input type="text" class="form-control" id="search-input">
+                    <div id="search-results" class="dropdown-menu dropdown-menu-end px-2 py-3">
+                        <!-- Search results will be injected here -->
+                    </div>
                 </div>
             </div>
             <form method="POST" action="{{ route('logout') }}" class="d-none" id="logout-form">
@@ -90,11 +93,12 @@
         </div>
     </div>
 </nav>
+
 <script>
     $(document).ready(function() {
         $('#search-input').on('keyup', function() {
             var query = $(this).val();
-            if (query.length > 2) { // Start searching after 3 characters
+            if (query.length > 2) {
                 $.ajax({
                     url: '/admin/search',
                     method: 'GET',
@@ -102,12 +106,39 @@
                         query: query
                     },
                     success: function(data) {
-                        // Process and display the search results
-                        $('#search-results').html(data);
+                        var resultsHTML = '';
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                resultsHTML +=
+                                    '<li class="mb-2"><a class="dropdown-item border-radius-md" href="' +
+                                    data[i].url +
+                                    '"><div class="d-flex py-1"><div class="my-auto"><img src="' +
+                                    data[i].avatar +
+                                    '" class="avatar avatar-sm me-3"></div><div class="d-flex flex-column justify-content-center"><h6 class="text-sm font-weight-normal mb-1">' +
+                                    data[i].name +
+                                    '</h6><p class="text-xs text-secondary mb-0"><i class="fa fa-clock me-1"></i>' +
+                                    data[i].created_at + '</p></div></div></a></li>';
+                            }
+                            $('#search-results').html(resultsHTML).show();
+                        } else {
+                            $('#search-results').html('')
+                                .hide();
+                        }
                     }
                 });
             } else {
-                $('#search-results').html('');
+                $('#search-results').html('').hide();
+            }
+        });
+
+        $(document).on('click', '#search-results a', function() {
+            $('#search-input').val($(this).text());
+            $('#search-results').hide();
+        });
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest('#search-input, #search-results').length) {
+                $('#search-results').hide();
             }
         });
     });
