@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted, computed, reactive ,watch} from "vue";
-import { useRouter ,useRoute} from "vue-router";
+import { ref, onMounted, computed, reactive, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
@@ -118,12 +118,8 @@ const buyPost = async (postId) => {
 const fetchPostData = async () => {
     try {
         const response = await axios.get(`/api/posts/${props.slug}`);
-
         post.value = response.data.data;
-        // const isCurrentUserPostAuthor = post.value.user.id === Auth.id();
         loading.value = true;
-        // shouldHideAboutText.value =
-        //     Auth.isLoggedIn() && isCurrentUserPostAuthor;
     } catch (err) {
         if (err.response.status == 404) {
             router.push({ name: "NotFound" });
@@ -144,14 +140,15 @@ const submit = () => {
                 })
                 .then(() => {
                     formState.msg = "";
-                    apply.value=false
+                    apply.value = false;
                     message.success("Отправил");
-                    
                 })
                 .catch((e) => {
-                    apply.value=false
+                    apply.value = false;
                     formState.msg = "";
-                    message.error("Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.");
+                    message.error(
+                        "Что-то пошло не так. Пожалуйста, попробуйте еще раз позже."
+                    );
                     console.log(e);
                 });
         })
@@ -159,11 +156,14 @@ const submit = () => {
             console.log(e);
         });
 };
-watch(() => route.params.slug, (newSlug, oldSlug) => {
-    if (newSlug !== oldSlug) {
-        fetchPostData();
+watch(
+    () => route.params.slug,
+    (newSlug, oldSlug) => {
+        if (newSlug !== oldSlug) {
+            fetchPostData();
+        }
     }
-});
+);
 // Lifecycle hook
 onMounted(() => {
     fetchPostData();
@@ -209,7 +209,6 @@ onMounted(() => {
                                     <a-modal
                                         v-model:open="apply"
                                         title="Сообщить о некорректном контенте"
-                                      
                                     >
                                         <div class="">
                                             <p class="p-3 m-0">
@@ -358,11 +357,12 @@ onMounted(() => {
                     </a-spin>
                 </div>
 
-                <div class="px-3 mt-4 bg-white">
+                <div class="mt-4 bg-white ">
                     <div
-                        class="flex items-center justify-between w-full py-3 border-b"
-                        :class="openComment ? 'border-b' : 'border-b-0'"
+                        class="flex items-center justify-between w-full px-3 py-3 "
+                        
                     >
+                    <!-- :class="openComment ? 'border-b' : 'border-b-0'" -->
                         <h4 class="mb-0 text-xl font-semibold">
                             Отзывы по кворку
                         </h4>
@@ -372,8 +372,43 @@ onMounted(() => {
                             :class="openComment ? 'rotate-180' : 'rotate-0'"
                         />
                     </div>
-                    <div v-show="openComment">
-                        <div>sa1</div>
+                    <div v-show="openComment" class="pt-2 mb-2 single_com">
+                        <div
+                            v-for="com of post.reviews"
+                            :key="com.id"
+                            class="px-3 py-2 border-t"
+                        >
+                            <div class="flex justify-between">
+                                <div class="flex items-center gap-2">
+                                    {{com}}
+                                    <img
+                                        :src="
+                                            post.userImage
+                                                ? post.userImage
+                                                : '/assets/img/avatar.png'
+                                        "
+                                        class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px]"
+                                    />
+                                    <p class="mb-0 text-lg font-medium">User</p>
+                                </div>
+                                <a-rate v-model:value="com.star" disabled />
+                            </div>
+                            <!-- {{ com }} -->
+                            <div>
+                                <p class="pt-1 mb-0 light__black">
+                                    {{ com.comment }} Быстро, вежливо, с
+                                    подобными ответами на вопросы. Рекомендую
+                                    однозначно. Будем работать дальше совместно
+                                </p>
+                                <p class="mb-0 text-xs text-end" style="color: #9f9fa3;">
+                                    {{
+                                        new Date(
+                                            com.created_at
+                                        ).toLocaleDateString("en-US")
+                                    }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -491,8 +526,12 @@ onMounted(() => {
     opacity: 1 !important;
 }
 
-.ant-popover{
-    z-index:10 !important;
+.ant-popover {
+    z-index: 10 !important;
+}
+
+.single_com .ant-rate {
+    font-size: 14px !important;
 }
 
 /* .ant-modal-content{
