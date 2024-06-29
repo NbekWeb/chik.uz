@@ -67,7 +67,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return new PostResource($post->load('images'));
+        return new PostResource($post->load(['images']));
     }
 
     public function update(Request $request, Post $post)
