@@ -160,6 +160,8 @@ watch(
     () => route.params.slug,
     (newSlug, oldSlug) => {
         if (newSlug !== oldSlug) {
+            loading.value = true;
+            openComment.value=false
             fetchPostData();
         }
     }
@@ -357,17 +359,15 @@ onMounted(() => {
                     </a-spin>
                 </div>
 
-                <div class="mt-4 bg-white ">
+                <div class="mt-4 bg-white">
                     <div
-                        class="flex items-center justify-between w-full px-3 py-3 "
-                        
+                        class="flex items-center justify-between w-full px-3 py-3 hover:cursor-pointer"
                     >
-                    <!-- :class="openComment ? 'border-b' : 'border-b-0'" -->
-                        <h4 class="mb-0 text-xl font-semibold">
-                            Отзывы по кворку
+                        <h4 class="mb-0 text-xl font-semibold" @click="() => (openComment = !openComment)">
+                            Отзывы по чику
                         </h4>
                         <DownOutlined
-                            class="text-[10px] ml-1 ease-linear p-1 text-red-400"
+                            class="text-[10px] ml-1 ease-linear p-1 text-blue-600"
                             @click="() => (openComment = !openComment)"
                             :class="openComment ? 'rotate-180' : 'rotate-0'"
                         />
@@ -377,30 +377,32 @@ onMounted(() => {
                             v-for="com of post.reviews"
                             :key="com.id"
                             class="px-3 py-2 border-t"
+                            v-show="post?.reviews?.length !=0"
                         >
                             <div class="flex justify-between">
                                 <div class="flex items-center gap-2">
-                                    {{com}}
                                     <img
                                         :src="
-                                            post.userImage
-                                                ? post.userImage
+                                            com.user_avatar
+                                                ? post.user_avatar
                                                 : '/assets/img/avatar.png'
                                         "
                                         class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px]"
                                     />
-                                    <p class="mb-0 text-lg font-medium">User</p>
+                                    <p class="mb-0 text-lg font-medium">
+                                        {{ com.user_name }}
+                                    </p>
                                 </div>
                                 <a-rate v-model:value="com.star" disabled />
                             </div>
-                            <!-- {{ com }} -->
                             <div>
                                 <p class="pt-1 mb-0 light__black">
-                                    {{ com.comment }} Быстро, вежливо, с
-                                    подобными ответами на вопросы. Рекомендую
-                                    однозначно. Будем работать дальше совместно
+                                    {{ com.comment }}
                                 </p>
-                                <p class="mb-0 text-xs text-end" style="color: #9f9fa3;">
+                                <p
+                                    class="pt-1 mb-0 text-xs text-end"
+                                    style="color: #9f9fa3"
+                                >
                                     {{
                                         new Date(
                                             com.created_at
@@ -408,6 +410,10 @@ onMounted(() => {
                                     }}
                                 </p>
                             </div>
+                        </div>
+                        
+                        <div v-show="post?.reviews?.length==0">
+                            <a-empty description="Пака Пустой" class="empty" />
                         </div>
                     </div>
                 </div>
@@ -482,12 +488,12 @@ onMounted(() => {
                                     class="md:w-[60px] md:h-[60px] rounded-full max-md:w-[30px] max-md:h-[30px]"
                                 />
 
-                                <p class="mb-0 text-xl font-semibold">
+                                <p class="pl-1 mb-0 text-xl font-semibold">
                                     {{ post.user }}
                                 </p>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="">Репутация</span>
+                                <span class="pt-1">Репутация</span>
                                 <div class="flex items-center">
                                     <p class="pr-1 m-0 text-sm">5.0</p>
                                     <img
@@ -513,6 +519,14 @@ onMounted(() => {
 .swiper-button-prev:after {
     font-size: 20px !important;
 }
+.single_com .ant-empty .ant-empty-image{
+    height: 70px !important;
+}
+
+.single_com .ant-empty{
+    padding-bottom: 10px !important;
+}
+
 .dabba {
     padding: 20px !important;
 }

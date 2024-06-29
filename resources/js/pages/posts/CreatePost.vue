@@ -34,7 +34,7 @@
                         >
                             <div v-if="fileList.length < 10">
                                 <PlusOutlined />
-                                <div class="ant-upload-text">Upload</div>
+                                <div class="ant-upload-text">Загрузить</div>
                             </div>
                         </a-upload>
                     </a-form-item>
