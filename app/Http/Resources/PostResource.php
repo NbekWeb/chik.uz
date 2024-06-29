@@ -29,7 +29,7 @@ class PostResource extends JsonResource
                     'url' => $image->url,
                 ];
             }),
-            'reviews'=> $this->approvedReviews,
+            'reviews' => ReviewResource::collection($this->approvedReviews),
             'overalReview' => $this->overalReview(),
             'category_id' => $this->category_id,
             'created_at' => $this->created_at->diffForHumans(),
