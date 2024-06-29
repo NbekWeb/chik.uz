@@ -93,7 +93,6 @@
         </div>
     </div>
 </nav>
-
 <script>
     $(document).ready(function() {
         $('#search-input').on('keyup', function() {
@@ -113,16 +112,15 @@
                                     '<li class="mb-2"><a class="dropdown-item border-radius-md" href="' +
                                     data[i].url +
                                     '"><div class="d-flex py-1"><div class="my-auto"><img src="' +
-                                    data[i].avatar +
-                                    '" class="avatar avatar-sm me-3"></div><div class="d-flex flex-column justify-content-center"><h6 class="text-sm font-weight-normal mb-1">' +
+                                    data[i].image +
+                                    '" class="avatar avatar-sm me-3"></div><div class="d-flex flex-column justify-content-center"><h6 class="text-sm font-weight-normal mb-1 search-result-title">' +
                                     data[i].name +
                                     '</h6><p class="text-xs text-secondary mb-0"><i class="fa fa-clock me-1"></i>' +
                                     data[i].created_at + '</p></div></div></a></li>';
                             }
                             $('#search-results').html(resultsHTML).show();
                         } else {
-                            $('#search-results').html('')
-                                .hide();
+                            $('#search-results').html('').hide();
                         }
                     }
                 });
@@ -131,9 +129,11 @@
             }
         });
 
-        $(document).on('click', '#search-results a', function() {
-            $('#search-input').val($(this).text());
+        $(document).on('click', '#search-results a', function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
             $('#search-results').hide();
+            window.location.href = url;
         });
 
         $(document).click(function(event) {

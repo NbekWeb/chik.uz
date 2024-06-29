@@ -20,6 +20,8 @@ class ReviewResource extends JsonResource
             'user_name' => $this->user->name,
             'user_avatar' => $this->user && $this->user->image ? url(Storage::url($this->user->image)) : null,
             'post_id' => $this->post_id,
+            'comment' => $this->comment,
+            'star' => $this->star,
             'status' => $this->status,
             'created_at' => $this->created_at->diffForHumans(),
         ];
