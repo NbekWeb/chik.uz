@@ -10,52 +10,41 @@ const items = ref([]);
 const searchRes = ref([]);
 const current = ref([]);
 const router = useRouter();
+
 const searchingMenu = () => {
     searchingStart.value = true;
 
     clearTimeout(searchingMenu.timeoutId);
 
-    searchingMenu.timeoutId = setTimeout(() => {
-        const result = [];
-
-        items.value.forEach((item) => {
-            if (
-                item.label
-                    .toLowerCase()
-                    .startsWith(searchVal.value.toLowerCase()) &&
-                searchVal.value !== ""
-            ) {
-                result.push({ key: item.key, label: item.label });
-            }
-
-            if (item.children) {
-                item.children.forEach((child) => {
-                    if (
-                        child.label
-                            .toLowerCase()
-                            .startsWith(searchVal.value.toLowerCase()) &&
-                        searchVal.value !== ""
-                    ) {
-                        result.push({ key: child.key, label: child.label });
-                    }
+    searchingMenu.timeoutId = setTimeout(async () => {
+        const fetchResults = async (searchingValue) => {
+            try {
+                const response = await axios.get(`/api/posts`, {
+                    params: { search: searchingValue },
                 });
+                return response.data;
+            } catch (error) {
+                console.error("Error fetching search results:", error);
+                return [];
             }
-        });
+        };
 
-        searchRes.value = result;
+        const apiResults = await fetchResults(searchVal.value);
+       
+        searchRes.value = apiResults.data.map((item) => ({
+            key: item.slug,
+            label: item.title,
+        }));
         searchingStart.value = false;
     }, 500);
 };
-
 const pushToSearch = (v, k) => {
     router.push({
-        path: `/post`,
-        query: {
-            category: v.toLowerCase(),
-        },
+        name: "SingleBlog",
+        params: { slug: k},
     });
     searchVal.value = "";
-    current.value = [k];
+    currentRoute.value = [k];
 };
 
 const pushToMenu = (val) => {
@@ -124,7 +113,6 @@ onMounted(() => {
         .catch((error) => {
             console.error("Error fetching menu list:", error);
         });
-    console.log(localStorage.getItem("roleId"));
 });
 
 onUnmounted(() => {
@@ -258,10 +246,10 @@ onUnmounted(() => {
                 >
             </div>
         </div>
-        <div class="bg-white border-b pb-4">
+        <div class="pb-4 bg-white border-b">
             <div class="container">
                 <h2
-                    class="lg:pt-4 max-lg:pt-2 text-3xl mb-0 font-semibold max-md:text-xl"
+                    class="mb-0 text-3xl font-semibold lg:pt-4 max-lg:pt-2 max-md:text-xl"
                 >
                     Chik — это потрясающе удобная фриланс платформа, которая
                     включает:
@@ -270,12 +258,12 @@ onUnmounted(() => {
                     class="flex gap-3 md:mt-4 md:flex-row max-md:flex-col max-md:mt-2"
                 >
                     <div>
-                        <h3 class="md:text-xl font-bold max-md:text-lg">
+                        <h3 class="font-bold md:text-xl max-md:text-lg">
                             Магазин фриланс услуг
                         </h3>
 
                         <div class="flex flex-col md:gap-y-4 max-md:gap-y-2">
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 Желаете сэкономить финансы, время и избежать
                                 лишних стрессов? Эта экономия возможна лишь
                                 тогда, когда фриланс ориентирован на конечный
@@ -283,7 +271,7 @@ onUnmounted(() => {
                                 обладает значительным преимуществом перед
                                 другими ресурсами для поиска исполнителей.
                             </p>
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 Специалисты фиксируют свои услуги в виде
                                 "чиков", которые доступны к приобретению всего в
                                 один клик... Таким образом, работа исполнителей
@@ -293,7 +281,7 @@ onUnmounted(() => {
                                 различные IT услуги, Трафик, реклама, SEO и
                                 других.
                             </p>
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 Важно отметить, что каталог и поиск услуг
                                 настроены таким образом, что вы видите наилучшие
                                 предложения на основе отзывов, качества работы и
@@ -308,11 +296,11 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div>
-                        <h3 class="md:text-xl font-bold max-md:text-lg">
+                        <h3 class="font-bold md:text-xl max-md:text-lg">
                             Биржа фриланса
                         </h3>
                         <div class="flex flex-col md:gap-y-4 max-md:gap-y-2">
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 "Создаёте задачу, и она становится доступной для
                                 тысяч фрилансеров, готовых отправить вам свои
                                 предложения. Вам лишь остаётся выбрать наилучшее
@@ -320,7 +308,7 @@ onUnmounted(() => {
                                 удалённой работе является идеальным вариантом
                                 для решения крупных и уникальных заданий.
                             </p>
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 Одной из характерных особенностей биржи Chik
                                 является качество предложений от фрилансеров.
                                 Если вы когда-либо работали на других площадках
@@ -334,7 +322,7 @@ onUnmounted(() => {
                                 приходит от тех, кто внимательно изучил суть
                                 задачи и предлагает соответствующие решения.
                             </p>
-                            <p class="md:text-base max-md:text-xs mb-0">
+                            <p class="mb-0 md:text-base max-md:text-xs">
                                 Ещё одним важным моментом на бирже фриланса и в
                                 магазине Kwork является безопасная оплата
                                 заказов, проходящая через специальную систему:

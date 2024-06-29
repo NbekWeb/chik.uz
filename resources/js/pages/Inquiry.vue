@@ -351,7 +351,6 @@ async function arbitajFunc() {
 }
 const scrollItem = () => {
     if (itemsChatInquiry.value !== null) {
-        console.log("itemsChat1", itemsChatInquiry.value.scrollHeight);
         itemsChatInquiry.value.scrollTop = itemsChatInquiry.value.scrollHeight;
     }
 };
@@ -426,7 +425,7 @@ function initializePusher() {
     const channelName = `chat.${inquiryId}`;
 
     window.Echo.private(channelName).listen("NewChat", (e) => {
-        console.log(e.chat);
+        
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
         }

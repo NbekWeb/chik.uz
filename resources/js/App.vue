@@ -385,10 +385,8 @@ const hideOverlay = () => {
 
 const pushToSearch = (v, k) => {
     router.push({
-        path: `/post`,
-        query: {
-            category: v.toLowerCase(),
-        },
+        name: "SingleBlog",
+        params: { slug: k},
     });
     searchVal.value = "";
     currentRoute.value = [k];
@@ -416,42 +414,35 @@ const pushToMenu = (val) => {
     }
     openMenu.value = false;
 };
+
 const searchingMenu = () => {
     searchingStart.value = true;
 
     clearTimeout(searchingMenu.timeoutId);
 
-    searchingMenu.timeoutId = setTimeout(() => {
-        const result = [];
-
-        items.value.forEach((item) => {
-            if (
-                item.label
-                    .toLowerCase()
-                    .startsWith(searchVal.value.toLowerCase()) &&
-                searchVal.value !== ""
-            ) {
-                result.push({ key: item.key, label: item.label });
-            }
-
-            if (item.children) {
-                item.children.forEach((child) => {
-                    if (
-                        child.label
-                            .toLowerCase()
-                            .startsWith(searchVal.value.toLowerCase()) &&
-                        searchVal.value !== ""
-                    ) {
-                        result.push({ key: child.key, label: child.label });
-                    }
+    searchingMenu.timeoutId = setTimeout(async () => {
+        const fetchResults = async (searchingValue) => {
+            try {
+                const response = await axios.get(`/api/posts`, {
+                    params: { search: searchingValue },
                 });
+                return response.data;
+            } catch (error) {
+                console.error("Error fetching search results:", error);
+                return [];
             }
-        });
+        };
 
-        searchRes.value = result;
+        const apiResults = await fetchResults(searchVal.value);
+       
+        searchRes.value = apiResults.data.map((item) => ({
+            key: item.slug,
+            label: item.title,
+        }));
         searchingStart.value = false;
     }, 500);
 };
+
 const setUserRole = (role_id) => {
     userRole.value = role_id;
 };

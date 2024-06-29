@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted, computed, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, computed, reactive ,watch} from "vue";
+import { useRouter ,useRoute} from "vue-router";
 import axios from "axios";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
@@ -78,6 +78,7 @@ const rules = reactive({
 
 // Router instance
 const router = useRouter();
+const route = useRoute();
 
 // Methods
 const fetchData = async () => {
@@ -112,7 +113,6 @@ const buyPost = async (postId) => {
         }
     } else {
         router.push({ name: "Login" });
-        console.log(localStorage.getItem("authenticated"));
     }
 };
 const fetchPostData = async () => {
@@ -159,10 +159,13 @@ const submit = () => {
             console.log(e);
         });
 };
-
+watch(() => route.params.slug, (newSlug, oldSlug) => {
+    if (newSlug !== oldSlug) {
+        fetchPostData();
+    }
+});
 // Lifecycle hook
 onMounted(() => {
-    // fetchData();
     fetchPostData();
 });
 </script>
@@ -206,7 +209,7 @@ onMounted(() => {
                                     <a-modal
                                         v-model:open="apply"
                                         title="Сообщить о некорректном контенте"
-                                        @ok="handleOk"
+                                      
                                     >
                                         <div class="">
                                             <p class="p-3 m-0">

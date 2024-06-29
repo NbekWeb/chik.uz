@@ -135,7 +135,6 @@
         .get("/api/posts")
         .then((response) => {
           this.posts = response.data.data;
-          console.log(response.data.meta.links);
           this.links = response.data.meta.links;
         })
         .catch((error) => {

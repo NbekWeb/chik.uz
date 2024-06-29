@@ -52,7 +52,6 @@ const formatPrice = (num) => {
 
 const scrollItem = () => {
     if (itemsChat.value !== null) {
-        console.log("itemsChat1", itemsChat.value.scrollHeight);
         itemsChat.value.scrollTop = itemsChat.value.scrollHeight;
     }
 };
@@ -158,7 +157,9 @@ const pushComment = async () => {
             star: formState.rate,
             order_id: route.params.id,
         });
+        comOpen.value=false
     } catch (err) {
+        comOpen.value=false
         if (err.response.status == 404) {
             router.push({ name: "NotFound" });
         }
@@ -166,18 +167,21 @@ const pushComment = async () => {
 };
 
 const open = ref(false);
+const comOpen = ref(false);
 const showModal = () => {
     open.value = true;
 };
-const handleOk = (e) => {
-    open.value = false;
+const showCom = () => {
+    comOpen.value = true;
 };
+// const handleOk = (e) => {
+//     open.value = false;
+// };
 
 const initializePusher = () => {
     const orderId = props.id;
     const channelName = `chat.${orderId}`;
     window.Echo.private(channelName).listen("NewChat", (e) => {
-        console.log(e.chat.id);
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
         } else if (e.chat.text === "Buyed") {
@@ -270,7 +274,7 @@ onMounted(async () => {
             </div>
         </a-modal>
 
-        <a-modal :open="true" title="otziv">
+        <a-modal v-model:open="comOpen" title="otziv">
             <a-form
                 ref="formRef"
                 :model="formState"
@@ -344,7 +348,7 @@ onMounted(async () => {
                                         />
                                     </svg>
 
-                                    <p class="md:flex max-md:hidden">
+                                    <p class="text-white md:flex max-md:hidden">
                                         Арбитраж
                                     </p>
                                 </a-button>
@@ -472,17 +476,23 @@ onMounted(async () => {
                 class="gap-2 pb-4 mt-4 d-grid d-md-flex justify-content-md-end"
                 v-if="arbitaj"
             >
+               
+                <button
+                    class="btn btn-success btn-buy me-md-2"
+                    type="button"
+                    @click="showCom"
+                    v-if="!order?.reviews?.[0] && order.status == 204"
+                >
+                    Отзив
+                </button>
                 <button
                     class="btn btn-success btn-buy me-md-2"
                     @click="buyOrder(order.id, 201)"
                     :disabled="buying || order.status !== 200 || buyed"
                     type="button"
+                    v-else
                 >
                     Покупать
-                </button>
-                <button class="btn btn-success btn-buy me-md-2" type="button">
-                    <!-- @click="comment" -->
-                    Отзив
                 </button>
                 <button
                     class="btn btn-danger"
