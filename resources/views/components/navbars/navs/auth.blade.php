@@ -59,7 +59,7 @@
                         @if ($notifications->isNotEmpty())
                             @foreach ($notifications as $notification)
                                 <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="#">
+                                    <a class="dropdown-item border-radius-md" href="{{ $notification->url }}">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
                                                 <img src="{{ asset('assets') }}/img/avatar.png"
@@ -79,6 +79,10 @@
                                     </a>
                                 </li>
                             @endforeach
+                        @else
+                            <li class="text-center">
+                                <span class="font-weight-bold text-warning">Ничего нету!</span>
+                            </li>
                         @endif
                     </ul>
                 </li>
