@@ -44,7 +44,6 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        Log::info($request->all());
         $category = Category::findOrFail($id);
         $this->checkAuth();
 
