@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <div class="input-group input-group-outline" style="border-radius: 5px">
-                    <label class="form-label">Введите здесь...</label>
+                    <label class="form-label">Введите...</label>
                     <input type="text" class="form-control" id="search-input">
                     <div id="search-results" class="dropdown-menu dropdown-menu-end px-2 py-3">
                         <!-- Search results will be injected here -->

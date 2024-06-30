@@ -58,7 +58,7 @@ class ChatService
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
         $chat = Chat::findOrFail($id);
-        if ($auth->id !== $chat->user_id) {
+        if ($auth->id == $chat->user_id) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         Chat::where('order_id', $chat->order_id)
