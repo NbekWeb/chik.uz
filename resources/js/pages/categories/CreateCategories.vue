@@ -14,7 +14,6 @@
                 />
             </a-modal>
             <div class="mt-5 max-w-[450px] mb-3">
-
                 <a-form
                     ref="formRef"
                     :model="formState"
@@ -23,7 +22,10 @@
                     :rules="rules"
                 >
                     <a-form-item label="Название" name="name">
-                        <a-input v-model:value="formState.name"></a-input>
+                        <a-input
+                            v-model:value="formState.name"
+                            placeholder="Напишите название"
+                        ></a-input>
                     </a-form-item>
 
                     <a-form-item label="Фото" name="photos">
@@ -46,11 +48,14 @@
                         </a-upload>
                     </a-form-item>
 
-                    <a-form-item label="Menu Id" name="menu_id">
-                        <a-input v-model:value="formState.menu_id"></a-input>
-                        <span v-if="errors.menu_id" class="error">{{
-                            errors.menu_id[0]
-                        }}</span>
+                    <a-form-item label="Мену ид" name="menu_id">
+                        <a-select
+                            v-model:value="formState.menu_id"
+                            show-search
+                            placeholder="Выберите  мену ид"
+                            style="width: 200px"
+                            :options="items"
+                        ></a-select>
                     </a-form-item>
 
                     <a-button type="primary" @click="submit">Добавить</a-button>
@@ -66,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
@@ -76,7 +81,7 @@ const imageUrl = ref("");
 
 const formState = ref({
     name: "",
-    menu_id: "",
+    menu_id: undefined,
     img: null,
 });
 
@@ -129,6 +134,7 @@ const fileList = ref([]);
 const previewImage = ref("");
 const previewVisible = ref(false);
 const images = ref([]);
+const items = ref([]);
 const errors = ref({});
 const success = ref(false);
 const formRef = ref(null);
@@ -155,14 +161,12 @@ const rules = reactive({
     menu_id: [
         {
             required: true,
-            message: "Пожалуйста, введите заголовок",
+            message: "Пожалуйста, выберите  мену ид",
             trigger: "blur",
         },
     ],
     photos: [{ validator: checkFileList, trigger: "change" }],
 });
-
-
 
 function checkFileList() {
     return new Promise((resolve, reject) => {
@@ -206,6 +210,25 @@ const submit = () => {
             console.log("Validation failed:", e);
         });
 };
+
+onMounted(() => {
+    axios
+        .get("/api/menu_list")
+        .then((res) => {
+            const menuItems = [];
+            for (let i = 0; i < res.data.data.length; i++) {
+                const item = {
+                    label: res.data.data[i].name,
+                    value: res.data.data[i].id,
+                };
+                menuItems.unshift(item);
+            }
+            items.value = menuItems;
+        })
+        .catch((error) => {
+            console.error("Error fetching menu list:", error);
+        });
+});
 </script>
 
 <style scoped>

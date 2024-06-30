@@ -7,7 +7,7 @@
             <i class="fa fa-check"></i>
             Успешно обновлено
         </div> -->
-        <a-modal v-model:open="previewVisible">
+        <a-modal v-model:open="previewVisible" wrapClassName="edit_cat">
             <img
                 :src="previewImage"
                 alt="Image Preview"
@@ -32,6 +32,16 @@
                     :validateStatus="getError('name')"
                 >
                     <a-input v-model:value="formState.name"></a-input>
+                </a-form-item>
+
+                <a-form-item label="Мену ид" name="menu_id">
+                    <a-select
+                        v-model:value="formState.menu_id"
+                        show-search
+                        placeholder="Выберите  мену ид"
+                        style="width: 200px"
+                        :options="items"
+                    ></a-select>
                 </a-form-item>
 
                 <a-form-item label="Фото" name="photos">
@@ -123,14 +133,14 @@
 
         <div class="pb-3 text-center create-categories">
             <router-link :to="{ name: 'CategoriesList' }"
-                >Список категорий <span>&#8594;</span></router-link
-            >
+                >Список категорий <span>&#8594;</span>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { PlusOutlined } from "@ant-design/icons-vue";
@@ -141,9 +151,11 @@ const props = defineProps(["id"]);
 const id = props.id;
 const formRef = ref(null);
 const fileList = ref([]);
+const items = ref([]);
 const formState = ref({
     name: "",
     img: null,
+    menu_id: null,
 });
 const errors = reactive({});
 const showPhoto = ref(false);
@@ -161,6 +173,13 @@ const rules = reactive({
         },
     ],
     photos: [{ validator: checkFileList, trigger: "change" }],
+    // menu_id: [
+    //     {
+    //         required: true,
+    //         message: "Пожалуйста, выберите  мену ид",
+    //         trigger: "blur",
+    //     },
+    // ],
 });
 
 const dummyRequest = ({ file, onSuccess }) => {
@@ -226,7 +245,7 @@ const beforeUpload = (file) => {
 
 function checkFileList() {
     return new Promise((resolve, reject) => {
-        if (fileList.value.length < 1 && !formState.value.img) {
+        if (fileList.value.length != 1 && !formState.value.img) {
             reject("Изображение обязательно!");
         } else {
             resolve();
@@ -237,30 +256,34 @@ function checkFileList() {
 const router = useRouter();
 
 const submit = () => {
-    // formRef.value
-    //     .validate()
-    //     .then(() => {
-    const formData = new FormData();
-    formData.append("name", formState.value.name);
-    if (images.value[0]) {
-        formData.append("photo", images.value[0]);
+    if (
+        !!formState.value.name &&
+        !!formState.value.menu_id &&
+        (!!formState.value.img || !!images.value[0])
+    ) {
+        const formData = new FormData();
+        formData.append("name", formState.value.name);
+        formData.append("menu_id", formState.value.menu_id);
+        formData.append("_method", "PUT");
+        if (images.value[0]) {
+            formData.append("photo", images.value[0]);
+        }
+        axios
+            .post("/api/categories/" + id, formData)
+            .then(() => {
+                formState.value.name = "";
+                formState.value.img = null;
+                fileList.value = [];
+                images.value = [];
+                message.success("Меню успешно добавлено!");
+                router.push({ name: "CategoriesList" });
+            })
+            .catch((error) => {
+                message.error(error.message);
+            });
+    } else {
+        message.error("Заполните все поля!");
     }
-    axios
-        .put("/api/categories/" + id, formData)
-        .then(() => {
-            formState.value.name = "";
-            formState.value.img = null;
-            fileList.value = [];
-            images.value = [];
-            message.success("Меню успешно добавлено!");
-        })
-        .catch((error) => {
-            message.error(error.message);
-        });
-    // })
-    // .catch((e) => {
-    //     console.log("Validation failed:", e);
-    // });
 };
 
 const getError = (fieldName) => {
@@ -268,18 +291,48 @@ const getError = (fieldName) => {
 };
 
 // Fetch initial data
-axios
-    .get(`/api/categories/${id}`)
-    .then((response) => {
-        formState.value.name = response.data.name;
-        formState.value.img = response.data.photo;
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+
+onMounted(async () => {
+    await axios
+        .get("/api/menu_list")
+        .then((res) => {
+            const menuItems = [];
+            for (let i = 0; i < res.data.data.length; i++) {
+                const item = {
+                    label: res.data.data[i].name,
+                    value: res.data.data[i].id,
+                };
+                menuItems.unshift(item);
+            }
+            items.value = menuItems;
+        })
+        .catch((error) => {
+            console.error("Error fetching menu list:", error);
+        });
+
+    await axios
+        .get(`/api/categories/${id}`)
+        .then((response) => {
+            loading.value = true;
+            formState.value.name = response.data.name;
+            formState.value.img = response.data.photo;
+            formState.value.menu_id = response.data.menu_id;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+});
 </script>
 
 <style>
+.edit_cat .ant-modal .ant-modal-body img {
+    padding-top: 30px !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 500px !important;
+    object-fit: cover !important;
+}
+
 .ant-form-item-with-help .ant-form-item-explain {
     color: red !important;
 }

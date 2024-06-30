@@ -384,10 +384,10 @@ onMounted(() => {
                                     <img
                                         :src="
                                             com.user_avatar
-                                                ? post.user_avatar
+                                                ? com.user_avatar
                                                 : '/assets/img/avatar.png'
                                         "
-                                        class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px]"
+                                        class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px] object-cover "
                                     />
                                     <p class="mb-0 text-lg font-medium">
                                         {{ com.user_name }}
