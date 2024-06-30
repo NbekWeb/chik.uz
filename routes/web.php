@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardControllers\OrdersController;
 use App\Http\Controllers\AdminDashboardControllers\PostsController;
+use App\Http\Controllers\ArbitrajController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
@@ -57,6 +58,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isSuperUser', 'auth', 'veri
     Route::get('/posts', [PostsController::class, 'index'])->name('posts');
     Route::get('/complaints', [ComplaintController::class, 'index'])->name('complaints');
     Route::put('/complaint/{id}', [ComplaintController::class, 'update'])->name('complaint-update');
+    Route::get('/arbitraj', [ArbitrajController::class, 'index'])->name('arbitraj');
+    Route::put('/arbitraj/{id}', [ArbitrajController::class, 'update'])->name('arbitraj-update');
     Route::get('/post/{id}', [PostsController::class, 'show'])->name('post.id');
     Route::put('/post/{id}', [PostsController::class, 'update'])->name('post.id');
     Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
