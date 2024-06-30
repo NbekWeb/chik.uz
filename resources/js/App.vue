@@ -120,14 +120,14 @@
                         <span class="top-btn">
                             <a-button
                                 type="link"
-                                class="text-xs md:hidden max-md:block"
+                                class="text-xs sm:hidden max-sm:block"
                                 style="color: #111"
                                 >Профил</a-button
                             >
                         </span>
                         <a-button
                                 type="primary"
-                                class="text-xs md:block max-md:flex"
+                                class="text-xs sm:block max-sm:hidden"
                               
                                 >Профил</a-button
                             >
