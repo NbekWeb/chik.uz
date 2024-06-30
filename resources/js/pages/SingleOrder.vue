@@ -37,8 +37,8 @@ const order = ref({});
 const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
+const comment = ref(true);
 const arbitaj = ref(true);
-const buyed = ref(false);
 const itemsChat = ref();
 const error = ref(null);
 const currentUser = ref(null);
@@ -52,7 +52,9 @@ const formatPrice = (num) => {
 
 const scrollItem = () => {
     if (itemsChat.value !== null) {
-        itemsChat.value.scrollTop = itemsChat.value.scrollHeight;
+        setTimeout(() => {
+            itemsChat.value.scrollTop = itemsChat.value.scrollHeight;
+        }, 100);
     }
 };
 
@@ -88,8 +90,6 @@ const submit = async () => {
 const buyOrder = async (orderId, status) => {
     try {
         buying.value = true;
-        // if (status == 201) {
-        buyed.value = true;
         const formData = new FormData();
         formData.append("text", "Buyed");
         await axios.post(`/api/order/${props.id}/messages`, formData);
@@ -100,9 +100,8 @@ const buyOrder = async (orderId, status) => {
             text: "Buyed",
             user_id: currentUser.value.id,
         });
-        // }
 
-        // window.location.reload();
+        window.location.reload();
     } catch (error) {
         console.error("Purchase failed:", error);
     } finally {
@@ -142,6 +141,18 @@ const fetchOrderData = async () => {
     try {
         const response = await axios.get("/api/order/" + props.id);
         order.value = response.data.data;
+        const lastChatUserId =
+            order.value.chats?.[order.value.chats.length - 1];
+        const orderUserId = order.value.user_id;
+
+        if (
+            orderUserId != lastChatUserId?.user_id &&
+            lastChatUserId.status != 1
+        ) {
+            await axios.post(`/api/message/${lastChatUserId.id}`, {
+                status: 1,
+            });
+        }
     } catch (err) {
         if (err.response.status == 404) {
             router.push({ name: "NotFound" });
@@ -157,9 +168,11 @@ const pushComment = async () => {
             star: formState.rate,
             order_id: route.params.id,
         });
-        comOpen.value=false
+        message.success("Комментарий успешно добавлен")
+        comOpen.value = false;
+        comment.value = false;
     } catch (err) {
-        comOpen.value=false
+        comOpen.value = false;
         if (err.response.status == 404) {
             router.push({ name: "NotFound" });
         }
@@ -174,9 +187,6 @@ const showModal = () => {
 const showCom = () => {
     comOpen.value = true;
 };
-// const handleOk = (e) => {
-//     open.value = false;
-// };
 
 const initializePusher = () => {
     const orderId = props.id;
@@ -184,19 +194,18 @@ const initializePusher = () => {
     window.Echo.private(channelName).listen("NewChat", (e) => {
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
-        } else if (e.chat.text === "Buyed") {
-            buyed.value = false;
+        } else if (e.chat.text === "Buyed" && e.chat.status == 0) {
+            axios.post(`/api/message/${e.chat.id}`, { status: 1 });
+            window.location.reload();
         } else {
             lastChat.value = e.chat.id;
             chats.value.push(e.chat);
+            axios.post(`/api/message/${e.chat.id}`, { status: 1 });
             scrollItem();
         }
     });
 };
 
-// const unread=()=>{
-
-// }
 
 async function arbitajFunc() {
     try {
@@ -206,6 +215,7 @@ async function arbitajFunc() {
         chats.value.push({
             text: "Arbitajed",
             user_id: currentUser.value.id,
+            userImage: currentUser.image,
         });
     } catch (error) {
         console.error("Error submitting message:", error);
@@ -217,7 +227,7 @@ async function arbitajFunc() {
 
 onMounted(async () => {
     await fetchData();
-    await initializePusher();
+    initializePusher();
     await fetchOrderData();
     scrollItem();
 });
@@ -298,7 +308,7 @@ onMounted(async () => {
                 <div
                     class="flex items-center justify-between px-4 py-3 border-['#f6f6f6'] border-b"
                 >
-                    <div class="flex items-center">
+                    <div class="flex items-center ">
                         <img
                             :src="'/assets/img/force_m.png'"
                             class="w-[25px] h-[25px] rounded-full"
@@ -310,7 +320,7 @@ onMounted(async () => {
                     </div>
                     <div class="flex gap-2">
                         <a-button @click="showModal" type="link"
-                            >Более...</a-button
+                            >Информация...</a-button
                         >
                         <div class="">
                             <a-popconfirm
@@ -431,13 +441,13 @@ onMounted(async () => {
                     >
                         <form
                             @submit.prevent="submit"
-                            class="flex justify-between w-full mr-2"
+                            class="flex justify-between w-full mr-2 "
                         >
                             <a-input
                                 v-model:value="text"
                                 type="text"
                                 id="textAreaExample"
-                                class="md:pr-2 form-control max-md:pr-0"
+                                class="h-full md:pr-2 form-control max-md:pr-0"
                                 placeholder="Напишите сообщение"
                                 autocomplete="off"
                             />
@@ -445,7 +455,7 @@ onMounted(async () => {
                                 <a-button
                                     :disabled="loading"
                                     @click="submit"
-                                    class="items-center w-full gap-1 btn btn-primary"
+                                    class="items-center w-full h-full gap-1 btn btn-primary"
                                     style="display: flex"
                                 >
                                     <svg
@@ -476,19 +486,20 @@ onMounted(async () => {
                 class="gap-2 pb-4 mt-4 d-grid d-md-flex justify-content-md-end"
                 v-if="arbitaj"
             >
-               
                 <button
                     class="btn btn-success btn-buy me-md-2"
                     type="button"
                     @click="showCom"
-                    v-if="!order?.reviews?.[0] && order.status == 204"
+                    v-if="
+                        !order?.reviews?.[0] && order.status == 204 && comment
+                    "
                 >
                     Отзив
                 </button>
                 <button
                     class="btn btn-success btn-buy me-md-2"
                     @click="buyOrder(order.id, 201)"
-                    :disabled="buying || order.status !== 200 || buyed"
+                    :disabled="buying || order.status !== 200"
                     type="button"
                     v-else
                 >

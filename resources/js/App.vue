@@ -83,7 +83,7 @@
                         class="sm:flex max-sm:hidden"
                         v-if="!loggedIn"
                     >
-                        <a-button> Вход </a-button>
+                        <a-button > Вход </a-button>
                     </router-link>
                     <router-link
                         :to="{ name: 'Login' }"
