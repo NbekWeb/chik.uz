@@ -20,7 +20,7 @@
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Change your password
+                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Измените свой пароль
                                     </h4>
                                 </div>
                             </div>
@@ -37,22 +37,22 @@
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                     <div class="input-group input-group-outline my-3">
-                                        <label class="form-label">New password</label>
+                                        <label class="form-label">Новый пароль</label>
                                         <input type="password" class="form-control" name="password">
                                     </div>
                                     @error('password')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                     <div class="input-group input-group-outline my-3">
-                                        <label class="form-label">Confirm Password</label>
+                                        <label class="form-label">Подтвердите пароль</label>
                                         <input type="password" class="form-control" name="password_confirmation">
                                     </div>
                                     @error('password_confirmation')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Change
-                                            password</button>
+                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Изменить
+                                            пароль</button>
                                     </div>
                                 </form>
                             </div>

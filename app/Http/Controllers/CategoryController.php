@@ -42,31 +42,36 @@ class CategoryController extends Controller
         return response(new CategoryResource($category));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
+        Log::info($request->all());
+        $category = Category::findOrFail($id);
         $this->checkAuth();
+
         $request->validate([
-            'name' => 'required | unique:categories',
-            'menu_id' => 'required | exists:menus,id',
+            'name' => 'required|unique:categories,name,' . $category->id,
+            'menu_id' => 'required|exists:menus,id',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $name = $request->name;
-        $menu_id = $request->menu_id;
-        $category->name = $name;
-        $category->menu_id = $menu_id;
+        $category->name = $request->input('name');
+        $category->menu_id = $request->input('menu_id');
+
         $oldPhotoPath = $category->photo;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('public/images/categories');
             $photoPath = str_replace('public/', '', $photoPath);
             $category->photo = $photoPath;
+
             if ($oldPhotoPath) {
                 Storage::delete('public/' . $oldPhotoPath);
             }
         }
 
-        return $category->save();
+        $category->save();
+        return response()->json($category);
     }
+
 
     public function destroy(Category $category)
     {
