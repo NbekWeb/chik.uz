@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="pt-3 bg-white">
-            <div class="container flex items-center justify-between pb-3">
+        <div class="bg-white sm:pt-3 max-sm:pt-2">
+            <div class="container flex items-center justify-between sm:pb-3 max-sm:pb-2">
                 <span class="max-md:flex md:hidden min-w-[40px]">
                     <MenuOutlined @click="() => (openMenu = true)" />
                 </span>
@@ -80,17 +80,17 @@
                 <div class="flex gap-2">
                     <router-link
                         :to="{ name: 'Login' }"
-                        class="md:flex max-md:hidden"
+                        class="sm:flex max-sm:hidden"
                         v-if="!loggedIn"
                     >
                         <a-button> Вход </a-button>
                     </router-link>
                     <router-link
                         :to="{ name: 'Login' }"
-                        class="md:hidden max-md:flex top-btn"
+                        class="sm:hidden max-sm:flex top-btn "
                         v-if="!loggedIn"
                     >
-                        <a-button type="link" style="color: #111">
+                        <a-button type="link" style="color: #111" class="text-xs">
                             Войти</a-button
                         >
                     </router-link>
