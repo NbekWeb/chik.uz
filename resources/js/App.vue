@@ -2,7 +2,7 @@
     <div>
         <div class="pt-3 bg-white">
             <div class="container flex items-center justify-between pb-3">
-                <span class="max-md:flex md:hidden">
+                <span class="max-md:flex md:hidden min-w-[40px] ">
                     <MenuOutlined @click="() => (openMenu = true)" />
                 </span>
                 <div class="flex lg:gap-10 max-lg:gap-4">
@@ -77,7 +77,7 @@
                         </a-card>
                     </div>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 ">
                     <router-link
                         :to="{ name: 'Login' }"
                         class="md:flex max-md:hidden"
@@ -87,10 +87,10 @@
                     </router-link>
                     <router-link
                         :to="{ name: 'Login' }"
-                        class="md:hidden max-md:flex"
+                        class="md:hidden max-md:flex top-btn"
                         v-if="!loggedIn"
                     >
-                        <a-button> Войти</a-button>
+                        <a-button type="link" style="color:#111"> Войти</a-button>
                     </router-link>
                     <router-link
                         :to="{ name: 'Register' }"
@@ -114,7 +114,10 @@
                                 >
                             </div>
                         </template>
-                        <a-button type="primary">Профил</a-button>
+                        <span class="top-btn">
+                            
+                            <a-button type="link" class="text-xs"  style="color:#111">Профил</a-button>
+                        </span>
                     </a-popover>
                 </div>
             </div>
@@ -551,6 +554,10 @@ onUnmounted(() => {
 .ant-menu::before,
 .ant-menu::after {
     display: none !important;
+}
+
+.top-btn .ant-btn{
+    padding: 0 !important;
 }
 
 .ant-menu-overflow-item ::after {

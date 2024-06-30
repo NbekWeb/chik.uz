@@ -361,14 +361,14 @@ onMounted(() => {
 
                 <div class="mt-4 bg-white">
                     <div
+                    @click="() => (openComment = !openComment)"
                         class="flex items-center justify-between w-full px-3 py-3 hover:cursor-pointer"
                     >
-                        <h4 class="mb-0 text-xl font-semibold" @click="() => (openComment = !openComment)">
+                        <h4 class="mb-0 text-xl font-semibold" >
                             Отзывы по чику
                         </h4>
                         <DownOutlined
                             class="text-[10px] ml-1 ease-linear p-1 text-blue-600"
-                            @click="() => (openComment = !openComment)"
                             :class="openComment ? 'rotate-180' : 'rotate-0'"
                         />
                     </div>
