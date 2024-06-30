@@ -1,54 +1,55 @@
 <template>
     <br />
     <div class="container">
-        <div class="order-page">
-            <div class="order">
-                <h1 class="mb-3 h3">Заказ</h1>
-                <ul class="list-group">
-                    <li class="list-group-item">Заказ ID: {{ inquiry.id }}</li>
-                    <li class="list-group-item">
-                        Заказчик: {{ inquiry.user_name }}
-                    </li>
-                    <li class="list-group-item">
-                        Chik: {{ inquiry.post_title }}
-                    </li>
-                    <li class="list-group-item">
+        <div class="border">
+            <a-modal v-model:open="open" title="Заказ">
+                <div class="px-2">
+                    <p>
+                        Заказ ID:
+                        <span class="ml-1">
+                            {{ order.id }}
+                        </span>
+                    </p>
+                    <p>
+                        Chik: <span class="ml-1">{{ order.post_title }}</span>
+                    </p>
+                    <p>
                         Статус:
-                        <span v-if="inquiry.status !== null">
-                            <template v-if="inquiry.status === 200"
+                        <span v-if="order.status !== null" class="ml-1">
+                            <template v-if="order.status === 200"
                                 >Под общением</template
                             >
-                            <template v-else-if="inquiry.status === 201"
+                            <template v-else-if="order.status === 201"
                                 >В ожидании...</template
                             >
-                            <template v-else-if="inquiry.status === 202"
+                            <template v-else-if="order.status === 202"
                                 >Принят</template
                             >
-                            <template v-else-if="inquiry.status === 203"
+                            <template v-else-if="order.status === 203"
                                 >Экстренный оператор</template
                             >
-                            <template v-else-if="inquiry.status === 204"
+                            <template v-else-if="order.status === 204"
                                 >Завершен</template
                             >
-                            <template v-else-if="inquiry.status === 205"
+                            <template v-else-if="order.status === 205"
                                 >Представлено на рассмотрение</template
                             >
-                            <template v-else-if="inquiry.status === 206"
+                            <template v-else-if="order.status === 206"
                                 >Заказ отклонен</template
                             >
                             <template v-else>Неизвестный</template>
                         </span>
-                    </li>
-
-                    <li class="list-group-item">
-                        Время: {{ inquiry.created_at }}
-                    </li>
-                    <li class="list-group-item">
-                        Цена: {{ formatPrice(inquiry.price) }}
-                    </li>
-                </ul>
-            </div>
-            <br />
+                    </p>
+                    <p>
+                        Время:<span class="ml-1">{{ order.created_at }}</span>
+                    </p>
+                    <p>
+                        Цена:<span class="ml-1">
+                            {{ formatPrice(parseInt(order.price)) }}</span
+                        >
+                    </p>
+                </div>
+            </a-modal>
 
             <main class="content">
                 <div class="container p-0">
@@ -77,7 +78,7 @@
                                             </strong>
                                         </div>
                                         <div>
-                                            <button
+                                            <!-- <button
                                                 title="Эта кнопка на случай форс-мажорных или подобных случаев. После нажатия этой кнопки чат будет деактивирован и продолжения не будет."
                                                 type="button"
                                                 class="btn btn-danger btn-sm"
@@ -94,7 +95,64 @@
                                                 "
                                             >
                                                 Арбитраж
-                                            </button>
+                                            </button> -->
+                                            <div class="flex gap-2">
+                                                <a-button
+                                                    @click="showModal"
+                                                    type="link"
+                                                    >Более...</a-button
+                                                >
+                                                <div class="">
+                                                    <a-popconfirm
+                                                        title="Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
+                                                        ok-text="Да"
+                                                        cancel-text="Нет"
+                                                        @confirm="
+                                                            forceMajeure(
+                                                                inquiry.id
+                                                            )
+                                                        "
+                                                        placement="bottomRight"
+                                                    >
+                                                        <a-button
+                                                            type="primary"
+                                                            class="flex max-md:px-2"
+                                                            danger
+                                                            :disabled="
+                                                                buying ||
+                                                                inquiry.status ==
+                                                                    203 ||
+                                                                inquiry.status ==
+                                                                    204 ||
+                                                                !arbitaj
+                                                            "
+                                                        >
+                                                            <svg
+                                                                width="20"
+                                                                height="20"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="md:hidden max-md:flex"
+                                                            >
+                                                                <path
+                                                                    d="M11.9998 8.99999V13M11.9998 17H12.0098M10.6151 3.89171L2.39019 18.0983C1.93398 18.8863 1.70588 19.2803 1.73959 19.6037C1.769 19.8857 1.91677 20.142 2.14613 20.3088C2.40908 20.5 2.86435 20.5 3.77487 20.5H20.2246C21.1352 20.5 21.5904 20.5 21.8534 20.3088C22.0827 20.142 22.2305 19.8857 22.2599 19.6037C22.2936 19.2803 22.0655 18.8863 21.6093 18.0983L13.3844 3.89171C12.9299 3.10654 12.7026 2.71396 12.4061 2.58211C12.1474 2.4671 11.8521 2.4671 11.5935 2.58211C11.2969 2.71396 11.0696 3.10655 10.6151 3.89171Z"
+                                                                    stroke="white"
+                                                                    stroke-width="2"
+                                                                    stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                />
+                                                            </svg>
+
+                                                            <p
+                                                                class="text-white md:flex max-md:hidden"
+                                                            >
+                                                                Арбитраж
+                                                            </p>
+                                                        </a-button>
+                                                    </a-popconfirm>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -305,19 +363,24 @@ const currentUser = ref(null);
 const inquiry = ref({});
 const itemsChatInquiry = ref();
 
+const open = ref(false);
+const showModal = () => {
+    open.value = true;
+};
+
 function formatPrice(price) {
     return new Intl.NumberFormat("uz-Uz").format(price);
 }
 
-async function confirmForceMajeure(orderId) {
-    if (
-        window.confirm(
-            "Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
-        )
-    ) {
-        await forceMajeure(orderId);
-    }
-}
+// async function confirmForceMajeure(orderId) {
+//     if (
+//         window.confirm(
+//             "Вы уверены, что хотите выполнить арбитраж? После этого чат будет деактивирован."
+//         )
+//     ) {
+//         await forceMajeure(orderId);
+//     }
+// }
 
 async function forceMajeure(orderId) {
     try {
@@ -425,7 +488,6 @@ function initializePusher() {
     const channelName = `chat.${inquiryId}`;
 
     window.Echo.private(channelName).listen("NewChat", (e) => {
-        
         if (e.chat.text === "Arbitajed") {
             arbitaj.value = false;
         }
