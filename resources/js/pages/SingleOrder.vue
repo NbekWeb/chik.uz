@@ -46,6 +46,7 @@ const cash = ref("");
 const buying = ref(false);
 const scrollbar = ref(null);
 const lastChat = ref(null);
+const canSend=ref(true)
 const formatPrice = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
@@ -63,28 +64,33 @@ const submit = async () => {
         message.error("Текст не может быть пустым!");
         return;
     }
-    chats.value.push({
-        text: text.value,
-        user_id: currentUser.value.id,
-        sended: 1,
-    });
-
-    try {
-        loading.value = true;
-
-        const formData = new FormData();
-        formData.append("text", text.value);
-        await axios.post(`/api/order/${props.id}/messages`, formData);
-
-        chats.value[chats.value.length - 1].sended = 3;
-    } catch (e) {
-        chats.value[chats.value.length - 1].sended = 2;
-        message.error(e.message);
-    } finally {
-        loading.value = false;
-        text.value = "";
-        scrollItem();
+    if(canSend.value){
+        canSend.value=false
+        chats.value.push({
+            text: text.value,
+            user_id: currentUser.value.id,
+            sended: 1,
+        });
+    
+        try {
+            loading.value = true;
+    
+            const formData = new FormData();
+            formData.append("text", text.value);
+            await axios.post(`/api/order/${props.id}/messages`, formData);
+    
+            chats.value[chats.value.length - 1].sended = 3;
+        } catch (e) {
+            chats.value[chats.value.length - 1].sended = 2;
+            message.error(e.message);
+        } finally {
+            loading.value = false;
+            canSend.value = true;
+            text.value = "";
+            scrollItem();
+        }
     }
+    
 };
 
 const buyOrder = async (orderId, status) => {
@@ -454,9 +460,10 @@ onMounted(async () => {
                                 placeholder="Напишите сообщение"
                                 autocomplete="off"
                             />
+                           
                             <div
-                                class="max-w-[140px] max-md:ml-2 md:ml-4  send_btn"
-                            >
+                                class="max-w-[140px] max-md:ml-2 md:ml-4  send_btn canSend"
+                            ><a-spin :spinning="!canSend">
                                 <a-button
                                     :disabled="loading"
                                     @click="submit"
@@ -481,6 +488,7 @@ onMounted(async () => {
 
                                     <p class="mb-0 max-md:hidden">Отправить</p>
                                 </a-button>
+                            </a-spin>
                             </div>
                         </form>
                     </div>
