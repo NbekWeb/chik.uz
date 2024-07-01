@@ -25,7 +25,9 @@ use App\Http\Middleware\PaymeCheck;
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 //////////////////////////////////////////////// PRIVATE ROUTES ////////////////////////////////////////////////
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $user->image_url = url('storage/' . $user->image);
+    return $user;
 });
 
 // categories only related to superuser
