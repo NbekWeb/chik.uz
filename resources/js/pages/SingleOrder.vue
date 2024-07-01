@@ -154,7 +154,7 @@ const fetchOrderData = async () => {
             });
         }
     } catch (err) {
-        if (err.response.status == 404) {
+        if (err?.status == 404) {
             router.push({ name: "NotFound" });
         }
     }
@@ -168,7 +168,7 @@ const pushComment = async () => {
             star: formState.rate,
             order_id: route.params.id,
         });
-        message.success("Комментарий успешно добавлен")
+        message.success("Комментарий успешно добавлен");
         comOpen.value = false;
         comment.value = false;
     } catch (err) {
@@ -206,7 +206,6 @@ const initializePusher = () => {
     });
 };
 
-
 async function arbitajFunc() {
     try {
         const formData = new FormData();
@@ -215,7 +214,6 @@ async function arbitajFunc() {
         chats.value.push({
             text: "Arbitajed",
             user_id: currentUser.value.id,
-            userImage: currentUser.image,
         });
     } catch (error) {
         console.error("Error submitting message:", error);
@@ -308,7 +306,7 @@ onMounted(async () => {
                 <div
                     class="flex items-center justify-between px-4 py-3 border-['#f6f6f6'] border-b"
                 >
-                    <div class="flex items-center ">
+                    <div class="flex items-center">
                         <img
                             :src="'/assets/img/force_m.png'"
                             class="w-[25px] h-[25px] rounded-full"
@@ -385,10 +383,15 @@ onMounted(async () => {
                                 <div class="flex items-end">
                                     <img
                                         :src="
-                                            chat.userImage
-                                                ? chat.userImage
+                                            chat.user_id === currentUser.id
+                                                ? currentUser.image_url
+                                                    ? currentUser.image_url
+                                                    : '/assets/img/avatar.png'
+                                                : order.post_user_image
+                                                ? order.post_user_image
                                                 : '/assets/img/avatar.png'
                                         "
+                                        alt="User Avatar"
                                         class="h-[30px] w-[30px] rounded-full"
                                     />
                                 </div>
@@ -441,7 +444,7 @@ onMounted(async () => {
                     >
                         <form
                             @submit.prevent="submit"
-                            class="flex justify-between w-full mr-2 "
+                            class="flex justify-between w-full mr-2"
                         >
                             <a-input
                                 v-model:value="text"
@@ -451,7 +454,9 @@ onMounted(async () => {
                                 placeholder="Напишите сообщение"
                                 autocomplete="off"
                             />
-                            <div class="max-w-[140px] max-md:ml-2 md:ml-4">
+                            <div
+                                class="max-w-[140px] max-md:ml-2 md:ml-4  send_btn"
+                            >
                                 <a-button
                                     :disabled="loading"
                                     @click="submit"
@@ -541,17 +546,15 @@ onMounted(async () => {
     text-align: center !important;
 }
 
-.send__msg .ant-btn-default:hover {
-    border: #1677ff !important;
+.send_btn .ant-btn-default:not(:disabled):hover {
+    color: #1677ff !important;
     color: #fff !important;
+    border-color: #1677ff !important;
 }
 
 .send__msg .ant-spin .ant-spin-dot-item {
     background-color: #1677ff !important;
 }
-/* .singleOrder .chat {
-    width: calc(100% - 320px) !important;
-} */
 
 .ant-popover .ant-popover-inner {
     margin-left: 30px !important;

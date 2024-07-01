@@ -149,11 +149,15 @@
                                                 }"
                                             >
                                                 <div class="flex items-end">
-                                                    {{ currentUser.image }}
                                                     <img
                                                         :src="
-                                                            chat.userImage
-                                                                ? chat.userImage
+                                                            chat.user_id ===
+                                                            currentUser.id
+                                                                ? currentUser.image_url
+                                                                    ? currentUser.image_url
+                                                                    : '/assets/img/avatar.png'
+                                                                : inquiry.user_image
+                                                                ? inquiry.user_image
                                                                 : '/assets/img/avatar.png'
                                                         "
                                                         class="h-[30px] w-[30px] rounded-full"
@@ -169,14 +173,6 @@
                                                 >
                                                     <p class="m-0 text-base">
                                                         {{ chat.text }}
-                                                        <!-- {{
-                                                                     chat.user_id ===
-                                                                     currentUser.id
-                                                                         ? "Вы"
-                                                                         : chat.user
-                                                                         ? `${chat.user.name}`
-                                                                         : "Unknown"
-                                                                 }} -->
                                                     </p>
                                                     <div
                                                         class="mt-1 text-xs text-muted text-end"
@@ -242,7 +238,7 @@
                                                     :disabled="loading"
                                                     @click="submit"
                                                     class="items-center w-full h-full gap-1 btn btn-primary"
-                                                    style="display: flex"
+                                                    style="display: flex;"
                                                 >
                                                     <svg
                                                         width="24"
