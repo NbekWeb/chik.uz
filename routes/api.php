@@ -26,7 +26,7 @@ Broadcast::routes(['middleware' => ['auth:sanctum']]);
 //////////////////////////////////////////////// PRIVATE ROUTES ////////////////////////////////////////////////
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user();
-    $user->image_url = url('storage/' . $user->image);
+    $user->image_url = $user->image ? url('storage/' . $user->image) : null;
     return $user;
 });
 
