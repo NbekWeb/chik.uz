@@ -74,6 +74,7 @@ Route::get('/home-posts', [HomeController::class, 'index']);
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 // categorya bo'yicha postlarni chaqirish
 Route::get('/posts', [CategoryPostsController::class, 'index']);
+Route::get('/suggested-posts', [CategoryPostsController::class, 'suggested']);
 
 // Route::get('posts', [DashboardPostController::class, 'index']);
 
