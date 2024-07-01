@@ -1,5 +1,5 @@
 <template>
-    <!-- <a-spin :spinning="true"> -->
+    <a-spin :spinning="loading">
 
     <section style="background-color: #9a616d; min-height: 100vh">
         <div class="container py-5 h-100">
@@ -107,7 +107,7 @@
             </div>
         </div>
     </section>
-    <!-- </a-spin> -->
+    </a-spin>
 </template>
 
 <script setup>
@@ -118,8 +118,10 @@ import axios from "axios";
 const fields = ref({ email: "", password: "" });
 const errors = ref({});
 const router = useRouter();
+const loading=ref(false)
 
 const submit = () => {
+    loading.value=true
     axios
         .post("/login", fields.value)
         .then(() => {
@@ -129,7 +131,10 @@ const submit = () => {
         })
         .catch((error) => {
             console.log(error);
-        });
+        })
+        .finally(()=>{
+            loading.value=false
+        })
 };
 </script>
 
