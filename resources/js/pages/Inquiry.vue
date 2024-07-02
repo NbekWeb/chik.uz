@@ -389,11 +389,13 @@ import axios from "axios";
 import { useRoute } from "vue-router";
 import Echo from "laravel-echo";
 import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
 const emit = defineEmits(["updateSidebar"]);
 
 const buying = ref(false);
+const router = useRouter();
 const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
@@ -494,9 +496,13 @@ async function fetchData() {
         chats.value = chatsResponse.data.data;
         currentUser.value = currentUserResponse.data;
         orderUserId.value = currentUser.value.id;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        error.value = "Error fetching data";
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
+        else{
+            message.error(err);
+        }
     }
 }
 
@@ -516,8 +522,13 @@ async function fetchInquiry() {
                 status: 1,
             });
         }
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
+        else{
+            message.error(err.message);
+        }
     }
 }
 
@@ -535,8 +546,13 @@ async function updateOrderStatus(orderId, status) {
             user_id: currentUser.value.id,
         });
         window.location.reload();
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        if (err.response.status == 404) {
+            router.push({ name: "NotFound" });
+        }
+        else{
+            message.error(err.message);
+        }
     } finally {
         buying.value = false;
     }

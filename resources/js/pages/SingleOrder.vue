@@ -138,7 +138,12 @@ const fetchData = async () => {
         chats.value = chatsResponse.data.data;
         currentUser.value = currentUserResponse.data;
     } catch (error) {
-        message.error(error);
+        if(error.response.status==404){
+            router.push({name:"NotFound"})
+        }
+        else{
+            message.error(error.message);
+        }
     }
 };
 
@@ -160,11 +165,11 @@ const fetchOrderData = async () => {
             });
         }
     } catch (err) {
-        if (err?.status == 404) {
+        if (err.response.status == 404) {
             router.push({ name: "NotFound" });
         }
         else{
-            message.error(error);
+            message.error(err.response.status);
         }
     } finally {
         loadingM.value = false;
