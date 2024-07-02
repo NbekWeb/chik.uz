@@ -228,12 +228,12 @@ const dummyRequest = ({ file, onSuccess }) => {
 };
 
 const submit = () => {
-    let size = 0;
-    for (let i = 0; i < fileList.value.length; i++) {
-        if (fileList.value?.[i].url) {
-            size++;
-        }
-    }
+    // let size = 0;
+    // for (let i = 0; i < fileList.value.length; i++) {
+    //     if (fileList.value?.[i].url) {
+    //         size++;
+    //     }
+    // }
     formRef.value
         .validate()
         .then(() => {
@@ -243,7 +243,7 @@ const submit = () => {
             formData.append("price", fields.value.price);
             formData.append("title", fields.value.title);
             images.value.forEach((image, index) => {
-                formData.append(`images[${index + size}]`, image);
+                formData.append(`images[${index}]`, image);
             });
             formData.append("_method", "PUT");
 
@@ -282,8 +282,8 @@ onMounted(() => {
         .then((response) => {
             fields.value = response.data.data;
             fields.value.price = parseInt(fields.value.price);
-            fields.value.img = response.data.data.images;
-            fileList.value = response.data.data.images;
+            // fields.value.img = response.data.data.images;
+            // fileList.value = response.data.data.images;
         })
         .catch((error) => {
             console.log(error);
