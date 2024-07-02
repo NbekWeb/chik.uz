@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Events\AttachmentEvent;
+use App\Events\NewOrderCreated;
+use App\Events\OrderStatusChanged;
 use App\Listeners\AttachmentListener;
+use App\Listeners\SendNewOrderEmail;
+use App\Listeners\SendOrderStatusEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +27,13 @@ class EventServiceProvider extends ServiceProvider
         AttachmentEvent::class => [
             AttachmentListener::class,
         ],
+        NewOrderCreated::class => [
+            SendNewOrderEmail::class
+        ],
+        OrderStatusChanged::class => [
+            SendOrderStatusEmail::class
+        ]
+
     ];
 
     /**

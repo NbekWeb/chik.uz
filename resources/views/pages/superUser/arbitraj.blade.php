@@ -27,17 +27,12 @@
                                     <select class="form-select px-2" id="order-status-select"
                                         aria-label="Default select example">
                                         <option selected disabled>Change order status</option>
-                                        <option value="200">Chatting</option>
-                                        <option value="201">Pending to start order</option>
-                                        <option value="202">Preparing Order</option>
                                         <option value="206">Rejected</option>
-                                        <option value="205">Completed Request</option>
                                         <option value="204">Completed</option>
-                                        <option value="203">Arbitraj</option>
                                     </select>
                                 </div>
                                 <div class="input-group input-group-dynamic">
-                                    <textarea class="multisteps-form__textarea form-control" rows="5" id="message-body"
+                                    <textarea required class="multisteps-form__textarea form-control" rows="5" id="message-body"
                                         placeholder="Say last word to both side and play your arbitraj role" spellcheck="false"></textarea>
                                 </div>
                             </div>
@@ -177,7 +172,6 @@
             $.ajax({
                 url: '/admin/arbitraj/' + itemId, // Use item-id in the URL
                 type: 'POST',
-                dataType: 'json',
                 data: {
                     email: email,
                     email2: email2,
@@ -186,15 +180,20 @@
                     _method: 'PUT', // Use PUT method
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(response) {
-                    alert('Message sent successfully!');
-                    $('#exampleModalCenter').modal('hide');
+                success: function(response, textStatus, xhr) {
+                    if (xhr.status === 201) { // Check if the HTTP status code is 201
+                        alert('Message sent successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Unexpected response status: ' + xhr.status);
+                    }
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     console.error('Error:', errorThrown);
                     alert('An error occurred while sending the message.');
                 }
             });
+
         });
     });
 </script>
