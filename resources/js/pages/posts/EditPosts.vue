@@ -96,8 +96,10 @@ const fields = ref({
     body: "",
     price: "",
     title: "",
+    img: [],
 });
 const errors = ref({});
+const showPhoto = ref(false);
 const urls = ref([]);
 const categories = ref([]);
 const images = ref([]);
@@ -106,6 +108,11 @@ const imageUrl = ref("");
 const fileList = ref([]);
 const previewVisible = ref(false);
 const previewImage = ref("");
+
+const deleteImg = () => {
+    formState.value.img = null;
+    showPhoto.value = true;
+};
 
 const rules = reactive({
     title: [
@@ -181,8 +188,8 @@ const beforeUpload = (file) => {
 
 const handleChange = (info) => {
     const newFileList = info.fileList.slice(-10);
-    fileList.value = newFileList;
 
+    fileList.value = newFileList;
     if (info.file.status === "done" || info.file.status === "uploading") {
         loading.value = true;
     }
@@ -197,10 +204,15 @@ const handleChange = (info) => {
 };
 
 const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
+    if (!file.url) {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+
+        previewImage.value = file.thumbUrl;
+    } else {
+        previewImage.value = file.url;
     }
-    previewImage.value = file.thumbUrl;
     previewVisible.value = true;
 };
 
@@ -216,6 +228,12 @@ const dummyRequest = ({ file, onSuccess }) => {
 };
 
 const submit = () => {
+    let size = 0;
+    for (let i = 0; i < fileList.value.length; i++) {
+        if (fileList.value?.[i].url) {
+            size++;
+        }
+    }
     formRef.value
         .validate()
         .then(() => {
@@ -225,7 +243,7 @@ const submit = () => {
             formData.append("price", fields.value.price);
             formData.append("title", fields.value.title);
             images.value.forEach((image, index) => {
-                formData.append(`images[${index}]`, image);
+                formData.append(`images[${index + size}]`, image);
             });
             formData.append("_method", "PUT");
 
@@ -264,7 +282,8 @@ onMounted(() => {
         .then((response) => {
             fields.value = response.data.data;
             fields.value.price = parseInt(fields.value.price);
-            // url = "/" + response.data.data.imagePath;
+            fields.value.img = response.data.data.images;
+            fileList.value = response.data.data.images;
         })
         .catch((error) => {
             console.log(error);
@@ -289,8 +308,6 @@ onMounted(() => {
     background-color: #fff;
     padding: 0 3vw;
 }
-
-
 
 .ant-modal-footer {
     display: none !important;

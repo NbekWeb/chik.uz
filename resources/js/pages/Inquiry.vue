@@ -342,7 +342,7 @@
                     <p class="px-4 py-3 mb-0 border-t">
                         Chik: <span class="ml-1">{{ inquiry.post_title }}</span>
                     </p>
-                    <p class="px-4 py-3 border-t">
+                    <p class="px-4 py-3 mb-0 border-t">
                         Статус:
                         <span v-if="inquiry.status !== null" class="ml-1 text-muted">
                             <template v-if="inquiry.status === 200"

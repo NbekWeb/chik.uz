@@ -109,7 +109,7 @@ const buyOrder = async (orderId, status) => {
 
         window.location.reload();
     } catch (error) {
-        console.error("Purchase failed:", error);
+        message.error(error.error);
     } finally {
         buying.value = false;
     }
@@ -122,7 +122,7 @@ const forceMajeure = async (orderId) => {
         await axios.put(`/api/force-majeure/${orderId}`);
         window.location.reload();
     } catch (error) {
-        console.error("forceMajeure failed:", error);
+        message.error(error);
     } finally {
         buying.value = false;
     }
@@ -138,8 +138,7 @@ const fetchData = async () => {
         chats.value = chatsResponse.data.data;
         currentUser.value = currentUserResponse.data;
     } catch (error) {
-        console.error("Error fetching data:", error);
-        error.value = "Error fetching data";
+        message.error(error);
     }
 };
 
@@ -163,6 +162,9 @@ const fetchOrderData = async () => {
     } catch (err) {
         if (err?.status == 404) {
             router.push({ name: "NotFound" });
+        }
+        else{
+            message.error(error);
         }
     } finally {
         loadingM.value = false;
@@ -225,8 +227,7 @@ async function arbitajFunc() {
             user_id: currentUser.value.id,
         });
     } catch (error) {
-        console.error("Error submitting message:", error);
-        error.value = "Error submitting message";
+        message.error(error.error);
     } finally {
         loading.value = false;
     }

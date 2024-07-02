@@ -106,7 +106,9 @@ const buyPost = async (postId) => {
             router.push(`/order/${orderId}`);
             loading.value = true;
         } catch (err) {
-            console.error("Purchase failed:", err);
+            if(err.response.status==403){
+                message.error('Это твой пост!')
+            }
         } finally {
             loading.value = false;
             buying.value = false;

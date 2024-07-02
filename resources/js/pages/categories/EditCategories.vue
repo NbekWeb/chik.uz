@@ -44,7 +44,7 @@
                     ></a-select>
                 </a-form-item>
 
-                <a-form-item label="Фото" name="photos">
+                <a-form-item label="Фото " name="photos">
                     <a-upload
                         v-if="!formState.img || showPhoto"
                         v-model:file-list="fileList"
@@ -126,7 +126,7 @@
                 </a-form-item>
 
                 <a-button type="primary" html-type="submit" class="mt-3"
-                    >Сохранить</a-button
+                    >Сохранить </a-button
                 >
             </a-form>
         </div>

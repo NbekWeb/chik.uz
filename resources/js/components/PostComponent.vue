@@ -214,7 +214,7 @@ onMounted(async() => {
                 </div>
             </a-spin>
         </div>
-        <div class="">
+        <div class="pb-4">
             <h2 class="pt-3 mb-4 text-3xl font-bold text-center">
                 Вы можете найти эти полезные
             </h2>
