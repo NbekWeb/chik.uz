@@ -10,6 +10,7 @@ const items = ref([]);
 const searchRes = ref([]);
 const current = ref([]);
 const router = useRouter();
+const route = useRoute();
 
 const searchingMenu = () => {
     searchingStart.value = true;
@@ -30,7 +31,7 @@ const searchingMenu = () => {
         };
 
         const apiResults = await fetchResults(searchVal.value);
-       
+
         searchRes.value = apiResults.data.map((item) => ({
             key: item.slug,
             label: item.title,
@@ -41,7 +42,7 @@ const searchingMenu = () => {
 const pushToSearch = (v, k) => {
     router.push({
         name: "SingleBlog",
-        params: { slug: k},
+        params: { slug: k },
     });
     searchVal.value = "";
     currentRoute.value = [k];
@@ -77,6 +78,8 @@ const pushToOrder = () => {
         }
     }
 };
+
+
 
 onMounted(() => {
     document.addEventListener("click", handleClickOutside);

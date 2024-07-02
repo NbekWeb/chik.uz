@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useRoute ,useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -12,11 +12,11 @@ const totalPages = ref(0);
 const current = ref(1);
 const pagination = ref({});
 const categories = ref([]);
-const loading = ref();
+const loading = ref(true);
 const loadingSuggest = ref();
 const route = useRoute();
 const router = useRouter();
-const suggest=ref([])
+const suggest = ref([]);
 
 const modul = ref([Navigation, Pagination, Autoplay]);
 
@@ -40,9 +40,9 @@ const filterByCategory = (name, page = 1) => {
             replaceLabels();
         })
         .catch((error) => {
-            if(error.response.status == 404) {
-                router.push({name:"NotFound"})
-            };
+            if (error.response.status == 404) {
+                router.push({ name: "NotFound" });
+            }
         })
         .finally(() => {
             loading.value = false;
@@ -70,20 +70,19 @@ watch(
     }
 );
 
-onMounted(async() => {
+onMounted(async () => {
     filterByCategory(route.query.category);
-   
-    loadingSuggest.value=true
-  await  axios
+
+    loadingSuggest.value = true;
+    await axios
         .get("/api/suggested-posts")
         .then((response) => {
             suggest.value = response.data.data;
-            
         })
         .catch((error) => {
-            if(error.response.status == 404) {
-                router.push({name:"NotFound"})
-            };
+            if (error.response.status == 404) {
+                router.push({ name: "NotFound" });
+            }
         })
         .finally(() => {
             loadingSuggest.value = false;
@@ -214,12 +213,11 @@ onMounted(async() => {
                 </div>
             </a-spin>
         </div>
-        <div class="pb-4">
+        <div class="pb-4" v-if="posts.length == 0 && !loading">
             <h2 class="pt-3 mb-4 text-3xl font-bold text-center">
                 Вы можете найти эти полезные
             </h2>
             <a-spin :spinning="loadingSuggest">
-                
                 <div
                     class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3"
                 >
@@ -258,7 +256,6 @@ onMounted(async() => {
                                             :modules="modul"
                                             class="object-cover w-full h-[160px]"
                                         >
-                                        
                                             <SwiperSlide
                                                 v-for="(
                                                     image, index
@@ -271,7 +268,7 @@ onMounted(async() => {
                                                 />
                                             </SwiperSlide>
                                         </Swiper>
-                                        
+
                                         <div class="card-body">
                                             <p
                                                 class="h-10 mx-2 mt-3 text-sm text-light__black desc__text"

@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="bg-white sm:pt-3 max-sm:pt-2">
-            <div class="container flex items-center justify-between sm:pb-3 max-sm:pb-2">
+            <div
+                class="container flex items-center justify-between sm:pb-3 max-sm:pb-2"
+            >
                 <span class="max-md:flex md:hidden min-w-[40px]">
                     <MenuOutlined @click="() => (openMenu = true)" />
                 </span>
@@ -83,14 +85,18 @@
                         class="sm:flex max-sm:hidden"
                         v-if="!loggedIn"
                     >
-                        <a-button > Вход </a-button>
+                        <a-button> Вход </a-button>
                     </router-link>
                     <router-link
                         :to="{ name: 'Login' }"
-                        class="sm:hidden max-sm:flex top-btn "
+                        class="sm:hidden max-sm:flex top-btn"
                         v-if="!loggedIn"
                     >
-                        <a-button type="link" style="color: #111" class="text-xs">
+                        <a-button
+                            type="link"
+                            style="color: #111"
+                            class="text-xs"
+                        >
                             Войти</a-button
                         >
                     </router-link>
@@ -116,7 +122,7 @@
                                 >
                             </div>
                         </template>
-                        
+
                         <span class="top-btn">
                             <a-button
                                 type="link"
@@ -126,11 +132,10 @@
                             >
                         </span>
                         <a-button
-                                type="primary"
-                                class="text-xs sm:block max-sm:hidden"
-                              
-                                >Профил</a-button
-                            >
+                            type="primary"
+                            class="text-xs sm:block max-sm:hidden"
+                            >Профил</a-button
+                        >
                     </a-popover>
                 </div>
             </div>
@@ -484,6 +489,16 @@ watch(
         }
     },
     { immediate: true }
+);
+
+watch(
+    () => route.query.log,
+    (newSlug, oldSlug) => {
+        if (newSlug !== oldSlug && newSlug) {
+            loggedIn.value = true;
+            router.push({ name: "Home" });
+        }
+    }
 );
 
 const handleClickOutsideApp = (event) => {

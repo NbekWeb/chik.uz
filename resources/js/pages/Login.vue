@@ -139,8 +139,8 @@ const submit = () => {
         .post("/login", fields.value)
         .then(() => {
             localStorage.setItem("authenticated", "true");
-            window.location.href = "/admin/dashboard";
-            // router.push({ name: "Home" });
+            // window.location.href = "/admin/dashboard";
+            router.push({ name: "Home", query: { log: "logged" } });
         })
         .catch((error) => {
             console.log(error);

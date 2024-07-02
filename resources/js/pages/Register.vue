@@ -148,8 +148,8 @@ function submit() {
         .post("/register", fields.value)
         .then(() => {
             localStorage.setItem("authenticated", "true");
-            // router.push({ name: "Home" });
-            window.location.href = "/admin/dashboard";
+            router.push({ name: "Home", query: { log: "logged" } });
+            // window.location.href = "/admin/dashboard";
         })
         .catch((error) => {
             errors.value = error.response.data.errors;
