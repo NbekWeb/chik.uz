@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewOrderCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -43,7 +44,9 @@ class OrderController extends Controller
             if ($orderStatus['allowed']) {
                 try {
                     // Create an order
-                    $orderId = $this->setOrder($buyer->id, $post->id);
+                    $order = $this->setOrder($buyer->id, $post->id);
+                    $orderId = $order->id;
+                    event(new NewOrderCreated($order));
                     return response()->json(['message' => 'Приглашение успешно доставлено', 'order_id' => $orderId]);
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
@@ -80,7 +83,7 @@ class OrderController extends Controller
                 "post_id" => $postId,
                 "status" => 200 // Assuming default status is 200
             ]);
-            return $order->id;
+            return $order;
         } catch (\Throwable $e) {
             Log::error('Order creation failed: ' . $e->getMessage());
 
@@ -102,7 +105,7 @@ class OrderController extends Controller
                 ->first();
 
             // Check if the last order status is 203 or 204
-            if ($lastOrder && ($lastOrder->status == 203 || $lastOrder->status == 204)) {
+            if ($lastOrder && ($lastOrder->status == 203 || $lastOrder->status == 204 || $lastOrder->status == 206)) {
                 return ['allowed' => true]; // Allowed to create a new order
             } else {
                 return ['allowed' => false, 'existing_order_id' => optional($lastOrder)->id]; // Not allowed to create a new order

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderStatusChanged;
+use App\Models\Arbitraj;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -46,6 +48,9 @@ class UpdateOrderStatusController extends Controller
                         $order->save();
                         $userTransaction->save();
                         DB::commit();
+
+                        event(new OrderStatusChanged($order));
+
                         return response()->json(['message' => 'Статус заказа успешно обновлен'], 200);
                     } catch (\Exception $e) {
                         DB::rollback();
@@ -58,11 +63,12 @@ class UpdateOrderStatusController extends Controller
                 return response()->json(['error' => 'Unauthorized или неподходящий статус заказа'], 403);
             }
         }
-        // order stating acceptance from freelancer
+        // order starting acceptance from freelancer
         elseif ($request->status == 202) {
             if ($seller->id == $user->id && $order->status == 201) {
                 $order->status = 202;
                 $order->save();
+                event(new OrderStatusChanged($order));
                 return response()->json(['message' => "Заказ принят фрилансером"], 200);
             } else {
                 return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
@@ -91,6 +97,7 @@ class UpdateOrderStatusController extends Controller
                     $sellerTransaction->save();
                     $seller->increment('cash', $netAmountToTransfer);
                     DB::commit();
+                    event(new OrderStatusChanged($order));
                     return response()->json(['message' => 'Статус заказа: завершение подтверждено'], 200);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -103,6 +110,7 @@ class UpdateOrderStatusController extends Controller
             if ($seller->id == $user->id && $order->status == 202) {
                 $order->status = 205;
                 $order->save();
+                event(new OrderStatusChanged($order));
                 return response()->json(['message' => "Заказ отправлен клиенту до рассмотрения"], 200);
             } else {
                 return response()->json(['error' => 'Что-то пошло не так. Пожалуйста, попробуйте еще раз позже.'], 500);
@@ -125,6 +133,7 @@ class UpdateOrderStatusController extends Controller
                     $cancelledTransaction->save();
                     $order->user->increment('cash', $postPrice);
                     DB::commit();
+                    event(new OrderStatusChanged($order));
                     return response()->json(['message' => 'Статус заказа: завершение подтверждено'], 200);
                 } catch (\Exception $e) {
                     DB::rollback();
@@ -136,7 +145,25 @@ class UpdateOrderStatusController extends Controller
 
     public function forceMajeure(Request $request, $orderId)
     {
+        $arbitraj = new Arbitraj;
+
         $order = Order::findOrFail($orderId);
+        if ($order->status == 204) {
+            return response()->json(['message' => 'Вы не могли. Заказ уже выполнен']);
+        }
+        if ($order->status == 206) {
+            return response()->json(['message' => 'Вы не могли. Заказ уже отменен']);
+        }
+        if ($order->status == 203) {
+            return response()->json(['message' => 'Вы не могли. Заказ уже в арбитраже']);
+        }
+
+        $arbitraj->user_id = auth()->user()->id;
+        $arbitraj->order_id = $orderId;
+        $arbitraj->previous_status = $order->status;
+        $arbitraj->after_status = 203;
+        $arbitraj->save();
+
         $order->status = 203;
         $order->save();
 
