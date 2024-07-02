@@ -1,12 +1,15 @@
 <template>
+    <a-spin :spinning="loading" >
     <section style="background-color: #9a616d; min-height: 100vh">
         <div class="container py-5 h-100">
             <div
                 class="row d-flex justify-content-center align-items-center h-100"
             >
-                <a-spin :spinning="loading">
-                    <div class="col col-xl-10">
-                        <div class="card" style="border-radius: 1rem">
+                <div class="col col-xl-10">
+                    
+                        <div
+                            class="bg-white rounded-2xl"
+                        >
                             <div class="row g-0">
                                 <div
                                     class="col-md-6 col-lg-5 d-none d-md-block"
@@ -112,11 +115,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a-spin>
+                   
+                </div>
             </div>
         </div>
     </section>
+</a-spin>
 </template>
 
 <script setup>
@@ -131,19 +135,19 @@ const loading = ref(false);
 
 const submit = () => {
     loading.value = true;
-    // axios
-    //     .post("/login", fields.value)
-    //     .then(() => {
-    //         localStorage.setItem("authenticated", "true");
-    //         window.location.href = "/admin/dashboard";
-    //         // router.push({ name: "Home" });
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     })
-    //     .finally(() => {
-    //         loading.value = false;
-    //     });
+    axios
+        .post("/login", fields.value)
+        .then(() => {
+            localStorage.setItem("authenticated", "true");
+            window.location.href = "/admin/dashboard";
+            // router.push({ name: "Home" });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
 };
 </script>
 
