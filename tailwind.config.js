@@ -6,7 +6,8 @@ module.exports = {
       extend: {
         colors: {
           green: '#04b70a;',
-          light__black: '#111'
+          light__black: '#111',
+          muted: '#9BA2B1'
         },
         // fontFamily: {
         //   IBM: ["IBM", "sans"],

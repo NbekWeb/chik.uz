@@ -131,19 +131,19 @@ const loading = ref(false);
 
 const submit = () => {
     loading.value = true;
-    axios
-        .post("/login", fields.value)
-        .then(() => {
-            localStorage.setItem("authenticated", "true");
-            window.location.href = "/admin/dashboard";
-            // router.push({ name: "Home" });
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-        .finally(() => {
-            loading.value = false;
-        });
+    // axios
+    //     .post("/login", fields.value)
+    //     .then(() => {
+    //         localStorage.setItem("authenticated", "true");
+    //         window.location.href = "/admin/dashboard";
+    //         // router.push({ name: "Home" });
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     })
+    //     .finally(() => {
+    //         loading.value = false;
+    //     });
 };
 </script>
 

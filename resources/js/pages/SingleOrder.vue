@@ -37,6 +37,7 @@ const order = ref({});
 const chats = ref([]);
 const text = ref("");
 const loading = ref(false);
+const loadingM = ref(true);
 const comment = ref(true);
 const arbitaj = ref(true);
 const itemsChat = ref();
@@ -46,7 +47,7 @@ const cash = ref("");
 const buying = ref(false);
 const scrollbar = ref(null);
 const lastChat = ref(null);
-const canSend=ref(true)
+const canSend = ref(true);
 const formatPrice = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
@@ -64,21 +65,21 @@ const submit = async () => {
         message.error("Текст не может быть пустым!");
         return;
     }
-    if(canSend.value){
-        canSend.value=false
+    if (canSend.value) {
+        canSend.value = false;
         chats.value.push({
             text: text.value,
             user_id: currentUser.value.id,
             sended: 1,
         });
-    
+
         try {
             loading.value = true;
-    
+
             const formData = new FormData();
             formData.append("text", text.value);
             await axios.post(`/api/order/${props.id}/messages`, formData);
-    
+
             chats.value[chats.value.length - 1].sended = 3;
         } catch (e) {
             chats.value[chats.value.length - 1].sended = 2;
@@ -90,7 +91,6 @@ const submit = async () => {
             scrollItem();
         }
     }
-    
 };
 
 const buyOrder = async (orderId, status) => {
@@ -144,6 +144,7 @@ const fetchData = async () => {
 };
 
 const fetchOrderData = async () => {
+    loadingM.value = true;
     try {
         const response = await axios.get("/api/order/" + props.id);
         order.value = response.data.data;
@@ -163,6 +164,8 @@ const fetchOrderData = async () => {
         if (err?.status == 404) {
             router.push({ name: "NotFound" });
         }
+    } finally {
+        loadingM.value = false;
     }
 };
 
@@ -238,7 +241,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="container flex flex-wrap justify-between py-4 singleOrder">
+    <div
+        class="container flex flex-wrap justify-between gap-4 py-4 singleOrder"
+    >
         <a-modal v-model:open="open" title="Заказ">
             <div class="px-2">
                 <p>
@@ -307,7 +312,7 @@ onMounted(async () => {
             </a-form>
         </a-modal>
 
-        <div class="w-full chat">
+        <div class="flex-grow max-lg:w-full chat">
             <div class="bg-white rounded-md chat__wrapper">
                 <div
                     class="flex items-center justify-between px-4 py-3 border-['#f6f6f6'] border-b"
@@ -323,7 +328,10 @@ onMounted(async () => {
                         </p>
                     </div>
                     <div class="flex gap-2">
-                        <a-button @click="showModal" type="link"
+                        <a-button
+                            @click="showModal"
+                            type="link"
+                            class="lg:hidden max-lg:flex"
                             >Информация...</a-button
                         >
                         <div class="">
@@ -460,35 +468,38 @@ onMounted(async () => {
                                 placeholder="Напишите сообщение"
                                 autocomplete="off"
                             />
-                           
-                            <div
-                                class="max-w-[140px] max-md:ml-2 md:ml-4  send_btn canSend"
-                            ><a-spin :spinning="!canSend">
-                                <a-button
-                                    :disabled="loading"
-                                    @click="submit"
-                                    class="items-center w-full h-full gap-1 btn btn-primary"
-                                    style="display: flex"
-                                >
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M10.4995 13.5001L20.9995 3.00005M10.6271 13.8281L13.2552 20.5861C13.4867 21.1815 13.6025 21.4791 13.7693 21.566C13.9139 21.6414 14.0862 21.6415 14.2308 21.5663C14.3977 21.4796 14.5139 21.1821 14.7461 20.587L21.3364 3.69925C21.5461 3.16207 21.6509 2.89348 21.5935 2.72185C21.5437 2.5728 21.4268 2.45583 21.2777 2.40604C21.1061 2.34871 20.8375 2.45352 20.3003 2.66315L3.41258 9.25349C2.8175 9.48572 2.51997 9.60183 2.43326 9.76873C2.35809 9.91342 2.35819 10.0857 2.43353 10.2303C2.52043 10.3971 2.81811 10.5128 3.41345 10.7444L10.1715 13.3725C10.2923 13.4195 10.3527 13.443 10.4036 13.4793C10.4487 13.5114 10.4881 13.5509 10.5203 13.596C10.5566 13.6468 10.5801 13.7073 10.6271 13.8281Z"
-                                            stroke="#fff"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </svg>
 
-                                    <p class="mb-0 max-md:hidden">Отправить</p>
-                                </a-button>
-                            </a-spin>
+                            <div
+                                class="max-w-[140px] max-md:ml-2 md:ml-4 send_btn canSend"
+                            >
+                                <a-spin :spinning="!canSend">
+                                    <a-button
+                                        :disabled="loading"
+                                        @click="submit"
+                                        class="items-center w-full h-full gap-1 btn btn-primary"
+                                        style="display: flex"
+                                    >
+                                        <svg
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M10.4995 13.5001L20.9995 3.00005M10.6271 13.8281L13.2552 20.5861C13.4867 21.1815 13.6025 21.4791 13.7693 21.566C13.9139 21.6414 14.0862 21.6415 14.2308 21.5663C14.3977 21.4796 14.5139 21.1821 14.7461 20.587L21.3364 3.69925C21.5461 3.16207 21.6509 2.89348 21.5935 2.72185C21.5437 2.5728 21.4268 2.45583 21.2777 2.40604C21.1061 2.34871 20.8375 2.45352 20.3003 2.66315L3.41258 9.25349C2.8175 9.48572 2.51997 9.60183 2.43326 9.76873C2.35809 9.91342 2.35819 10.0857 2.43353 10.2303C2.52043 10.3971 2.81811 10.5128 3.41345 10.7444L10.1715 13.3725C10.2923 13.4195 10.3527 13.443 10.4036 13.4793C10.4487 13.5114 10.4881 13.5509 10.5203 13.596C10.5566 13.6468 10.5801 13.7073 10.6271 13.8281Z"
+                                                stroke="#fff"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            />
+                                        </svg>
+
+                                        <p class="mb-0 max-md:hidden">
+                                            Отправить
+                                        </p>
+                                    </a-button>
+                                </a-spin>
                             </div>
                         </form>
                     </div>
@@ -541,6 +552,57 @@ onMounted(async () => {
                     }}
                 </button>
             </div>
+        </div>
+        <div class="lg:block max-lg:hidden">
+            <!-- <h3 class="mb-4 text-2xl font-bold text-center">Заказ</h3> -->
+            <a-spin :spinning="loadingM">
+                <div class="text-xl font-semibold bg-white rounded-2xl">
+                    <p class="px-4 py-3 mb-0">
+                        Заказ ID:
+                        <span class="ml-1 font-medium text-muted">
+                            {{ order.id }}
+                        </span>
+                    </p>
+                    <p class="px-4 py-3 mb-0 border-t">
+                        Chik: <span class="ml-1 font-medium text-muted">{{ order.post_title }}</span>
+                    </p>
+                    <p class="px-4 py-3 mb-0 border-t">
+                        Статус:
+                        <span v-if="order.status !== null" class="ml-1 font-medium text-muted">
+                            <template v-if="order.status === 200"
+                                >Под общением</template
+                            >
+                            <template v-else-if="order.status === 201"
+                                >В ожидании...</template
+                            >
+                            <template v-else-if="order.status === 202"
+                                >Принят</template
+                            >
+                            <template v-else-if="order.status === 203"
+                                >Экстренный оператор</template
+                            >
+                            <template v-else-if="order.status === 204"
+                                >Завершен</template
+                            >
+                            <template v-else-if="order.status === 205"
+                                >Представлено на рассмотрение</template
+                            >
+                            <template v-else-if="order.status === 206"
+                                >Заказ отклонен</template
+                            >
+                            <template v-else>Неизвестный</template>
+                        </span>
+                    </p> 
+                    <p class="px-4 py-3 mb-0 border-t">
+                        Время:<span class="ml-1 font-medium text-muted">{{ order.created_at }}</span>
+                    </p>
+                    <p class="px-4 py-3 mb-0 border-t">
+                        Цена:<span class="ml-1 font-medium text-muted">
+                            {{ formatPrice(parseInt(order.price)) }}</span
+                        >
+                    </p>
+                </div>
+            </a-spin>
         </div>
     </div>
 </template>

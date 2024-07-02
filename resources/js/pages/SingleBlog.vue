@@ -387,20 +387,20 @@ onMounted(() => {
                                                 ? com.user_avatar
                                                 : '/assets/img/avatar.png'
                                         "
-                                        class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px] object-cover "
+                                        class="md:w-[40px]  md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px] object-cover "
                                     />
-                                    <p class="mb-0 text-lg font-medium">
+                                    <p class="mb-0 text-lg font-semibold ">
                                         {{ com.user_name }}
                                     </p>
                                 </div>
                                 <a-rate v-model:value="com.star" disabled />
                             </div>
-                            <div>
-                                <p class="pt-1 mb-0 light__black">
+                            <div class="md:pl-[48px]  max-md:pl-[33px]">  
+                                <p class="pt-1 mb-0 font-normal light__black">
                                     {{ com.comment }}
                                 </p>
                                 <p
-                                    class="pt-1 mb-0 text-xs text-end"
+                                    class="pt-1 mb-0 text-xs font-semibold text-end"
                                     style="color: #9f9fa3"
                                 >
                                     {{
@@ -486,7 +486,9 @@ onMounted(() => {
                             <div class="flex items-center justify-between">
                                 <span class="pt-1">Репутация</span>
                                 <div class="flex items-center">
-                                    <p class="pr-1 m-0 text-sm">5.0</p>
+                                    <p class="pr-1 m-0 text-sm">
+                                        {{Math.round(post.overalReview*10)/10}}
+                                        </p>
                                     <img
                                         src="../images/star.png"
                                         class="w-[15px] h-[15px] object-contain"

@@ -13,8 +13,10 @@ const current = ref(1);
 const pagination = ref({});
 const categories = ref([]);
 const loading = ref();
+const loadingSuggest = ref();
 const route = useRoute();
 const router = useRouter();
+const suggest=ref([])
 
 const modul = ref([Navigation, Pagination, Autoplay]);
 
@@ -68,8 +70,24 @@ watch(
     }
 );
 
-onMounted(() => {
+onMounted(async() => {
     filterByCategory(route.query.category);
+   
+    loadingSuggest.value=true
+  await  axios
+        .get("/api/suggested-posts")
+        .then((response) => {
+            suggest.value = response.data.data;
+            
+        })
+        .catch((error) => {
+            if(error.response.status == 404) {
+                router.push({name:"NotFound"})
+            };
+        })
+        .finally(() => {
+            loadingSuggest.value = false;
+        });
 });
 </script>
 <template>
@@ -189,6 +207,112 @@ onMounted(() => {
                                 "
                             />
                         </div>
+                    </template>
+                    <template v-else>
+                        <a-empty description="Пака Пустой" class="empty" />
+                    </template>
+                </div>
+            </a-spin>
+        </div>
+        <div class="">
+            <h2 class="pt-3 mb-4 text-3xl font-bold text-center">
+                Вы можете найти эти полезные
+            </h2>
+            <a-spin :spinning="loadingSuggest">
+                
+                <div
+                    class="min-h-[250px] flex flex-col justify-center items-center md:mt-6 max-md:mt-3"
+                >
+                    <template v-if="suggest.length && !loadingSuggest">
+                        <a-row
+                            :gutter="[
+                                { xs: 8, sm: 12, md: 16 },
+                                { xs: 8, sm: 12, md: 16 },
+                            ]"
+                            class="w-full post-comp"
+                        >
+                            <a-col
+                                v-for="sug in suggest"
+                                :key="sug.id"
+                                :span="6"
+                                :lg="6"
+                                :md="8"
+                                :sm="12"
+                                :xs="24"
+                                class="w-full"
+                            >
+                                <router-link
+                                    :to="{
+                                        name: 'SingleBlog',
+                                        params: { slug: sug.slug },
+                                    }"
+                                    class="w-full"
+                                >
+                                    <div class="bg-white">
+                                        <Swiper
+                                            :slides-per-view="1"
+                                            spaceBetween="10"
+                                            :autoplay="{ delay: 3000 }"
+                                            :pagination="{ clickable: true }"
+                                            navigation
+                                            :modules="modul"
+                                            class="object-cover w-full h-[160px]"
+                                        >
+                                        
+                                            <SwiperSlide
+                                                v-for="(
+                                                    image, index
+                                                ) in sug.images"
+                                                :key="index"
+                                            >
+                                                <img
+                                                    :src="image.url"
+                                                    class="object-cover w-full h-full"
+                                                />
+                                            </SwiperSlide>
+                                        </Swiper>
+                                        
+                                        <div class="card-body">
+                                            <p
+                                                class="h-10 mx-2 mt-3 text-sm text-light__black desc__text"
+                                            >
+                                                {{ sug.title }}
+                                            </p>
+
+                                            <br />
+                                            <h6
+                                                class="mb-2 mr-3 font-bold tex4t-lg text-end text-green"
+                                            >
+                                                {{
+                                                    formatPrice(
+                                                        parseInt(sug.price)
+                                                    )
+                                                }}
+                                                Uzs
+                                            </h6>
+
+                                            <div
+                                                class="flex items-center pt-1 pb-2 mx-2 border-t"
+                                            >
+                                                <img
+                                                    src="../images/avatar.png "
+                                                    class="object-cover w-10 h-10 rounded-full"
+                                                />
+                                                <h6
+                                                    class="mb-0 ml-2 text-lg font-semibold text-black"
+                                                >
+                                                    {{
+                                                        sug.user
+                                                            ? sug.user
+                                                            : "Unknown User"
+                                                    }}
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </router-link>
+                            </a-col>
+                        </a-row>
                     </template>
                     <template v-else>
                         <a-empty description="Пака Пустой" class="empty" />
