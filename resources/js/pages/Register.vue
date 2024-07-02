@@ -148,7 +148,6 @@ function submit() {
         .post("/register", fields.value)
         .then(() => {
             localStorage.setItem("authenticated", "true");
-            // Emit updateSidebar event
             router.push({ name: "Home" });
         })
         .catch((error) => {
