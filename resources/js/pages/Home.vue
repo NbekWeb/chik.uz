@@ -214,7 +214,7 @@ onUnmounted(() => {
                     @click="pushToMenu(item.label)"
                 >
                     <span
-                        class="absolute left-0 w-full px-3 text-base font-bold text-white bottom-3"
+                        class="absolute left-0 w-full px-3 font-black text-white max-lg:text-xl lg:text-2xl bottom-3"
                     >
                         {{ item.label }}
                     </span>
