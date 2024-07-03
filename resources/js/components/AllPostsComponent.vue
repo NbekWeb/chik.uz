@@ -78,7 +78,7 @@ onMounted(() => {
                     
                 >
                     <span
-                        class="absolute left-0 w-full px-4 font-bold text-white lg:text-2xl bottom-3 max-lg:text-xl"
+                        class="absolute left-0 w-full px-4 font-black text-white lg:text-2xl bottom-3 max-lg:text-xl"
                     >
                         {{ item.label }}  
                     </span>
