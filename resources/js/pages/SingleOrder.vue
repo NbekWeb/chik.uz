@@ -109,7 +109,8 @@ const buyOrder = async (orderId, status) => {
 
         window.location.reload();
     } catch (error) {
-        message.error(error.error);
+        console.log(error.response.data.error)
+        message.error(error.response.data.error);
     } finally {
         buying.value = false;
     }

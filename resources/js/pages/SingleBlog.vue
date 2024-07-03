@@ -106,8 +106,8 @@ const buyPost = async (postId) => {
             router.push(`/order/${orderId}`);
             loading.value = true;
         } catch (err) {
-            if(err.response.status==403){
-                message.error('Это твой пост!')
+            if (err.response.status == 403) {
+                message.error("Это твой пост!");
             }
         } finally {
             loading.value = false;
@@ -128,6 +128,16 @@ const fetchPostData = async () => {
         }
     } finally {
         loading.value = false;
+    }
+};
+
+const applying = () => {
+    if (localStorage.getItem("authenticated")) {
+        
+        apply.value = true;
+    }
+    else{
+        router.push({name:"Login"})
     }
 };
 
@@ -163,7 +173,7 @@ watch(
     (newSlug, oldSlug) => {
         if (newSlug !== oldSlug) {
             loading.value = true;
-            openComment.value=false
+            openComment.value = false;
             fetchPostData();
         }
     }
@@ -193,7 +203,7 @@ onMounted(() => {
                                         <template #content>
                                             <p class="m-0">Пожалаватся</p>
                                         </template>
-                                        <span @click="() => (apply = true)">
+                                        <span @click="applying">
                                             <svg
                                                 width="24"
                                                 height="24"
@@ -363,10 +373,10 @@ onMounted(() => {
 
                 <div class="mt-4 bg-white">
                     <div
-                    @click="() => (openComment = !openComment)"
+                        @click="() => (openComment = !openComment)"
                         class="flex items-center justify-between w-full px-3 py-3 hover:cursor-pointer"
                     >
-                        <h4 class="mb-0 text-xl font-semibold" >
+                        <h4 class="mb-0 text-xl font-semibold">
                             Отзывы по чику
                         </h4>
                         <DownOutlined
@@ -379,7 +389,7 @@ onMounted(() => {
                             v-for="com of post.reviews"
                             :key="com.id"
                             class="px-3 py-2 border-t"
-                            v-show="post?.reviews?.length !=0"
+                            v-show="post?.reviews?.length != 0"
                         >
                             <div class="flex justify-between">
                                 <div class="flex items-center gap-2">
@@ -389,15 +399,15 @@ onMounted(() => {
                                                 ? com.user_avatar
                                                 : '/assets/img/avatar.png'
                                         "
-                                        class="md:w-[40px]  md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px] object-cover "
+                                        class="md:w-[40px] md:h-[40px] rounded-full max-md:w-[25px] max-md:h-[25px] object-cover"
                                     />
-                                    <p class="mb-0 text-lg font-semibold ">
+                                    <p class="mb-0 text-lg font-semibold">
                                         {{ com.user_name }}
                                     </p>
                                 </div>
                                 <a-rate v-model:value="com.star" disabled />
                             </div>
-                            <div class="md:pl-[48px]  max-md:pl-[33px]">  
+                            <div class="md:pl-[48px] max-md:pl-[33px]">
                                 <p class="pt-1 mb-0 font-normal light__black">
                                     {{ com.comment }}
                                 </p>
@@ -413,8 +423,8 @@ onMounted(() => {
                                 </p>
                             </div>
                         </div>
-                        
-                        <div v-show="post?.reviews?.length==0">
+
+                        <div v-show="post?.reviews?.length == 0">
                             <a-empty description="Пака Пустой" class="empty" />
                         </div>
                     </div>
@@ -433,13 +443,14 @@ onMounted(() => {
                         <div class="lg:w-[200px] max-lg:w-full max-lg:p-2">
                             <h4 class="text-xl">Гарантия возврата средств</h4>
                             <p class="text-xs text-text__grey">
-                                Ваши средства будут немедленно возвращены на счёт, если что-то пойдёт не так. 
+                                Ваши средства будут немедленно возвращены на
+                                счёт, если что-то пойдёт не так.
                             </p>
                             <div
                                 class="flex items-center text-sm text-blue-600 cursor-pointer"
                                 @click="() => (desc = !desc)"
                             >
-                            Если:
+                                Если:
                                 <DownOutlined
                                     class="text-[10px] ml-1 ease-linear"
                                     :class="desc ? 'rotate-180' : 'rotate-0'"
@@ -452,18 +463,24 @@ onMounted(() => {
                         :class="desc ? 'block' : 'hidden'"
                     >
                         <p class="text-xs">
-                            Чик переводит деньги продавцу только после того, как покупатель проверил и принял заказ.
+                            Чик переводит деньги продавцу только после того, как
+                            покупатель проверил и принял заказ.
                         </p>
-                        <h4 class="text-xl font-bold">Вы можете вернуть деньги:</h4>
+                        <h4 class="text-xl font-bold">
+                            Вы можете вернуть деньги:
+                        </h4>
                         <ul class="text-sm list-disc">
                             <li>
-                                Немедленно, если продавец не выполнил заказ в срок, и покупатель решил его отменить.
+                                Немедленно, если продавец не выполнил заказ в
+                                срок, и покупатель решил его отменить.
                             </li>
                             <li>
-                                Немедленно, если продавец и покупатель совместно решили отмену заказа.
+                                Немедленно, если продавец и покупатель совместно
+                                решили отмену заказа.
                             </li>
                             <li>
-                                В течение нескольких часов, если заказ был выполнен не по договору или не полностью.
+                                В течение нескольких часов, если заказ был
+                                выполнен не по договору или не полностью.
                             </li>
                         </ul>
                     </div>
@@ -489,8 +506,11 @@ onMounted(() => {
                                 <span class="pt-1">Репутация</span>
                                 <div class="flex items-center">
                                     <p class="pr-1 m-0 text-sm">
-                                        {{Math.round(post.overalReview*10)/10}}
-                                        </p>
+                                        {{
+                                            Math.round(post.overalReview * 10) /
+                                            10
+                                        }}
+                                    </p>
                                     <img
                                         src="../images/star.png"
                                         class="w-[15px] h-[15px] object-contain"
@@ -514,11 +534,11 @@ onMounted(() => {
 .swiper-button-prev:after {
     font-size: 20px !important;
 }
-.single_com .ant-empty .ant-empty-image{
+.single_com .ant-empty .ant-empty-image {
     height: 70px !important;
 }
 
-.single_com .ant-empty{
+.single_com .ant-empty {
     padding-bottom: 10px !important;
 }
 

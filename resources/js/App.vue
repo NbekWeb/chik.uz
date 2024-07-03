@@ -308,17 +308,10 @@
                         >
                     </p>
                     <p>
-                        <a
-                            ><router-link
-                                :to="{
-                                    path: '/post',
-                                    query: {
-                                        category: 'статистика и аналитика',
-                                    },
-                                }"
-                            >
-                                Статистика и аналитика
-                            </router-link></a
+                        <a href="#"
+                            ><router-link :to="{ name: 'About' }"
+                                >About Chik</router-link
+                            ></a
                         >
                     </p>
                 </div>
@@ -331,13 +324,7 @@
                             ></a
                         >
                     </p>
-                    <p>
-                        <a href="#"
-                            ><router-link :to="{ name: 'About' }"
-                                >About Chik</router-link
-                            ></a
-                        >
-                    </p>
+                  
                     <p>
                         <a href="#"
                             ><router-link :to="{ name: 'Deal' }"

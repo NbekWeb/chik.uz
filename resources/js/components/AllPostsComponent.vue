@@ -78,9 +78,9 @@ onMounted(() => {
                     
                 >
                     <span
-                        class="absolute left-0 w-full px-4 text-base font-bold text-white bottom-3"
+                        class="absolute left-0 w-full px-4 font-bold text-white lg:text-2xl bottom-3 max-lg:text-xl"
                     >
-                        {{ item.label }} 
+                        {{ item.label }}  
                     </span>
                     <img
                         :src="item.img"
