@@ -92,8 +92,8 @@ onMounted(async () => {
 <template>
     <div class="container pt-3">
         <div class="">
-            <h2 class="m-0 font-bold text-center capitalize">
-                {{ route.query.category }}
+            <h2 class="m-0 font-bold text-center ">
+               {{ route.query.category.charAt(0).toUpperCase() +route.query.category.slice(1) }}
             </h2>
 
             <a-spin :spinning="loading">

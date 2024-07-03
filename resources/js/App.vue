@@ -262,31 +262,18 @@
                     <p><a href="#">info@chik.uz</a></p>
                 </div>
                 <div class="services">
-                    <p>
-                        <a href=""
-                            ><router-link :to="{ name: 'Design' }"
-                                >Дизайн</router-link
-                            ></a
-                        >
-                    </p>
-                    <p>
+                    <p v-for="n of 4" :key="n">
                         <a
-                            ><router-link :to="{ name: 'Development' }"
-                                >Разработка и IT</router-link
-                            ></a
-                        >
-                    </p>
-                    <p>
-                        <a
-                            ><router-link :to="{ name: 'Texts' }"
-                                >Тексты и Переводы</router-link
-                            ></a
-                        >
-                    </p>
-                    <p>
-                        <a
-                            ><router-link :to="{ name: 'Seo' }"
-                                >SEO и трафик</router-link
+                            ><router-link
+                                :to="{
+                                    path: '/post-all',
+                                    query: {
+                                        category:
+                                            items?.[n - 1]?.label.toLowerCase(),
+                                    },
+                                }"
+                            >
+                                {{ items?.[n - 1]?.label }}</router-link
                             ></a
                         >
                     </p>
@@ -294,9 +281,16 @@
                 <div class="services">
                     <p>
                         <a
-                            ><router-link :to="{ name: 'Social' }"
-                                >Соцсети и реклама</router-link
-                            ></a
+                            ><router-link
+                                :to="{
+                                    path: '/post-all',
+                                    query: {
+                                        category:
+                                            items?.[4]?.label.toLowerCase(),
+                                    },
+                                }"
+                                >{{ items?.[4]?.label }}
+                            </router-link></a
                         >
                     </p>
                     <p>
@@ -315,9 +309,16 @@
                     </p>
                     <p>
                         <a
-                            ><router-link :to="{ name: 'Statics' }"
-                                >Статистика и аналитика</router-link
-                            ></a
+                            ><router-link
+                                :to="{
+                                    path: '/post',
+                                    query: {
+                                        category: 'статистика и аналитика',
+                                    },
+                                }"
+                            >
+                                Статистика и аналитика
+                            </router-link></a
                         >
                     </p>
                 </div>
