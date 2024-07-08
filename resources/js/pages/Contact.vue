@@ -21,6 +21,7 @@
                 </a-table>
             </div>
         </div>
+        <p class="text-2xl font-medium mb-4">*Для выплаты платежей необходимо обратиться по эл. Почте info@chik.uz</p>
     </div>
 </template>
 
