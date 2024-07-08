@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        <p class="text-2xl text-black font-semibold pt-4 md:mb-16 max-md:mb-10">
+        <p class="text-2xl text-black font-medium pt-4 md:mb-16 max-md:mb-10">
             Чтобы использовать банковскую карту Humo и Uzcard для оплаты, на
             нужной странице следует нажать кнопку «Пополнить баланс». Это
             позволит осуществить оплату через мобильный приложение ООО «Click» и
             ИП OOO «INSPIRED» PAYME
         </p>
-        <p class="text-2xl font-semibold mb-4">
+        <p class="text-2xl font-medium mb-4">
             Для оплаты нужно перейти: Логин > Админ > Платежи/транзакции >
             выбрать: Click либо Payme > Оплатить
         </p>
